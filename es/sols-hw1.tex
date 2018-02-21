@@ -1,0 +1,123 @@
+\documentclass[]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{soln}{Solution}
+\newtheorem{prop}{Proposition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+
+\begin{center}
+  {\Large Criptografía y Seguridad \the\year~(72.44)\\[.2cm]
+Guía 1 - Soluciones}\\
+\end{center}
+
+\vspace{0.2 cm}
+
+
+\subsection*{Ejercios}
+\begin{enumerate}
+\item Cifrado de rotación:
+\begin{itemize}
+\item $\mathsf{Gen}$: Elige aleatoriamente $k \in \{0,\dots,25\}$.
+\item $\mathsf{Enc}$: Dado un mensaje $m = m_1m_2\dots m_n$, donde cada $m_i$ se
+  corresponde con una letra en $\{a,\dots,z\}$, entonces el cifrado es $c =
+  c_1c_2\dots c_n$, donde $\forall i, c_i = m_i + k \mod 26$. Cada $c_i$
+  también se corresponde con una letra en $\{a,\dots,z\}$.
+\item $\mathsf{Dec}$: Dado el cifrado $c = c_1c_2\dots c_n$, entonces el texto plano
+  obtenido es $m = m_1m_2\dots m_n$, donde $m_i = c_i - k \mod 26$.
+\end{itemize}
+
+Cifrado por sustitución monoalfabética:
+\begin{itemize}
+\item $\mathsf{Gen}$: Elige aleatoriamente una función de todas las que hay en
+  $K$, es decir: $f_k \leftarrow K = \{f_1, f_2, \dots , f_q\}$, donde $q$ es la cantidad de símbolos del alfabeto $\Sigma$, y $\forall i, f_i : \Sigma \longrightarrow \Sigma$ es biyectiva.
+\item $\mathsf{Enc}$: Dado un mensaje $m = m_1m_2\dots m_n$, su cifrado es $c = c_1c_2\dots c_n$, donde $\forall i, c_i = f_k(m_i)$.
+\item $\mathsf{Dec}$: Dado un cifrado $c = c_1c_2\dots c_n$, el texto plano
+  obtenido es $m = m_1m_2\dots m_n$, donde cada $m_i = f^{-1}_k(c_i)$, y $f^{-1}_k$ denota la función inversa de $f_k$ (que existe por ser esta biyectiva).
+\end{itemize}
+
+Cifrado de Vigenère:
+\begin{itemize}
+\item $\mathsf{Gen}$: Elige aleatoriamente una palabra del alfabeto: $k
+  \leftarrow \Sigma^+$. Es decir, $k = k_0k_1\dots k_{n-1}$, donde $\forall
+  i, k_i \in \Sigma$. Se considera que cada letra se corresponde con un número
+  entero de $\{0,\dots,25\}$, lo cual facilita la definición de las operaciones.
+  \item $\mathsf{Enc}$: Dado un mensaje $m = m_0m_1\dots m_{n-1}$, entonces el
+  cifrado es $c = c_0c_1\dots c_{n-1}$, donde $\forall i, c_i = m_i +
+  k_j \mod 26$, con $i \equiv j \mod t$, $1 \leq j \leq t$.
+  \item $\mathsf{Dec}$: Dado el cifrado $c = c_1c_2\dots c_n$, entonces el texto
+  plano obtenido es $m = m_1m_2\dots m_n$, donde $\forall i, m_i = c_i - k_j \mod 26$, con $i \equiv j \mod t$, $1 \leq j \leq t$.
+\end{itemize}
+\end{enumerate}
+\end{document}
+
+

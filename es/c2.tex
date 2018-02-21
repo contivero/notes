@@ -1,0 +1,170 @@
+\documentclass[]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{soln}{Solution}
+\newtheorem{prop}{Proposition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+\newcommand{\adv}{$\mathcal{A}~$}
+\newcommand{\Enc}{$\mathsf{Enc}$}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+
+\begin{center}
+  {\Large Criptografía y Seguridad \the\year~(72.44)\\[.2cm]
+Guía 2 - Criptografía Simétrica}\\
+\end{center}
+
+\vspace{0.2 cm}
+
+\subsection*{Ejercicios}
+\begin{enumerate}
+\item Dado un Criptosistema con las siguientes características:
+  \begin{itemize}
+    \item Espacio de mensajes $\mathcal{M} =\{a, b\}$, con:
+      \[P [M=a] =0,25; P[M=b]=0,75\]
+  \item Espacio de claves $\mathcal{K} = \{k_1,k_2,k_3\}$, donde $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$ genera una clave según las siguientes probabilidades:
+    \[P[K=k_1]=0,5 ; P[K=k_2]=P[K=k_3]=0,25\]
+  \end{itemize}
+  El algoritmo $\mathsf{Enc}$ está definido por la tabla
+
+
+\begin{tabular}{c|cc}
+    & a & b \\ \hline
+$k_1$ & 1 & 2 \\
+$k_2$ & 2 & 3 \\
+$k_3$ & 3 & 4 \\
+\end{tabular}
+
+Por lo que el espacio de cifrados es $\mathcal{C}=\{ \mathsf{Enc}_k(x)~|~x \in M
+\land k \in K\} = \{1,2,3,4\}$. Se pide:
+\begin{enumerate}
+\item Hallar la distribución de probabilidades de $C$.
+\item Demostrar de las cuatro maneras vistas en la teoría, que el sistema no tiene secreto perfecto.
+\end{enumerate}
+\item Probar o encontrar un contraejemplo de la siguiente afirmación:
+
+En un criptosistema que posee la propiedad de secreto perfecto se cumple que
+para toda distribución sobre el espacio de mensajes $\mathcal{M}$, para todo
+$m,m' \in \mathcal{M}$ y para todo $c\in \mathcal{C}$:
+\[Pr[M=m|C=c] = Pr[M=m'|C=c]\]
+
+\item Para los siguientes incisos, considerar el alfabeto inglés (de 26 símbolos):
+\begin{enumerate}
+\item Demostrar que si se encripta un solo símbolo, entonces el cifrado de rotación tiene secreto perfecto.
+\item ¿Cuál es el mayor tamaño que puede tener el espacio de mensajes $\mathcal{M}$ como para que el cifrado de sustitución monoalfabética posea secreto perfecto?
+\item Mostrar cómo usar el cifrado de Vigenère para encriptar una palabra de longitud $t$ y tener secreto perfecto.
+\end{enumerate}
+\item Dado un criptosistema $\Pi = (\mathsf{Gen}, \mathsf{Enc}, \mathsf{Dec})$
+  de Vigenère, sobre un espacio de mensajes $\mathcal{M} = \Sigma^3$ (strings de
+  3 caracteres), donde $\Sigma$ es el alfabeto inglés. El algoritmo
+  $\mathsf{Gen}$ elige primero el período $t$ de la clave en forma aleatoria y uniforme, con $t
+  \in \{1, 2, 3\}$. Luego, elige la clave $k \in \Sigma^*$, tal que $k = t$.
+\begin{enumerate}
+\item Mostrar un ejemplo de cómo el criptosistema cifra un mensaje.
+\item Calcular la probabilidad de éxito del experimento
+  $\text{PrivK}_{\mathcal{A},\Pi}^\text{CPA}$ para un adversario que hace lo siguiente:
+\begin{enumerate}
+  \item $\mathcal{A}$ emite primero los mensajes ${m_0 = \verb+aab+, m_1 = \verb+abb+}$.
+  \item Al recibir el cifrado $c$, $\mathcal{A}$ emite \verb+'0'+ si el primer símbolo de $c$ es igual al segundo, y emite \verb+'1'+ en caso contrario.
+\end{enumerate}
+\item De acuerdo a lo calculado en el inciso anterior, ¿tiene secreto perfecto?
+\end{enumerate}
+
+\item Demostrar que los siguientes cifrados son vulnerables a un ataque de texto plano elegido (\textit{chosen-plaintext attack}).
+\begin{enumerate}
+  \item Cifrado de sustitución monoalfabética.
+  \item Cifrado de Vigenère.
+\end{enumerate}
+\item Con el modo ECB, si hay un error en un bloque del texto cifrado transmitido, solamente afecta al bloque de texto claro correspondiente.
+\begin{enumerate}
+\item En el modo CBC (ver figura) un error de un bit en P1, ¿a través de cuántos bloques de texto cifrado se propaga?
+\item En el modo CBC, un error de un bit en C1, a través de cuántos bloques de texto descrifrado se propaga?
+\item Si se produce un error de un bit en la transmisión de un carácter del texto cifrado en modo CFB de ocho bits, ¿hasta dónde se propaga el error?
+\end{enumerate}
+\item Considerando el siguiente cifrado de bloque:
+  \[\mathsf{Enc}_k(m) = m \cdot k \mod 32\]
+\begin{enumerate}
+\item ¿Cuál son el tamaño del bloque, y el espacio efectivo de la clave?
+\item Encriptar el mensaje \verb+24 17 26 25 12+ usando modo CBC con vector de
+  inicialización $IV = 19$ y clave $k = 7$.
+\item Desencriptar en modo CBC.
+\end{enumerate}
+
+\item Una involución (o función involutiva), es una función que es su propia
+  inversa. Para DES, una clave $k$ se llama débil (\textit{weak key}), si es tal que
+  el cifrado es involutivo, es decir: $\forall m, Enc_k(Enc_k(m)) = m$. Analizar
+  por qué una clave formada por todos sus bits en 0, o todos sus bits en 1, es
+  una clave débil de DES. Hay otras dos claves débiles, ¿cuáles serían?
+\end{enumerate}
+\end{document}
+
+

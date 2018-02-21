@@ -1,0 +1,140 @@
+@inproceedings{Barth,
+ author = {Barth, Adam and Jackson, Collin and Mitchell, John C.},
+ title = {Robust Defenses for Cross-site Request Forgery},
+ booktitle = {Proceedings of the 15th ACM Conference on Computer and Communications Security},
+ series = {CCS '08},
+ year = {2008},
+ isbn = {978-1-59593-810-7},
+ location = {Alexandria, Virginia, USA},
+ pages = {75--88},
+ numpages = {14},
+ url = {http://doi.acm.org/10.1145/1455770.1455782},
+ doi = {10.1145/1455770.1455782},
+ acmid = {1455782},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {cross-site request forgery, http referer header, same-origin policy, web application firewall},
+} 
+@MISC{Zeller,
+    author = {William Zeller and Edward W. Felten},
+    title = {{Cross-Site Request Forgeries: Exploitation and Prevention}},
+}
+
+@article{Hardy,
+ author = {Hardy, Norm},
+ title = {The Confused Deputy: (or Why Capabilities Might Have Been Invented)},
+ journal = {SIGOPS Oper. Syst. Rev.},
+ issue_date = {Oct. 1988},
+ volume = {22},
+ number = {4},
+ month = oct,
+ year = {1988},
+ issn = {0163-5980},
+ pages = {36--38},
+ numpages = {3},
+ url = {http://dl.acm.org/citation.cfm?id=54289.871709},
+ acmid = {871709},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+@misc{rfc6454,
+	series =	{Request for Comments},
+	number =	6454,
+	howpublished =	{RFC 6454},
+	publisher =	{RFC Editor},
+	doi =		{10.17487/RFC6454},
+	note =		{Disponible en:
+          \mbox{\url{https://rfc-editor.org/rfc/rfc6454.txt}}},
+        author =	{Adam Barth},
+	title =		{{The Web Origin Concept}},
+	pagetotal =	20,
+	year =		2011,
+	month =		dec,
+	abstract =	{This document defines the concept of an &quot;origin&quot;, which is often used as the scope of authority or privilege by user agents. Typically, user agents isolate content retrieved from different origins to prevent malicious web site operators from interfering with the operation of benign web sites. In addition to outlining the principles that underlie the concept of origin, this document details how to determine the origin of a URI and how to serialize an origin into a string. It also defines an HTTP header field, named &quot;Origin&quot;, that indicates which origins are associated with an HTTP request. [STANDARDS-TRACK]},
+}
+
+@misc{rfc7231,
+	series =	{Request for Comments},
+	number =	7231,
+	howpublished =	{RFC 7231},
+	publisher =	{RFC Editor},
+	doi =		{10.17487/RFC7231},
+	note =		{Disponible en: \url{https://rfc-editor.org/rfc/rfc7231.txt}},
+        author =	{Roy T. Fielding and Julian Reschke},
+	title =		{{Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content}},
+	pagetotal =	101,
+	year =		2014,
+	month =		jun,
+	abstract =	{The Hypertext Transfer Protocol (HTTP) is a stateless \%application- level protocol for distributed, collaborative, hypertext information systems. This document defines the semantics of HTTP/1.1 messages, as expressed by request methods, request header fields, response status codes, and response header fields, along with the payload of messages (metadata and body content) and mechanisms for content negotiation.},
+}
+@misc{bugtraq,
+  title = {{``ClientSideTrojan'' bug}},
+  note = {Disponible en: \url{https://web.archive.org/web/20070122132838/http://archive.cert.uni-stuttgart.de/archive/bugtraq/2000/05/msg00141.html}}
+}
+
+@misc{watkins,
+  title = {{Cross-Site Request Forgeries (Re: The Dangers of Allowing Users to Post Images)}},
+  author =	{Peter Watkins},
+  note = {Disponible en: \url{https://web.archive.org/web/20020204142607/https://www.tux.org/~peterw/csrf.txt}}
+}
+
+
+@rfc{rfc2616,
+ author = {Fielding, R. and Gettys, J. and Mogul, J. and Frystyk, H. and Masinter, L. and Leach, P. and Berners-Lee, T.},
+ title = {{Hypertext Transfer Protocol -- HTTP/1.1}},
+ year = {1999},
+ publisher = {RFC Editor},
+ address = {United States},
+} 
+
+@misc{owasp,
+  title = {{Cross-Site Request Forgery (CSRF) Prevention Cheat Sheet}},
+  author =	{OWASP},
+  note = {Disponible en: \url{https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet}}
+}
+
+@techreport{ietf,
+	number =	{draft-ietf-httpbis-cookie-same-site-00},
+	type =		{Internet-Draft},
+	institution =	{Internet Engineering Task Force},
+	publisher =	{Internet Engineering Task Force},
+	note =		{Work in Progress, Disponible en: \url{https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-cookie-same-site-00}},
+    author =	{Mike West and Mark Goodwin},
+	title =		{{Same-Site Cookies}},
+	pagetotal =	14,
+	year =		2016,
+	month =		jun,
+	day =		20,
+	abstract =	{This document updates RFC6265 by defining a &quot;SameSite&quot; attribute which allows servers to assert that a cookie ought not to be sent along with cross-site requests. This assertion allows user agents to mitigate the risk of cross-origin information leakage, and provides some protection against cross-site request forgery attacks.},
+}
+
+@misc{Burns,
+ author = {Jesse Burns},
+ title = {{Cross Site Request Forgery - An Introduction to a common
+web application weakness}},
+ year = 2007
+ institution = {Information Security Partners, LLC.}
+}
+
+@misc{Blatz,
+ author = {Jeremiah Blatz},
+ title = {{CSRF: Attack and Defense}},
+}
+
+@misc{fetch,
+  title = {{Fetch - Living Standard}},
+  note = {Disponible en: \url{https://fetch.spec.whatwg.org/}}
+}
+
+@misc{Johansson,
+  title = {{Bypassing CSRF Protections: A Double Defeat of the Double-Submit Cookie}},
+  author = {David Johansson},
+  note = {Disponible en: \url{https://www.youtube.com/watch?v=2uvrGQEy8i4}}
+}
+
+@article{lundeen2013,
+  title={{The Deputies are Still Confused}},
+  author={Lundeen, Rich},
+  year={2013}
+}

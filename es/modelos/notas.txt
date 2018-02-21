@@ -1,0 +1,58 @@
+So the first thing we thought we really needed to do was make a very clear
+definition of what we were investigating because we had also seen people
+criticizing each other, saying “You say you’re secure but you didn’t do ‘X’”.
+What we wanted to do was to say, “A s far as we’re concerned, ‘security’ is X,
+Y, and Z .” And if somebody says “You didn’t do W,” we say “Yes, we said that.
+We’re only doing X , Y, and Z and if you want to do W, then fine, go ahead and
+do some W but we’re X, Y, Z.” So the main thing we wanted to do was to, early
+on, was to figure out what our definition was
+
+
+In the second volume we had access modes, so the state had to include the
+ability to say which mode you had access in, which you didn’t have before.  We
+also included the *- property , which in version I, security was only do you
+have it or not?  In the second one, it was do you have it or not ? and is it *-
+property secure? Does it satisfy the * -property ? So you’ve added an
+additional definition of what security meant. In the third volume, people at
+MITRE were trying to m ake use of the modeling work we’d done in the first two
+volumes in at least two endeavors. One was to m ake a UNIX kernel en ha  nc
+ement, and they were going to try to secure it, f or some version of “ secure.
+” They would take the kernel and make s ome changes an d additions to it.  E
+nhance it.  The other one was that a bunch of the MITR E people were
+involved in doing ... helping with the Multics project, helping secure Multics
+. In both of those cases they started having trouble with using the model in
+the actual programming /engineering situation.
+
+came up and he said “T he *- property ’s driving me crazy. I’ve got this
+scheduler ,” he said .   I had a vague notion of what a scheduler was but as he
+talked I understood it better .  “A nd its function in life is when a process
+finishes is to store everything away, al l of its state, all of its data,
+figure out who’s to run next, and pull it off store, and then kick it off.  If
+I am switching between UNCLASSIFI ED and SECRET, I have to read and write
+UNCLASSIFIED, and read and write SECRET. What level am I supposed to make my
+scheduler in order to be able to do that?  I can’t d o it.  ”   There wa s
+nothing I could say.  That highlighted the fact that in the earlier v ersions
+we were not making distinctions between types of subjects, which turn into
+processes or jobs or something within the computer system .  T hey’re all the
+same. In an actual computer system, they’re not. Some of them are part of the
+kernel, part of a l owdown . . . part of the system, and part of them are just
+plain programs, and text editors , and things like that. So in order to do
+that, what we had to do was make the distinction between subjects that want to
+be free of analysis and care before they’re installed and the ones that want to
+be a scheduler or something similar, that can open thi ngs up simultaneously
+but we promise not to do the kind of bad transfer. We didn’t make it absolutely
+clear in the paper but it was in the air that things like the sc heduler, if
+they are going to be accepted to not transfer, you have to make the argument.
+What’s the argument? That the scheduler doesn’t transfer the informat ion,
+doesn’t do something wrong, throw in a little TOP SECRET file into the bowling
+program. So w e ended up calling the subjects that didn’t have to be limited by
+*- property , called them “trusted.” And the other ones were “untrusted.” We
+recast the *-  property to say “if you’ re not . . . if you haven’t been
+labeled, if you haven’t been approved as a trusted subject, here are your
+limits.  ”
+
+George Jelen said something to me then, or later, that was one of those .
+Which was, “N obody should ever take a job they’re certain they can do.” It
+struck me as strange at the time, but I think it’s a good thought .  Y ou’re
+stagnant if you do that.
+~                                                     

@@ -1,0 +1,10 @@
+* Agregar sobre trusted subjects (en notas.txt hay un ejemplo de por qué se los agregaron)
+* Agregar sobre problemas (por ejemplo covert channels)
+* Agregar sobre maxlevel vs. current level.
+
+
+McLean vs. BLP:
+* El libro Mechanizing Proofs (en refs.bib está) tiene un buen tratado sobre
+McLean vs. BLP
+* http://nob.cs.ucdavis.edu/classes/ecs235-2005-02/slides/sl-2005-04-26.pdf
+* https://www.cs.purdue.edu/homes/ninghui/courses/Spring06/lectures/lecture03_04.pdf

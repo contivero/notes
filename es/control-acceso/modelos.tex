@@ -1,0 +1,272 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{color}
+\usepackage{epigraph}
+\usepackage[hang,flushmargin]{footmisc} 
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\definecolor{darkblue}{RGB}{49,130,189}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+
+\begin{center}
+\Large Criptografía y Seguridad (72.44)\\[.05cm]
+Control de Accesos \\[.05cm]
+\the\year
+\end{center}
+
+\vspace{0.2 cm}
+\section{Control de Accesos}
+Normalmente en sistemas operativos primero se autentica a los principales
+(mediante algún mecanismo como contraseñas, o Kerberos), y posteriormente se
+media el acceso de estos a recursos, como pueden ser archivos, puertos, etc.
+Estos controles de acceso pueden modelarse con una matriz de permisos de acceso,
+donde las columnas se usan para archivos, y las filas para los usuarios.
+
+Estas matrices de control de accesos se pueden utilizar tanto para modelar, como
+para implementar mecanismos de protección, pero tienen la desventaja de no ser
+escalables (por ejemplo, una multinacional con 40.000 empleados y unos 1.000 recursos
+a los que mediar su acceso, requeriría una matriz de 40.000.000 de entradas). 
+
+En general, es preferible usar métodos más compactos de almacenar y administrar
+esta información, y para esto se suele comprimir los usuarios, o comprimir los
+permisos.
+
+Para comprimir usuarios, se suele utilizar grupos o roles para administrar los
+privilegios de un conjunto de usuarios.
+
+Para comprimir los permisos, existen dos formas de almacenar la matriz
+de control de accesos:
+\begin{enumerate}
+  \item Por columnas, junto con el recurso al que la columna hace referencia.
+    Esto se conoce como listas de control de accesos (ACL, pronunciadas
+    ``ackle'' en inglés).
+  \item Por filas, conocidas como capacidades (\textit{capabilities}, o en menor
+    medida \textit{tickets}).
+\end{enumerate}
+
+\begin{table}[h!]
+  \centering
+\begin{tabular}{l|c|c|c} 
+ Usuario & apuntes.tex & apuntes.pdf & script.sh \\ 
+ \hline
+ Alice   & \verb+rw+   & \verb+r+    & \verb+-+ \\ 
+ Bob     & \verb+r+    & \verb+r+    & \verb+rx+ \\ 
+ Charlie & \verb+-+    & \verb+-+    & \verb+rwx+ \\
+\end{tabular}
+\caption{Lista de control de accesos (ACL).}
+\end{table}
+
+En Unix (y Linux), los archivos no
+
+
+Acceso Discrecional
+Acceso Mandatorio
+
+En Unix, write access no implica read access. Aplicados a un directorio,
+significan:
+- read: listar el contenido del directorio;
+- write: crear o renombrar un archivo en el directorio;
+- execute: buscar el directorio;
+
+formal statement of your security policy = A security model.
+
+Los PKI son una reimplementación de un viejo concepto de control de accesos:
+capacidades.
+
+Las MAC a veces surgen en otras areas bajo distintos nombres. Un ejemplo son los
+empleados médicos, quienes tienen permiso para ver la historia clínica de un
+paciente, pero no pueden transferir este permiso a empleados no médicos.
+
+\iffalse
+\section{Biba: Modelo de Integridad}
+\subsection{Low-water mark}
+\subsection{Política Anillo}
+\subsection{Integridad Estricta}
+\section{Muralla China: Modelo híbrido}
+\fi
+
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\section*{Apéndice}
+\begin{soln}
+  \vspace{.1cm}
+\begin{enumerate}
+  \item El diagrama de Hasse del retículo formado por los niveles de seguridad y
+    la relación $\mathsf{dom}$ se observa en \autoref{fig:lattice}. Las flechas
+    representan la relación de dominancia, y pueden pensarse como el sentido del
+    flujo de información.
+
+\begin{figure}[htp]
+  \centering
+  \begin{tikzpicture}
+    \node (TSNE) at (2,8) {(TS, \{N, E\})};
+    \node (TSE)  at (6,7) {(TS, \{E\})};
+    \node (TSN)  at (0,7) {(TS, \{N\})};
+
+    \node (SNE) at (2,6) {(S, \{N, E\})};
+    \node (SE)  at (6,5) {(S, \{E\})};
+    \node (TS)  at (4,6) {(TS, $\emptyset$)};
+    \node (SN)  at (0,5) {(S, \{N\})};
+
+    \node (CNE) at (2,4) {(C, \{N, E\})};
+    \node (CE)  at (6,3) {(C, \{E\})};
+    \node (S)   at (4,4) {(S, $\emptyset$)};
+    \node (CN)  at (0,3) {(C, \{N\})};
+
+    \node (UNE) at (2,2) {(U, \{N, E\})};
+    \node (UE)  at (6,1) {(U, \{E\})};
+    \node (C)   at (4,2) {(C, $\emptyset$)};
+    \node (UN)  at (0,1) {(U, \{N\})};
+    \node (E)   at (4,0) {(U, $\emptyset$)};
+    \draw[<-] (TSNE) -- (SNE);
+    \draw[<-] (TSNE) -- (TSN);
+    \draw[<-] (TSNE) -- (TSE);
+    \draw[<-] (TSE) -- (SE);
+    \draw[<-] (TSN) -- (SN);
+    \draw[<-] (TSN) -- (TS);
+    \draw[<-] (TSE) -- (TS);
+
+    \draw[<-] (SNE) -- (CNE);
+    \draw[<-] (SNE) -- (SN);
+    \draw[<-] (SNE) -- (SE);
+    \draw[<-] (SE) -- (CE);
+    \draw[<-] (SN) -- (CN);
+    \draw[<-] (TS) -- (S);
+    \draw[<-] (SN) -- (S);
+    \draw[<-] (SE) -- (S);
+
+    \draw[<-] (CNE) -- (UNE);
+    \draw[<-] (CNE) -- (CN);
+    \draw[<-] (CNE) -- (CE);
+    \draw[<-] (CE) -- (UE);
+    \draw[<-] (CN) -- (UN);
+    \draw[<-] (S) -- (C);
+    \draw[<-] (CN) -- (C);
+    \draw[<-] (CE) -- (C);
+
+    \draw[<-] (UNE) -- (UN);
+    \draw[<-] (UNE) -- (UE);
+    \draw[<-] (UN) -- (E);
+    \draw[<-] (UE) -- (E);
+    \draw[<-] (C) -- (E);
+  \end{tikzpicture}
+  \caption{Retículo de niveles de seguridad.\label{fig:lattice} }
+\end{figure}
+  \item Sí, $L(\text{Presidente})$ domina a $L(\text{Costo del p.\ nuclear})$ y
+    $L(\text{Costo del ejercito})$, por lo que en base a la propiedad-ss, esta
+    permitido.
+\item No, el mayor no tiene acceso al número de unidades nucleares por que su
+  nivel de seguridad no incluye la categoría N. En otras palabras, porque 
+  $(\text{C, \{E\}})~\neg\mathsf{dom}~(\text{C, \{N\}})$.
+\item Sí, el nivel de seguridad del coronel domina al nivel de ambos objetos.
+\item Sí.
+\item Ambos pueden, ya que $L(\text{Código Nuclear}) = (\text{TS, \{N\}})$
+  domina tanto a (C, \{N\}) (nivel del coronel) como a (U, \{N\}) (nivel del
+  soldado), por lo que no contradicen la propiedad-*.
+\item Bell-La Padula no garantiza integridad, solo confidencialidad. Esto
+  significa que un sujeto con clasificación \textit{Unclassified}, puede borrar
+  (accidentalmente o no) información secreta. Para prevenir esto, a veces se
+  usa una propiedad-* modificada que requiere $L(s) = L(o)$; es decir, todo
+  sujeto puede escribir en su mismo nivel, pero no en mayores.
+\end{enumerate}
+\end{soln}
+\end{document}
+
+
