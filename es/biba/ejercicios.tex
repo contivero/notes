@@ -1,0 +1,103 @@
+
+\section*{Ejercicios}
+\begin{enumerate}
+  \item Dado un sistema que usa el modelo Bell-La~Padula para confidencialidad,
+    y el modelo Biba para integridad:
+  \begin{enumerate}
+    \item Si se usaran las mismas clases de seguridad como clases de integridad, ¿qué objetos podría acceder un sujeto dado?
+    \item ¿Por qué no se usa este esquema en la práctica?
+  \end{enumerate}
+\item Dado un modelo de Biba (\textit{strict integrity}) con:
+  \begin{itemize}
+    \item $C = \{\text{alto, medio, bajo, desconocido}\}$, en orden decreciente.
+    \item $K = \{\text{A, B, C}\}$ 
+  \end{itemize}
+¿Puede un usario con nivel de integridad (medio, \{A, B\}) leer o escribir (o
+ambos) documentos con los siguientes niveles de integridad?
+\begin{multicols}{3}
+\begin{enumerate}
+
+  \item (alto, \{A\})
+  \item (bajo, \{A\})
+  \item (medio, \{A, B\})
+  \item (desconocido, \{C\})
+  \item (alto, \{A, C, B\}) 
+\end{enumerate}
+\end{multicols}
+
+\item Dado un modelo de Biba, con niveles de integridad Bajo, Medio, y Alto, en
+  orden creciente. Los sujetos y objetos con sus respectivos niveles como se
+  observa:
+\begin{table}[h!]
+  \centering
+\begin{tabular}{l|l} 
+ Sujeto & Nivel de Integridad \\ 
+ \hline
+CEO                 & Alto\\ 
+Lider del Proyecto  & Medio\\ 
+Redactor            & Bajo\\
+\end{tabular}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+\begin{tabular}{l|l} 
+Objetos & Nivel de Integridad \\ 
+ \hline
+Acuerdo de cooperación   & Alto\\ 
+Descripción del Proyecto & Medio\\ 
+Mensaje de prensa        & Bajo\\
+\end{tabular}
+\end{table}
+
+Los objetos corresponden a proyectos en común entre dos compañías. El acuerdo de
+cooperación es un documento legal que requiere integridad alta. La descripción
+del proyecto debe ser confiable, pero borradores de mensajes de prensa no poseen
+ningún requerimiento de integridad en particular.
+
+\begin{enumerate}
+  \item Mostrar la matriz de control de accesos del sistema. Los permisos son
+    \acmo{o} y \acmo{m}. Escribir cualquier
+    supuesto necesario.
+
+\item ¿Existe alguna limitación sobre qué objetos puede un sujeto leer que
+consideres inadecuada? Explicar estas limitaciones y dar sugerencias de cómo
+resolver estos problemas, manteniendo tanto como sea posible la integridad
+proveida por el modelo de Biba.
+
+\item ¿Qué otro modelo de integridad sería más adecuado para el caso? Nombrarlo y
+explicar sus propiedades principales.
+\end{enumerate}
+\item ¿Verdadero o falso?:
+
+\begin{enumerate}
+  \item El nivel de integridad de sujetos y objetos se mantiene estático en el
+    modelo de integridad estricta de Biba.
+\end{enumerate}
+\end{enumerate}
+
+\item Al igual que para la política de integridad estricta, para low-water mark
+  existe un teorema que nos asegura prevención contra modificaciones indirectas
+  indebidas.
+  
+  \begin{thm}
+    Si existe un camino de transferencia de información de un objeto $o_0 \in O$
+    a un objeto $o_{n+1} \in O$, entonces hacer cumplir la política low-water
+    mark requiere $il(o_{n+1}) \leq il(o_0)$.
+  \end{thm}
+  Demostrar.
+
+\section{Respuestas}
+\begin{enumerate}
+  \item 
+    \begin{enumerate}
+      \item Esto equivale a la política trivial de no permitir flujo de
+        información a través de niveles. En otras palabras, si los niveles de
+        seguridad equivalen a los de integridad, un sujeto solo puede acceder
+        objetos en su mismo nivel.
+
+      \item Este esquema es demasiado restrictivo para ser práctico, ya que
+        normalmente los procesos (sujetos) necesitan leer objetos en niveles
+        iguales o menores.
+    \end{enumerate}
+\end{enumerate}

@@ -1,0 +1,9 @@
+\usepackage{color}
+\definecolor{darkblue}{RGB}{49,130,189}
+
+% Access modes
+\newcommand{\acmo}[1]{\underline{\texttt{#1}}}
+
+% Print today's date in ISO format (YYYY-MM-DD).
+\def\isodate{\leavevmode\hbox{\the\year-\twodigits\month-\twodigits\day}}
+\def\twodigits#1{\ifnum#1<10 0\fi\the#1}

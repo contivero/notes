@@ -1,0 +1,398 @@
+\documentclass[spanish]{article}
+
+\input{../commands.tex}
+
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage[bottom,flushmargin]{footmisc} 
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+  {\LARGE Biba: Modelo de Integridad}\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate
+\end{center}
+
+
+\vspace{0.2 cm}
+
+En 1975 Kenneth. J. Biba publicó en un reporte el primer modelo de integridad
+\cite{Biba75}.  Este reporte fue posteriormente revisado y abierto al público en
+1977 \cite{Biba77}, aproximadamente un año luego de la última publicación de
+MITRE del modelo de Bell-La~Padula. El modelo de Biba fue también desarrollado
+dentro de MITRE Corporation, como parte del \textit{Secure General Purpose
+Computer Project} de la Fuerza Aérea de Estados Unidos. En sus reportes, Biba
+describió un modelo en el que se usaban controles similares a los de BLP, pero
+para integridad en vez de confidencialidad, y haciendo una examinación de cómo es
+posible mantener la validez de información.  Para salvaguardar contra la
+modificación indebida de información permitida en Bell-La~Padula, Biba introdujo
+los conceptos de niveles de integridad y política de integridad. La idea básica
+de su modelo es que la información de baja integridad no debería fluir a objetos
+de mayor integridad (pero si vice-versa). El modelo suele resumirse como
+\textit{``read up, write down''} (lo opuesto a Bell-La~Padula).
+
+%Una política de este tipo es aplicable en mucho casos, por ejemplo, es
+%permisible y hasta positivo citar una revista de divulgación científica en un
+%blog, pero lo inverso es, cuando menos, cuestionable.
+
+Mientras BLP se ocupa de proteger contra la diseminación no autorizada de
+información, Biba se ocupa de identificar y hacer cumplir la correcta
+modificación de información. Este modelo consta de:
+\begin{itemize}
+\itemsep0em 
+  \item Un conjunto $S$ de sujetos.
+  \item Un conjunto $O$ de objetos.
+  \item Tres modos de acceso: \acmo{o} (\textit{observe}), \acmo{m}
+    (\textit{modify}), \acmo{i} (\textit{invoke}). Formalmente, estos son
+    relaciones (los dos primeros subconjuntos de $S \times O$, el tercero
+    subconjunto de $S \times S$). Dados sujetos $s,s' \in S$ y un objeto $o \in
+    O$, decimos:
+    
+  \begin{itemize}
+    \item $s~\acmo{o}~o$ si $s$ tiene la capacidad de observar $o$.
+    \item $s~\acmo{m}~o$ si $s$ tiene la capacidad de modificar $o$.
+    \item $s~\acmo{i}~s'$ si $s$ tiene la capacidad de invocar $s'$.
+  \end{itemize}
+   
+  \item Un conjunto de niveles de integridad $I$ (\textit{integrity levels}) con un orden parcial $\leq$.
+\end{itemize}
+
+Tanto sujetos como objetos son primitivas del modelo, y qué son en la práctica
+dependerá de la implementación. Los sujetos son aquellos elementos del sistema
+que realizan acceso de información (son ``procesadores de información''). Los
+objetos son aquellos elementos que son accedidos (son ``repositorios de
+información''). Los modos de acceso son abstractos, con observación y
+modificación siendo análogos a lectura y escritura en BLP. La invocación, por el
+contrario, no es lo mismo que ejecución. La invocación es un pedido lógico de
+servicio, de un sujeto a otro. Invocación representa un acceso de control entre
+distintos sujetos, mientras que ejecución es el acceso de un sujeto a un objeto
+con el fin de obtener instrucciones. De hecho, para los propósitos del modelo de
+Biba, ejecución es equivalente a observación (ya que para ejecutar, un sujeto
+necesita observar las instruciones dentro del objeto).
+
+Los niveles de integridad son elementos de $I = C \times \mathcal{P}(K)$, donde
+$C$ es el conjunto de clases de integridad (parcialmente ordenadas), y 
+$\mathcal{P}(K)$ es el conjunto partes de $K$, siendo $K$ el conjunto de
+compartimientos. Esto es análogo a los niveles de seguridad de Bell-La Padula.
+En el primer reporte se usan a modo de ejemplo las clases de integridad
+\textit{Important} (I), \textit{Very Important} (VI), y \textit{Crucial} (C), en
+orden creciente. Aun así, estas no son particularmente estandar, y las clases
+usadas en la práctica dependerán del ámbito en que se use el
+modelo\footnote{Poco después de mencionar estas tres clases de integridad, Biba
+  procede (por simplicidad o descuido) a mezclar su terminología, usando las
+clases de integridad mencionadas como si fueran niveles de integridad. Esto no
+quita validez a su modelo, ya que usarlas como niveles es isomorfo a usar clases
+de integridad con un conjunto vacío de compartimientos.}. 
+
+Dependiendo de qué tan confiable es un individuo, se le asigna un nivel
+de integridad. Este mismo criterio se usa para asignarle un nivel de
+seguridad. En contraste, la asignación de un nivel de integridad a un objeto se
+hace en base a distintos criterios que los usados al asignarle un nivel de
+seguridad: los niveles de integridad se asignan para prevenir sabotaje de
+información; los de seguridad para prevenir divulgación de información. Esto
+lleva a la conclusión que es preferible usar distintos valores para los niveles
+de integridad y seguridad (es decir, distintas clases y distintas
+categorías/compartimientos), ya que la semántica (los criterios de asignación)
+es distinta. El modelo cuenta también con una función $il\colon S \times O \to I$ que define
+el nivel de integridad de sujetos y objetos.
+\subsection{Políticas Mandatorias de Integridad}
+
+En su reporte, Biba describió tres políticas mandatorias de integridad. Todas
+las políticas comparten las siguientes dos propiedades (dadas como axiomas
+por Biba):
+\begin{enumerate}
+  \item Un sujeto $s$ puede modificar un objeto $o$ sólo si $il(o) \leq il(s)$.
+
+    Esta propiedad a veces se la conoce por el nombre de propiedad-* de
+    integridad.
+
+  \item Un sujeto $s_1$ puede invocar a un sujeto $s_2$ sólo si $il(s_2) \leq il(s_1)$.
+
+    A veces conocida como propiedad de invocación (\textit{invocation property}).
+\end{enumerate}
+La propiedad (1) asegura que la modificación directa maliciosa es imposible. Si
+un sujeto pudiera alterar un objeto de mayor confianza, podría implantarle
+información de menor integridad (porque el sujeto es menos confiable). Si esto
+pasara, de cierta manera el objeto se volvería tan confiable como el sujeto, por
+lo que se lo prohibe.
+La propiedad (2) previene la modificación indirecta de objetos de mayor integridad por
+sujetos, a través de otro sujeto de mayor integridad. Con estas dos se maneja el
+problema de la modificación directa de información.
+
+\subsubsection{Política Low-Water Mark}
+A veces conocida bajo el acrónimo LOMAC (\textit{Low-water Mark Mandatory Access
+Control}), esta política hace uso de un función\footnote{Llamada \underline{min}
+por Biba, pero evitaremos el nombre por ser este levemente engañoso.}
+$\text{inf}\colon \mathcal{P}(I) \to I$, que devuelve el ínfimo (máxima cota
+inferior) de los niveles de entrada. Además de las dos propiedades mencionadas,
+esta política agrega la siguiente:
+\begin{itemize}
+  \item[3.1] Luego de cualquier observación de un objeto $o$ por un sujeto $s$, el
+    nivel de integridad del sujeto $il'(s)$ inmediatamente luego del acceso,
+    se define como:
+    \[ il'(s) = \text{inf}\{il(s), il(o)\} \]
+  \end{itemize}
+La propiedad (3.1) previene modificaciones indirectas indebidas.
+De los tres modelos, este es el único dinámico, en el sentido que el valor del
+nivel de integridad de un sujeto no es estático, sino que monótono no
+creciente. La \textit{low-water mark} (marca de bajamar) hace referencia al
+menor nivel de integridad de un objeto observado por un sujeto; efectivamente,
+el sujeto se ``marca'' o ``ensucia'' con el menor nivel de integridad al que
+accede. Esta política tiene el problema de que los sujetos tienden a reducir su
+integridad con el tiempo, y no hay forma de recuperar el nivel original salvo
+reinicializar el sujeto.
+
+\subsubsection{Política Ring}
+Esta política esta definida por las propiedades (1) y (2) mencionados
+anteriormente, y no agrega ningún otro. Es por esto que solo aborda el problema
+de la modificación directa, pero no asegura nada contra la modificación
+indirecta. El modelo bajo la política ring\footnote{Su nombre origina de la
+similitud con un mecanismo de protección homónimo en Multics.} es estático, ya
+que los niveles de integridad de sujetos y objetos se mantienen fijos. Es más
+flexible que low-water mark, a expensas de tener menos garantías de integridad.
+
+\subsubsection{Política Strict Integrity}
+
+Cuando se habla simplemente del ``modelo de Biba'' sin especificar, se hace
+referencia a esta política, siendo que es la principal. La misma consiste en las
+propiedades (1) y (2), y agrega la siguiente:
+\begin{itemize}
+  \item[3.2] Un sujeto $s$ puede observar un objeto $o$ sólo si $il(s) \leq il(o)$.
+
+    Esta propiedad a veces se la conoce como propiedad simple de integridad o
+    \textit{no write up} (NWU).
+  \end{itemize}
+Esta política provee capacidades similares a la política low-water mark, pero es
+más restrictiva: cuando una lectura en low-water mark alteraría el nivel de
+integridad de un sujeto, en strict integrity se la prohibe. La observación clave
+de esta política es que integridad y confidencialidad son en cierto sentido
+conceptos duales: integridad es una restricción sobre quién puede alterar o
+escribir un objeto, y confidencialidad sobre quién puede observarlo o leerlo.
+Mientras que la información fluye hacia arriba en Bell-La~Padula, en Biba fluye
+hacia abajo. Un esquema de esto se observa en la \autoref{fig:biba-blp}, donde
+los $\omega_i$ representan niveles de integridad y los $\lambda_i$ niveles de
+seguridad. En ambos casos, los niveles son monótonamente no decrecientes.
+
+\begin{figure}[htp]
+  \centering
+\begin{minipage}{.76\textwidth}
+  \centering
+  \begin{tikzpicture}
+    \node at (9,4.2) (TS) {\textbf{Bell-La Padula}};
+    \node at (9,3.2) (ln) {$\lambda_m$};
+    \node at (9,2.2) {$\cdots$};
+    \node at (8,2.2) (l1) {$\lambda_{m-1}$};
+    \node at (10,2.2) (l2) {$\lambda_{m-2}$};
+    \node at (9,0.2) (l0) {$\lambda_0$};
+    \draw[<-] (ln) -- (l1);
+    \draw[<-] (ln) -- (l2);
+    \draw[<-, dash pattern=on 16pt off 2pt on 3pt off 2pt on 3pt off 2pt on 3pt
+    off 2pt on 16pt] (l1) to (l0);
+    \draw[<-, dash pattern=on 16pt off 2pt on 3pt off 2pt on 3pt off 2pt on 3pt
+    off 2pt on 16pt] (l2) to (l0);
+
+    \draw[->, line width=1pt] (7.3,0) to % node[above, sloped] {escribe}
+    (7.3,3.2);
+
+    \draw[->, line width=1pt] (0.3,3.2) to % node[above, sloped] {escribe}
+    (0.3,0);
+
+    \node at (2,4.2) (Biba) {\textbf{Biba}};
+    \node at (2,3.2) (wn) {$\omega_n$};
+    \node at (2,2.2) {$\cdots$};
+    \node at (1,2.2) (w1) {$\omega_{n-1}$};
+    \node at (3,2.2) (w2) {$\omega_{n-2}$};
+    \node at (2,0.2) (w0) {$\omega_0$};
+    \draw[<-] (w1) -- (wn);
+    \draw[<-] (w2) -- (wn);
+    \draw[<-, dash pattern=on 16pt off 2pt on 3pt off 2pt on 3pt off 2pt on 3pt
+    off 2pt on 16pt] (w0) to (w1);
+    \draw[<-, dash pattern=on 16pt off 2pt on 3pt off 2pt on 3pt off 2pt on 3pt
+    off 2pt on 16pt] (w0) to (w2);
+
+  \end{tikzpicture}
+  \caption{\label{fig:biba-blp} Flujo de información, representado por flechas,
+  en Biba y Bell-La~Padula.  Los $\omega_i$ representan niveles de integridad, y
+los $\lambda_i$ niveles de seguridad.}
+\end{minipage}
+\end{figure}
+
+\begin{defn}
+Un camino de transferencia de información es una secuencia de objetos
+$\langle o_0,\dots,o_{n+1}\rangle$ y una secuencia de sujetos correspondiente
+$\langle s_0,\dots,s_{n}\rangle$, tal que
+\[\forall i \in \{0,\dots,n\},\hspace{.4cm} s_i~\acmo{o}~o_i\hspace{.2cm}\wedge\hspace{.2cm}s_i~\acmo{m}~o_{i+1}\]
+\end{defn}
+
+El siguiente teorema nos asegura que la política de integridad estricta
+mantendrá la integridad de los objetos, como definida por la asignación de
+niveles de integridad.
+
+\begin{thm}
+Si existe un camino de transferencia de información de un objeto $o_0$ a un
+objeto $o_{n+1}$, entonces hacer cumplir la política estricta de integridad requiere
+$il(o_{n+1}) \leq il(o_0)$.
+\end{thm}
+
+\begin{proof}
+Supongamos que existe un camino de transferencia de información, entonces por
+definición existe la secuencia de sujetos y objetos especificada. Por la
+propiedad-* de integridad, y la propiedad simple de integridad, tenemos:
+\[\forall i \in \{0,\dots,n\}\hspace{.4cm} il(o_{i+1}) \leq il(s_i) \leq il(o_i) \]
+Esto puede observarse en la \autoref{fig:proof} (usando $\geq$ en vez de $\leq$ con
+su significado obvio, para explicitar la secuencia de desigualdades).
+\begin{figure}[htp]
+  \centering
+\begin{minipage}{.9\textwidth}
+  \centering
+  \begin{tikzpicture}
+    \node at (0,0) (o0) {$o_0$};
+    \node at (3,0) (s0) {$s_0$};
+    \node at (6,0) (o1) {$o_1$};
+    \node at (9,0) (sn) {$s_n$};
+    \node at (12,0) (on1) {$o_{n+1}$};
+    \draw[->] (o0) to node[above, sloped] {\acmo{o}} (s0);
+    \draw[->] (s0) to node[above, sloped] {\acmo{m}} (o1);
+    \draw[->] (s0) to (o1);
+    \draw[->] (sn) to node[above, sloped] {\acmo{m}} (on1);
+    \draw[->, dash pattern=on 23pt off 2pt on 3pt off 2pt on 3pt off 2pt on 3pt
+    off 2pt on 3pt off 2pt on 23pt] (o1) to (sn);
+
+\draw [decorate,decoration={brace,mirror, amplitude=4pt},xshift=-4pt]
+(sn.south) -- (on1.south) node [black,midway,yshift=-14pt] {$il(s_n) \geq il(o_{n+1})$};
+\draw [decorate,decoration={brace,mirror, amplitude=4pt},xshift=-4pt]
+(o1.south) -- (sn.south) node [black,midway,yshift=-14pt] {$\cdots \geq \cdots$};
+\draw [decorate,decoration={brace,mirror, amplitude=4pt},xshift=-4pt]
+(s0.south) -- (o1.south) node [black,midway,yshift=-14pt] {$il(s_0) \geq il(o_1)$};
+\draw [decorate,decoration={brace,mirror, amplitude=4pt},xshift=-4pt]
+(o0.south) -- (s0.south) node [black,midway,yshift=-14pt] {$il(o_0) \geq il(s_0)$};
+  \end{tikzpicture}
+  \caption{\label{fig:proof} Camino de transferencia de información, con las
+desigualdades establecidas por las propiedades (1) y (3.2). La observación de
+$o$ por $s$ se representa mediante $o \xrightarrow{\acmo{o}} s$, y mediante $s
+\xrightarrow{\acmo{m}} o$ la modificación de $o$ por $s$.}
+\end{minipage}
+\end{figure}
+
+Como $\leq$ es un orden parcial, es por definición transitivo, entonces:
+\[\forall i \in \{0,\dots,n\}\hspace{.4cm} il(o_{i+1}) \leq il(o_i) \]
+Por lo tanto, $il(o_{n+1}) \leq il(o_0)$.
+\end{proof}
+
+En \cite{Sandhu93} vemos que la similitud entre el modelo de integridad estricta
+de Biba, y el modelo Bell-La~Padula va más allá de lo mencionado. No es
+necesario pensar a los niveles de mayor integridad arriba, y los de menor abajo;
+``arriba'' y ``abajo'' son términos relativos, no absolutos. Podemos decir que
+los niveles de mayor integridad estan abajo y los de menor arriba, o
+equivalentemente, que los niveles de mayor seguridad se encuentran abajo, y los
+de menor arriba en Bell-La Padula. De cualquiera de las dos maneras,
+coincidiría el sentido del flujo de información en ambos modelos. Con esto vemos
+que no hay una diferencia fundamental entre la política de integridad estricta
+de Biba, y el modelo de Bell-La Padula: ambos se ocupan del flujo de información
+en un retículo de niveles, donde la información solo tiene permitido fluir en un
+sentido. Como el sentido del flujo es relativo, un sistema que soporta uno de
+estos modelos puede soportar el otro (necesitando quizás reordenar etiquetas
+para invertir la relación de dominancia).
+
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}
+
+
