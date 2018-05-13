@@ -191,7 +191,7 @@ de integridad y seguridad (es decir, distintas clases y distintas
 categorías/compartimientos), ya que la semántica (los criterios de asignación)
 es distinta. El modelo cuenta también con una función $il\colon S \times O \to I$ que define
 el nivel de integridad de sujetos y objetos.
-\subsection{Políticas Mandatorias de Integridad}
+\subsection*{Políticas Mandatorias de Integridad}
 
 En su reporte, Biba describió tres políticas mandatorias de integridad. Todas
 las políticas comparten las siguientes dos propiedades (dadas como axiomas
@@ -215,7 +215,7 @@ La propiedad (2) previene la modificación indirecta de objetos de mayor integri
 sujetos, a través de otro sujeto de mayor integridad. Con estas dos se maneja el
 problema de la modificación directa de información.
 
-\subsubsection{Política Low-Water Mark}
+\subsubsection*{Política Low-Water Mark}
 A veces conocida bajo el acrónimo LOMAC (\textit{Low-water Mark Mandatory Access
 Control}), esta política hace uso de un función\footnote{Llamada \underline{min}
 por Biba, pero evitaremos el nombre por ser este levemente engañoso.}
@@ -238,7 +238,7 @@ accede. Esta política tiene el problema de que los sujetos tienden a reducir su
 integridad con el tiempo, y no hay forma de recuperar el nivel original salvo
 reinicializar el sujeto.
 
-\subsubsection{Política Ring}
+\subsubsection*{Política Ring}
 Esta política esta definida por las propiedades (1) y (2) mencionados
 anteriormente, y no agrega ningún otro. Es por esto que solo aborda el problema
 de la modificación directa, pero no asegura nada contra la modificación
@@ -247,7 +247,7 @@ similitud con un mecanismo de protección homónimo en Multics.} es estático, y
 que los niveles de integridad de sujetos y objetos se mantienen fijos. Es más
 flexible que low-water mark, a expensas de tener menos garantías de integridad.
 
-\subsubsection{Política Strict Integrity}
+\subsubsection*{Política Strict Integrity}
 
 Cuando se habla simplemente del ``modelo de Biba'' sin especificar, se hace
 referencia a esta política, siendo que es la principal. La misma consiste en las
@@ -389,6 +389,8 @@ en un retículo de niveles, donde la información solo tiene permitido fluir en 
 sentido. Como el sentido del flujo es relativo, un sistema que soporta uno de
 estos modelos puede soportar el otro (necesitando quizás reordenar etiquetas
 para invertir la relación de dominancia).
+
+%\input{ejercicios}
 
 \bibliography{refs}
 \bibliographystyle{unsrt}

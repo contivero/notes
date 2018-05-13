@@ -74,8 +74,6 @@ explicar sus propiedades principales.
   \item El nivel de integridad de sujetos y objetos se mantiene estático en el
     modelo de integridad estricta de Biba.
 \end{enumerate}
-\end{enumerate}
-
 \item Al igual que para la política de integridad estricta, para low-water mark
   existe un teorema que nos asegura prevención contra modificaciones indirectas
   indebidas.
@@ -86,6 +84,8 @@ explicar sus propiedades principales.
     mark requiere $il(o_{n+1}) \leq il(o_0)$.
   \end{thm}
   Demostrar.
+
+\end{enumerate}
 
 \section{Respuestas}
 \begin{enumerate}
@@ -101,3 +101,25 @@ explicar sus propiedades principales.
         iguales o menores.
     \end{enumerate}
 \end{enumerate}
+
+% Prueba del teorema de low-water mark.
+\begin{proof}
+  Supongamos que existe un camino de transferencia de información de $o_0$ a
+  $o_{n+1}$. Asumimos que cada acceso es exitoso (si alguno fallara, contradiría la
+  hipótesis), y se realiza en el orden de los índices: primero
+  $s_0~\acmo{o}~o_0$, luego $s_0~\acmo{m}~o_1$, seguido de $s_1~\acmo{o}~o_1$,
+  etc.
+  Por el principio-* de integridad, para todo $k \in \{0,\dots,n\}$, luego de completar la $k$-ésima observación
+  tenemos:
+  \[il'(s_k) = \text{inf} \{ il(o_j)~|~1 \leq j \leq k \}\]
+  es decir, el nivel de integridad de cualquier sujeto es el ínfimo de los
+  niveles de integridad de todos los objetos que lo preceden en el camino (de lo
+  contrario, implicaría que algún sujeto pudo modificar un objeto a mayor nivel
+  de integridad). En consecuencia, luego de la n-ésima observación tenemos:
+  \[ \forall j \in \{0,\dots, n\},\hspace{.4cm} il'(s_n) \leq il(o_j) \label{eq:e1} \tag{$e_1$} \]
+  
+  Como el n-ésimo acceso de modificación es exitoso:
+  \[ il(o_{n+1}) \leq il'(s_n) \label{eq:e2} \tag{$e_2$} \]
+  
+  Por lo tanto, de~\eqref{eq:e1} y~\eqref{eq:e2}, $il(o_{n+1}) \leq il(o_1)$.
+\end{proof}
