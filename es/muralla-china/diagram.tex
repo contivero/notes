@@ -1,0 +1,58 @@
+\newcommand{\circled}[1]{{\textcircled{\scriptsize{#1}}}}
+\begin{figure}[h!]
+  \centering 
+  \begin{minipage}{.96\textwidth}
+    \centering
+  \begin{tikzpicture}
+    \node (COI1) at (2.2,3.5) {$\text{COI}_1$};
+    \draw [thick,color=darkblue] (-.5,.5) rectangle (4.9, 3.9);
+
+    \node (COI2) at (8.1,3.5) {$\text{COI}_2$};
+    \draw [thick,color=darkblue] (5.4,.5) rectangle (10.8, 3.9);
+
+    \node (CD1) at (1,2.7) {$\text{CD}_1$};
+    %\node (o1) at (1,2) {$o_1$};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt, label=above:$o_1$] (o1) at
+    (.5,1.5) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] (o4) at (1,2) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] (o5) at (1.5,1.25) {};
+    \draw [thick,dashed,color=darkblue] (0,1) rectangle (2, 3.2);
+
+    \node (CD2) at (3.4,2.7) {$\text{CD}_2$};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt, label=above:$o_2$] (o2) at (2.7,1.2) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] (o6) at (3.5,1.4) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] (o7) at (3.9,1.9) {};
+    \draw [thick,dashed,color=darkblue] (2.4,1) rectangle (4.4, 3.2);
+
+    \node (CD3) at (6.9,2.7) {$\text{CD}_3$};
+    \draw [thick,dashed,color=darkblue] (5.9,1) rectangle (7.9, 3.2);
+    \draw [thick,dashed,color=darkblue] (8.3,1) rectangle (10.3, 2);
+    \draw [thick,dashed,color=darkblue] (8.3,2.2) rectangle (10.3, 3.2);
+
+
+    \node[circle,fill,inner sep=1pt,outer sep=2pt, label=above:$o_3$] (o3) at
+    (7.6,1.4) {};
+    \node[shape=circle,draw,inner sep=2pt,outer sep=2pt] (s2) at (5.2,0) {$s_2$};
+    \node[shape=circle,draw,inner sep=2pt,outer sep=2pt] (s1) at (5.2,-1.2) {$s_1$};
+    \node[color=red,below right=-2.5mm of s1] {\symknight};
+    \draw [<-,thick] (s1) to [out=180,in=270] node[below,sloped,outer sep=1mm] {\circled{2}~\acmo{r}} (o1);
+    %\draw [<-] (s2) to node[below,sloped] {\acmo{r}} (o6);
+    \draw [->,thick] (s1) to [out=0,in=300] node[below,sloped,outer sep=1mm] {\circled{3}~\acmo{w}} (o3);
+    \draw [<-,thick] (s2) to [out=0,in=240] node[below,sloped,pos=.3,outer sep=1mm] {\circled{4}~\acmo{r}} (o3);
+    \draw [<-] (s2) to [out=180,in=270] node[below,sloped,outer sep=1mm] {\circled{1}~\acmo{r}} (o2);
+
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (8.6,1.2) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (9.6,1.4) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (9.2,1.7) {};
+
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (9.9,2.4) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (9.1,2.9) {};
+    \node[circle,fill,inner sep=1pt,outer sep=2pt] at (8.8,2.5) {};
+
+  \end{tikzpicture}
+  \caption{Flujo de información entre dos CDs dentro de un mismo COI\@. El
+    sujeto $s_1$, infectado por un troyano (\symknight), escribe en $o_3$, y esto es
+aprovechado por $s_2$. Este escenario motiva la propiedad-*, que lo
+prohibe.\label{fig:BNstar}}
+  \end{minipage}
+\end{figure}

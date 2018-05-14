@@ -2,6 +2,7 @@
 
 \input{../commands.tex}
 
+\usepackage{skak}
 \newcommand{\cd}{\text{CD}}
 \newcommand{\coi}{\text{COI}}
 
@@ -20,13 +21,14 @@
 \usetikzlibrary{arrows.meta}
 \usetikzlibrary{babel}
 \usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning}
 
 \usepackage{hyperref}
 \hypersetup{pdfauthor={Cristian Adrián Ontivero}}
 \usetikzlibrary{shapes}
 \graphicspath{{imgs/}}
 
-\newlength\tindent
+\newlength\tindent%
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
@@ -43,15 +45,6 @@
 \usepackage{amsthm}
 \usepackage{mathrsfs}
 
-%Here I define some theorem styles and shortcut commands for symbols I use often
-\theoremstyle{definition}
-\newtheorem{defn}{Definición}
-\newtheorem{thm}{Teorema}
-\newtheorem{cor}{Corolario}
-\newtheorem*{rmk}{Remark}
-\newtheorem{lem}{Lema}
-\newtheorem*{joke}{Joke}
-
 \newtheorem{ex}{Ejemplo}
 \newcommand{\exautorefname}{Ejemplo}
 
@@ -60,44 +53,6 @@
 
 \newtheorem{soln}{Solución}
 \newtheorem{prop}{Proposición}
-
-\newcommand{\lra}{\longrightarrow}
-\newcommand{\ra}{\rightarrow}
-\newcommand{\surj}{\twoheadrightarrow}
-\newcommand{\graph}{\mathrm{graph}}
-\newcommand{\bb}[1]{\mathbb{#1}}
-\newcommand{\Z}{\bb{Z}}
-\newcommand{\Q}{\bb{Q}}
-\newcommand{\R}{\bb{R}}
-\newcommand{\C}{\bb{C}}
-\newcommand{\N}{\bb{N}}
-\newcommand{\M}{\mathbf{M}}
-\newcommand{\m}{\mathbf{m}}
-\newcommand{\MM}{\mathscr{M}}
-\newcommand{\HH}{\mathscr{H}}
-\newcommand{\Om}{\Omega}
-\newcommand{\Ho}{\in\HH(\Om)}
-\newcommand{\bd}{\partial}
-\newcommand{\del}{\partial}
-\newcommand{\bardel}{\overline\partial}
-\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
-\newcommand{\img}{\mathrm{img}}
-\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
-\newcommand{\inter}[1]{\mathrm{int}{#1}}
-\newcommand{\exter}[1]{\mathrm{ext}{#1}}
-\newcommand{\cl}[1]{\mathrm{cl}{#1}}
-\newcommand{\ds}{\displaystyle}
-\newcommand{\vol}{\mathrm{vol}}
-\newcommand{\cnt}{\mathrm{ct}}
-\newcommand{\osc}{\mathrm{osc}}
-\newcommand{\LL}{\mathbf{L}}
-\newcommand{\UU}{\mathbf{U}}
-\newcommand{\support}{\mathrm{support}}
-\newcommand{\AND}{\;\wedge\;}
-\newcommand{\OR}{\;\vee\;}
-\newcommand{\Oset}{\varnothing}
-\newcommand{\st}{\ni}
-\newcommand{\wh}{\widehat}
 
 %Pagination stuff.
 \setlength{\topmargin}{-.3 in}
@@ -109,30 +64,32 @@
 
 \begin{document}
 \begin{center}
-  {\LARGE Brewer-Nash: Modelo Híbrido}\\[.2cm]
+  {\LARGE Muralla China: Modelo Híbrido}\\[.2cm]
   Cristian Adrián Ontivero \\[.05cm]%
-  \isodate%
 \end{center}
 
 \vspace{0.2 cm}
 
-<<<<<<< HEAD
-El modelo Brewer-Nash hace referencia a la política descrita en 1989 por David
-F.C. Brewer y Michael J. Nash~\cite{bn89}, quienes se basaron en políticas
-ya usadas, en ambientes principalmente financiaros. Esta política fue llamada
-``Muralla China'' (\textit{chinese wall policy}) por sus autores, un término que
-ha tenido sus detractores a través de los años. El modelo Brewer-Nash fue
-desarrollado para ambientes comerciales, con el fin de prevenir flujos que
-causen conflictos de interés.
+El modelo Muralla China fue descrito por F.C. Brewer y Michael J. Nash en 1989,
+quienes identificaron este en políticas usadas en ambientes financiaros~\cite{bn89}.
+La finalidad del modelo es prevenir flujos que causen conflictos de interés. Por
+ejemplo, un asesor de un banco no debería tener acceso a información de
+otro banco (para evitar uso indebido de esta con el fin de beneficiar uno sobre
+otro).
 
-A diferencia de del modelo Bell-La~Padula, la información no se restringe en
-base a clasificaciones, sino en base a qué información accedieron previamente
-los sujetos.
+%``Muralla China'' (\textit{chinese wall policy}) por sus autores, un término que
+%ha tenido sus detractores a través de los años.
+
+En este modelo, a un sujeto se le restringe la información en base a qué
+información accedió previamente, en contraste con Bell-La~Padula, donde se
+restringe en base a clasificaciones. Por esto, se dice que la Muralla China
+posee un aspecto dinámico (o temporal).
 
 Para poder establecer comparaciones con BLP, los autores usaron muchos
 términos iguales. Así, el modelo se refiere a personas como sujetos. También
 cuenta con objetos, pero se basa en una organización jerárquica de estos:
 \begin{itemize}
+  \itemsep 0cm
       \item En el nivel inferior se tiene ítems de información, cada uno
         correspondiendo a una compañía. Se refiere a estos simplemente como
         objetos.
@@ -143,47 +100,130 @@ cuenta con objetos, pero se basa en una organización jerárquica de estos:
         se refiere a cada una de estas agrupaciones como clases de conflicto de
         interés (\textit{conflict of interest class}).
 \end{itemize}
+Definido esto, el modelo presenta una serie de axiomas, donde los más
+importantes son los siguientes dos:
+\paragraph{Regla de lectura BN} Un sujeto $s$ puede leer un objeto $o$ sólo si alguno de
+los siguientes se cumplen:
+\begin{itemize}
+  \itemsep 0cm
+  \item $o$ está en el mismo CD que otro objeto previamente leido por $s$.
+  \item $o$ pertenece a un COI dentro del cual $s$ no ha leido ningún objeto.
+\end{itemize}
+Esta regla a veces se conoce como principio de seguridad simple, por analogía
+con BLP.\@
+\paragraph{Regla de escritura BN} Un sujeto $s$ puede escribir un objeto $o$ sólo si:
+\begin{itemize}
+  \itemsep 0cm
+  \item $s$ puede leer $o$ bajo la regla de lectura BN, y
+  \item $s$ no puede leer ningún objeto que esté en un CD distinto al CD en
+    donde solicita acceso de escritura.
+\end{itemize}
+Esta regla a veces se conoce como principio-*. La segunda regla en Brewer-Nash
+tiene por finalidad evitar que un troyano pueda filtrar información, prohibiendo
+el flujo indebido de información, al igual que Bell-La~Padula y Biba con sus
+propiedades-*. Esto se observa en la \autoref{fig:BNstar}. En esta, primero dos
+sujetos $s_1$ y $_s2$ leen objetos dentro de dos CDs distintos, que estan en un
+mismo COI.\@ Paso siguiente, $s_1$, infectado por un troyano, escribe la
+información de $o_1$ en un objeto $o_3$ dentro de un COI distinto.  Finalmente,
+$s_2$ aprovecha esto leyendo $o_3$, efectivamente logrando obtener información
+del $\cd_1$ troyano corriendo bajo el sujeto $s_2$ escribe.
 
-El modelo original, como definido por Brewer y Nash, presenta condiciones
-demasiado restrictivas. Condiciones menos restrictivas fueron dadas por Sandhu
-en 1992 \cite{Sandhu92}, en las cuales nos basaremos. Estas condiciones
-requieren llevar un registro del conjunto de objetos leidos por cada usuario y
-sujeto.
+\input{diagram}
 
-    A user U may read object O only if U has never read any object O' such that:
+Al proponer su modelo, Brewer y Nash concluyen la política Muralla China ``no
+puede ser correctamente representada por el modelo Bell-La~Padula''~\cite{bn89}.
+Posteriormente Ravi S. Sandhu argumentó que el modelo como propuesto por Brewer y Nash es
+demasiado restrictivo para ser práctico, producto del error que cometen sus
+autores de no distinguir entre los términos usuario, principal, y sujeto (sólo
+hablan de sujetos). 
 
-        COI(O) = COI(O'), and
+Los usuarios son aquellos del mundo real (humanos). Los principales son unidades
+de control de acceso y autorización. Existe una relación \textit{one-to-many}
+entre el usuario y los principales, es decir, un usuario puede tener uno o más
+principales, pero todo principal está asociado a un único usuario. Por último,
+los sujetos son procesos (programas) ejecutando en lugar del principal. Un
+principal puede no estar haciendo nada, o corriendo varios procesos en un mismo
+momento. Cada sujeto usualmente (aunque no siempre) está asociado a un único
+principal, y posee los permisos del principal que lo invocó. Por simplicidad, a
+veces se pueden considerar a los principales y los sujetos como lo mismo, pero
+siempre debería verse a los usuarios como multiples principales. Por ejemplo, en
+la \autoref{fig:users} se tiene una usuario Amy, con distintos principales y
+cada uno corriendo ciertos programas.
+\begin{figure}[ht]
+\[
+  \texttt{amy}
+  \begin{cases}
+    \texttt{amy.top-secret} &
+    \begin{cases}
+      \text{Aplicación de email} \\
+      \text{Editor de texto} \\
+      \text{Base de datos} \\
+    \end{cases}\\
+    \texttt{amy.secret} &
+    \begin{cases}
+      \hspace{2mm}\vdots \\
+    \end{cases}\\
+    \texttt{amy.confidential} &
+    \begin{cases}
+      \hspace{2mm}\vdots \\
+    \end{cases}\\
+    \texttt{amy.unclassified} &
+    \begin{cases}
+      \text{Navegador web} \\
+    \end{cases}\\
+  \end{cases}\\
+\] 
+\caption{Amy.\label{fig:users}}
+\end{figure}
+Habiendo explicitado las diferencias entre estos términos, Sandhu propuso un
+modelo menos restrictivo, con el cual sí es posible modelar una política de
+Muralla China con Bell-La~Padula, ya que una muralla china no es más que otra
+política basada en un retículo~\cite{Sandhu92,Sandhu92b,Sandhu93}.
 
-        CD(O) ≠ CD(O').
+\begin{enumerate}
+  \item Un usuario $u$ puede leer un objeto $o$ sólo si $u$ nunca leyó un objeto $o'$
+tal que:
+  \begin{enumerate}
+    \item $\coi(o) = \coi(o')$
+    \item $\cd(o) \neq \cd(o')$
+  \end{enumerate}
 
-    A subject S associated with user U may read object O only if U may read O.
+\item Un sujeto $s$ asociado a un usuario $u$ puede leer un objeto $o$ si $u$
+  puede leer $o$.
+\item Un sujeto $s$ puede escribir $o$ sólo si:
+  \begin{enumerate}
+    \item $s$ puede leer $o$, y
+    \item $s$ nunca leyó un objeto $o'$ tal que $\cd(o) \neq \cd(o')$.
+  \end{enumerate}
+\end{enumerate}
 
-    A subject S may write object O only if:
+Estas condiciones requieren llevar un registro del conjunto de objetos leidos
+por cada usuario y sujeto.
+Las primeras dos condiciones aseguran que un usuario nunca pueda violar la
+muralla leyendo información de dos CDs diferentes dentro de un mismo COI\@.
+La tercera condición asegura que dos o más usuarios no puedan violar la muralla
+realizando una secuencia de operaciones de lectura y escritura\@.
 
-        S may read O, and
+%by performing a series of read and write operations.  Suppose that S1 has
+%previously read from CD1, and S2 has previously read from CD2.  Consider the
+%following sequence of operations, based on the figure above.
 
-        S has never read an object O' such that CD(O) ≠ CD(O').
-
-The first two conditions guarantee that a single user never breaches the wall by reading information from two different CDs within the same COI.  The third condition guarantees that two or more users never cooperatively breach the wall by performing a series of read and write operations.  Suppose that S1 has previously read from CD1, and S2 has previously read from CD2.  Consider the following sequence of operations, based on the figure above.
-
-    S1 reads information from an object in CD1.
-
-    S1 writes that information to object O6 in CD3.
-
-    S2 reads that information from O6.
-
-At the end of this sequence, S2 would have read information pertaining to both CD1 and CD2, which would violate the Chinese Wall policy since both CDs are in the same COI.  But Condition 3b prevents the write operation by restricting when a subject may write:  once a subject reads two objects from different CDs, that subject may never write any object.  So for read--write access, a user must create a distinct subject for each CD.  For read-only access, a user can create a single subject to read from several COIs.  
-
-
-Se definen además dos funciones proyección $coi\colon L \to COI$ y $cd\colon L
-\to CD$.
-
-Notar que H no es una matriz de control de acceso; no refleja los
-permisos permitidos, si no los otorgados.
-
-Axioma 1: $\cd_1 = \cd_2 \implies \coi_1 = \coi_2$.
-Por contraposición lógica, tenemos el siguiente corolario:
-Corolario 1: $\coi_1 \neq \coi_2 \implies \cd_1 \neq \cd_2$.
+%    S1 reads information from an object in CD1.
+%
+%    S1 writes that information to object O6 in CD3.
+%
+%    S2 reads that information from O6.
+%
+%At the end of this sequence, S2 would have read information pertaining to both CD1 and CD2, which would violate the Chinese Wall policy since both CDs are in the same COI.  But Condition 3b prevents the write operation by restricting when a subject may write:  once a subject reads two objects from different CDs, that subject may never write any object.  So for read--write access, a user must create a distinct subject for each CD.  For read-only access, a user can create a single subject to read from several COIs.  
+%
+%
+%Notar que H no es una matriz de control de acceso; no refleja los
+%permisos permitidos, si no los otorgados.
+%
+%Axioma 1: $\cd_1 = \cd_2 \implies \coi_1 = \coi_2$.
+%Por contraposición lógica, tenemos el siguiente corolario:
+%Corolario 1: $\coi_1 \neq \coi_2 \implies \cd_1 \neq \cd_2$.
+%
 \input{ejercicios}
 \bibliography{refs}
 \bibliographystyle{unsrt}
