@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\input{../commands.tex}
+
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
 \hypersetup{pdfauthor={Cristian Adrián Ontivero}}
@@ -7,11 +9,11 @@
 \usepackage[spanish,es-tabla]{babel}
 \usepackage{graphicx}
 \usepackage{float}
-\usepackage{color}
 \usepackage{epigraph}
 \graphicspath{{imgs/}}
 
-\definecolor{darkblue}{RGB}{49,130,189}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, babel, decorations.pathreplacing, positioning,fit}
 
 \newlength\tindent
 \setlength{\tindent}{\parindent}
@@ -97,9 +99,9 @@
 
 
 \begin{center}
-\Large Criptografía y Seguridad (72.44)\\[.05cm]
-Apuntes sobre Seguridad en Aplicaciones\\[.05cm]
-\the\year
+  {\LARGE Cross-Site Request Forgery}\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate
 \end{center}
 
 \vspace{0.2 cm}
@@ -115,26 +117,22 @@ autenticado.
 
 \begin{ex}\label{ex:1}
   En la \autoref{fig:ex} se tiene el esquema de un caso básico. Supongamos que
-  hay una página llamada \verb+ejemplo.com+. Esta página
+  hay una página llamada \verb+vuln.com+. Esta página
   permite a sus usuarios eliminar su cuenta, y para esto utiliza un GET a
-  \verb+ejemplo.com/account/delete+. El usuario ingresa a su cuenta, y luego sin
+  \verb+vuln.com/account/delete+. El usuario ingresa a su cuenta, y luego sin
   deslogearse de la misma, cierra la ventana y visita \verb+evil.com+, la página
   del atacante. Oculto en esta página, se encuentra el código: 
 
   \begin{center}
-\verb+<img style="display:none" src="https://ejemplo.com/account/delete">+
+\verb+<img style="display:none" src="https://vuln.com/account/delete">+
   \end{center}
 
- Al leer  esto, el navegador realiza el GET a \verb+ejemplo.com+, la página web
+ Al leer  esto, el navegador realiza el GET a \verb+vuln.com+, la página web
  toma el request como válido (ya que el navegador envía la cookie que la página
  usa para que el usuario se autentique), y su cuenta se elimina.
 \end{ex}
 
-\begin{figure}[h]
-  \caption{Ejemplo}\vspace{.2cm}\label{fig:ex}
-\centering
-\includegraphics[width=.9\textwidth]{ex1}
-\end{figure}
+\input{drawing.tex}
 
 CSRF puede pensarse como la vulnerabilidad dual a XSS: mientras XSS abusa de la
 confianza que el usuario tiene en la página o aplicación, CSRF abusa de la
@@ -195,7 +193,7 @@ Aun así, si bien esto es un buen primer paso preventivo, no es suficiente.
 \subsection{Prevención}
 Varios métodos de prevención se desarollaron a través de los años, y cuentan con
 diferentes niveles de soporte en navegadores. Es importante tener presente que
-ninguna de las prevenciones estandar contra CSRF sirven si existe el atacante tiene la
+ninguna de las prevenciones estandar contra CSRF sirven si el atacante tiene la
 posibilidad de realizar un XSS, por lo que es primordial cubrirse ante estos.
 
 \subsubsection{Recomendaciones de OWASP}
@@ -203,7 +201,7 @@ El Open Web Application Security Project \cite{owasp} recomienda dos medidas
 contra los CSRF, en el orden de prioridad listados:
 
 \begin{enumerate}
-  \item Corroborar headers estandar para verificar que el request es del mismo origen.
+  \item Corroborar headers estandar para verificar que la petición es del mismo origen.
   \item Usar algún método adicional específico contra CSRFs.
 \end{enumerate}
 
@@ -262,20 +260,28 @@ headers, se puede tanto aceptar como rechazar la petición, pero lo seguro (y
 recomendado por OWASP) es rechazarlo.
 
 \paragraph{Defensa adicional} Esta medida se recomienda una vez implementada la
-previamente descripta. Si bien el OWASP lista cuatro variantes, nos limitaremos
-a describir la conocida como \textit{double cookie defense}, que posee la
-ventaja de no requerir guardar estado adicional del lado del servidor. Para el
-resto de las variantes, referirse al \textit{cheat sheet} de OWASP.
+previamente descripta. OWASP lista cuatro distintas, en orden de preferencia:
+\begin{enumerate}
+  \itemsep 0pt
+  \item Tokens sincronizadores.
+  \item Defensa de doble cookies.
+  \item Patrón de token cifrado.
+  \item Custom header (e.g. \texttt{X-Requested-With}).
+\end{enumerate}
 
-\paragraph{Nota sobre frameworks} Cabe mencionar que existen frameworks (e.g.
-CSRF Guard para Java) que implementan las defensas previamente explicadas (o
-alguna variante de las mismas), por lo que puede ser conveniente delegar la
-prevención en alguno de estos. Aun así, es importante saber qué medidas de
-prevención existen, con sus pros y contras, para entender si la seguridad que
-otorga el framework es la necesaria, y si se lo está usando correctamente.
-%\epigraph{\textit{Never inventing your own} is one of the most quoted rules of
-%cryptography, but it \textit{should} be an accepted rule of development security
-%in general}{Rich Lundeen}
+Para mayor detalle, referirse al \textit{cheat sheet} de OWASP, o la
+documentación de algunas implementaciones como \cite{django, django2}. Cabe
+mencionar que existen frameworks (e.g.  CSRF Guard para Java) que implementan
+las defensas previamente explicadas (o alguna variante de las mismas), por lo
+que puede ser conveniente delegar la prevención en alguno de
+estos\footnote{Citando a Rich Lundeen: \textit{Never inventing your own} is one
+of the most quoted rules of cryptography, but it \textit{should} be an accepted
+rule of development security in general \cite{Lundeen13}.}. Aun así, es importante saber qué
+medidas de prevención existen, con sus pros y contras, para entender si la
+seguridad que otorga el framework es la necesaria, y si se lo está usando
+correctamente.
+
+
 
 \subsubsection{Directiva \texttt{SameSite} para cookies}
 Definida en \cite{ietf}, esta directiva le indica al navegador nunca enviar una cookie cuando se realiza
@@ -329,9 +335,9 @@ Cuatro casos de vulnerabilidades pueden leerse en \cite{Zeller}.
 Otros documentos como \cite{Burns,Blatz} también son instructivos, pero algunas
 recomendaciones estan desactualizadas, por lo que a la hora de implementar una
 defensa, se recomienda referirse al OWASP.\
-A pesar de ser robusta, por sí sola la defensa de doble cookie presentada es
-vulnerable a \textit{man-in-the-middle attacks} por HTTP, y XSS en subdominios.
-Para más detalles referirse a \cite{Johansson}.
+A pesar de ser robusta, por sí sola la defensa de doble cookie es vulnerable a
+\textit{man-in-the-middle attacks} por HTTP, y XSS en subdominios.  Para más
+detalles referirse a \cite{Johansson}.
 
 \paragraph{Origen} Norm Hardy publicó en 1988 un documento sobre un problem de
 permisos al nivel de aplicación que denominó diputado confundido

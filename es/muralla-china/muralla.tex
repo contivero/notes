@@ -1,0 +1,191 @@
+\documentclass[spanish]{article}
+
+\input{../commands.tex}
+
+\newcommand{\cd}{\text{CD}}
+\newcommand{\coi}{\text{COI}}
+
+\usepackage{calculation}
+
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage[bottom,flushmargin]{footmisc} 
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+  {\LARGE Brewer-Nash: Modelo Híbrido}\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate%
+\end{center}
+
+\vspace{0.2 cm}
+
+<<<<<<< HEAD
+El modelo Brewer-Nash hace referencia a la política descrita en 1989 por David
+F.C. Brewer y Michael J. Nash~\cite{bn89}, quienes se basaron en políticas
+ya usadas, en ambientes principalmente financiaros. Esta política fue llamada
+``Muralla China'' (\textit{chinese wall policy}) por sus autores, un término que
+ha tenido sus detractores a través de los años. El modelo Brewer-Nash fue
+desarrollado para ambientes comerciales, con el fin de prevenir flujos que
+causen conflictos de interés.
+
+A diferencia de del modelo Bell-La~Padula, la información no se restringe en
+base a clasificaciones, sino en base a qué información accedieron previamente
+los sujetos.
+
+Para poder establecer comparaciones con BLP, los autores usaron muchos
+términos iguales. Así, el modelo se refiere a personas como sujetos. También
+cuenta con objetos, pero se basa en una organización jerárquica de estos:
+\begin{itemize}
+      \item En el nivel inferior se tiene ítems de información, cada uno
+        correspondiendo a una compañía. Se refiere a estos simplemente como
+        objetos.
+      \item En el nivel intermedio, se agrupan objetos asociados a una misma
+        compañía. Estas asociaciones se conocen como \textit{company datasets}
+        (CDs).
+      \item En el nivel superior, se agrupan los CDs cuyas compañías compiten, y
+        se refiere a cada una de estas agrupaciones como clases de conflicto de
+        interés (\textit{conflict of interest class}).
+\end{itemize}
+
+El modelo original, como definido por Brewer y Nash, presenta condiciones
+demasiado restrictivas. Condiciones menos restrictivas fueron dadas por Sandhu
+en 1992 \cite{Sandhu92}, en las cuales nos basaremos. Estas condiciones
+requieren llevar un registro del conjunto de objetos leidos por cada usuario y
+sujeto.
+
+    A user U may read object O only if U has never read any object O' such that:
+
+        COI(O) = COI(O'), and
+
+        CD(O) ≠ CD(O').
+
+    A subject S associated with user U may read object O only if U may read O.
+
+    A subject S may write object O only if:
+
+        S may read O, and
+
+        S has never read an object O' such that CD(O) ≠ CD(O').
+
+The first two conditions guarantee that a single user never breaches the wall by reading information from two different CDs within the same COI.  The third condition guarantees that two or more users never cooperatively breach the wall by performing a series of read and write operations.  Suppose that S1 has previously read from CD1, and S2 has previously read from CD2.  Consider the following sequence of operations, based on the figure above.
+
+    S1 reads information from an object in CD1.
+
+    S1 writes that information to object O6 in CD3.
+
+    S2 reads that information from O6.
+
+At the end of this sequence, S2 would have read information pertaining to both CD1 and CD2, which would violate the Chinese Wall policy since both CDs are in the same COI.  But Condition 3b prevents the write operation by restricting when a subject may write:  once a subject reads two objects from different CDs, that subject may never write any object.  So for read--write access, a user must create a distinct subject for each CD.  For read-only access, a user can create a single subject to read from several COIs.  
+
+
+Se definen además dos funciones proyección $coi\colon L \to COI$ y $cd\colon L
+\to CD$.
+
+Notar que H no es una matriz de control de acceso; no refleja los
+permisos permitidos, si no los otorgados.
+
+Axioma 1: $\cd_1 = \cd_2 \implies \coi_1 = \coi_2$.
+Por contraposición lógica, tenemos el siguiente corolario:
+Corolario 1: $\coi_1 \neq \coi_2 \implies \cd_1 \neq \cd_2$.
+\input{ejercicios}
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}
