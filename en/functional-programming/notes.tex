@@ -1,0 +1,1260 @@
+%
+% This is a borrowed LaTeX template file for lecture notes for CS267,
+% Applications of Parallel Computing, UCBerkeley EECS Department.
+% Now being used for CMU's 10725 Fall 2012 Optimization course
+% taught by Geoff Gordon and Ryan Tibshirani.  When preparing 
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi. "pdflatex template.tex" should also work.
+%
+
+\documentclass[twoside]{article}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+%
+% ADD PACKAGES here:
+%
+
+\usepackage{amsmath,amsfonts,graphicx}
+\usepackage{calculation}
+\usepackage{cite}
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf 10-725: Optimization
+	\hfill Fall 2012} }
+       \vspace{4mm}
+       \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   {\bf Note}: {\it LaTeX template courtesy of UC Berkeley EECS dept.}
+
+   {\bf Disclaimer}: {\it These notes have not been subjected to the
+   usual scrutiny reserved for formal publications.  They may be distributed
+   outside this class only with the permission of the Instructor.}
+   \vspace*{4mm}
+}
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\newcommand\E{\mathbb{E}}
+
+\newcommand\concat{+\kern-1.3ex+\kern0.8ex}
+\newcommand\mconcat{\ensuremath{\mathbin{+\mkern-10mu+}}}
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{1}{August 28}{Geoff Gordon/Ryan Tibshirani}{scribe-name1,2,3}
+%\footnotetext{These notes are partially based on those of Nigel Mansell.}
+
+% **** YOUR NOTES GO HERE:
+
+% Some general latex examples and examples making use of the
+% macros follow.  
+%**** IN GENERAL, BE BRIEF. LONG SCRIBE NOTES, NO MATTER HOW WELL WRITTEN,
+%**** ARE NEVER READ BY ANYBODY.
+This lecture's notes illustrate some uses of
+various \LaTeX\ macros.  
+Take a look at this and imitate.
+
+\section{Preliminaries}
+
+$$fork~(f,~g)~x~=~(f~x,~g~x)$$
+Though not necessary for what follows, for those familiar with arrows as defined
+in Haskell (and types aside), $fork~=~uncurried~(\&\&\&)$.
+
+
+\begin{lemma}
+This is the first lemma of the lecture.
+\end{lemma}
+\renewcommand{\Hsep}{0em}
+\renewcommand{\Hindent}{0em}
+\begin{proof}
+The proof is by induction on $\ldots$.
+For fun, we throw in a figure.
+%%%NOTE USAGE !
+\fig{1}{1in}{A Fun Figure}
+
+This is the end of the proof, which is marked with a little box.
+
+\end{proof}
+\newpage
+\section{Laws about fork}
+
+$$fst~.~fork~(f,~g)~=~f$$
+$$snd~.~fork~(f,~g)~=~g$$
+
+Fusion law of fork:
+
+$$fork~(f,~g)~.~h~=~fork~(f~.~h,~g~.~h)$$
+
+\section{Duality Theorems}
+These theorems concern the relationship between $foldr$ and $foldl$.
+\subsection{First Duality Theorem}
+Suppose $\oplus$ and $e$ form a monoid (i.e. $\oplus$ is an associative
+operator with unit $e$). Then for any finite list $xs$: 
+$$foldr~\oplus~e~xs~=foldl~\oplus~e~xs~$$
+\begin{proof}
+The first duality theorem is a special case of the second duality theorem,
+  namely when $(\oplus)~=~(\otimes)$.
+\end{proof}
+\subsection{Second Duality Theorem}
+The second duality theorem is a generalization of the first.
+
+Suppose $\oplus$, $\otimes$ and $e$ are such that for all $x$, $y$ and
+$z$ we have:
+
+\[
+\begin{array}{rcl}
+  x\oplus(y\otimes z) & = &  (x\oplus y)\otimes z \\
+  x\oplus e & = & e \otimes x
+\end{array}
+\]
+then for all finite lists $xs$:
+$$foldr~(\oplus)~e~xs~=~foldl~(\otimes)~e~xs$$
+\begin{proof} 
+By induction on $xs$.
+
+\textbf{Case} $[]$ 
+
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  foldr~(\oplus)~e~[]
+\step{definition of $foldr$}
+  e
+\end{calculation}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  foldl~(\otimes)~e~[]
+\step{definition of $foldl$}
+  e
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $x:xs$
+
+\begin{minipage}{0.5\textwidth}
+\begin{calculation}
+  foldr~(\oplus)~e~(x:xs)
+\step{definition of $foldr$}
+  x\oplus foldr~(\oplus)~e~xs
+\step{induction hypothesis}
+  x\oplus foldl~(\otimes)~e~xs
+\end{calculation}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  foldl~(\otimes)~e~(x:xs)
+\step{definition of $foldl$}
+  foldl~(\otimes)~(e\otimes x)~xs
+\step{initial assumption that $e\otimes x~=~x\oplus e$}
+  foldl~(\otimes)~(x\oplus e)~xs
+\end{calculation}
+\end{minipage}
+\newline
+
+Since both sides simplify to different expressions, we need to show that: 
+  $$x\oplus foldl~(\otimes)~e~xs~=~foldl~(\otimes)~(x\oplus e)~xs$$
+Trying to prove this by induction doesn't work, but proving the stronger
+  hypothesis that not only for the element $e$, but for all $y$:
+  $$x\oplus foldl~(\otimes)~y~xs~=~foldl~(\otimes)~(x\oplus y)~xs$$
+completes the proof. Once more by induction on $xs$:
+
+\textbf{Case} $[]$: Both sides simplify to $x\oplus y$.
+
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  x\oplus foldl~(\otimes)~y~[]
+\step{definition of $foldl$}
+  x\oplus y
+\end{calculation}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  foldl~(\otimes)~(x\oplus y)~[]
+  \step{definition of $foldl$}
+  x\oplus y
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $(z:zs)$:
+
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  x\oplus foldl~(\otimes)~y~(z:zs)
+\step{definition of $foldl$}
+  x\oplus foldl~(\otimes)~(y\otimes z)~zs
+\step{induction hypothesis}
+  foldl~(\otimes)~(x\oplus (y\otimes z))~zs
+\end{calculation}
+\end{minipage}%
+\begin{minipage}{0.4\textwidth}
+\begin{calculation}
+  foldl~(\otimes)~(x\oplus y)~(z:zs)
+\step{definition of $foldl$}
+  foldl~(\otimes)~((x\oplus y)\otimes z)~zs
+\step{initial assumption that $(x\oplus y)\otimes z = x\oplus (y\otimes z)$}
+  foldl~(\otimes)~(x\oplus (y\otimes z))~zs
+\end{calculation}
+\end{minipage}
+\newline\hfill
+\end{proof}
+\subsection{Third Duality Theorem}
+For all finite lists $xs$:
+$$foldr~f~e~xs~=~foldl~(flip~f)~e~(reverse~xs)$$
+where $flip$ is as defined in Haskell, i.e. $flip~f~x~y~=~f~y~x$.
+
+\begin{proof}
+By structural induction on $xs$.
+
+\textbf{Case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldr~f~e~[]
+\step{definition of $foldr$}
+  []
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~(flip~f)~e~(reverse~[])
+\step{definition of $reverse$}
+  foldl~(flip~f)~e~[]
+\step{definition of $foldl$}
+  []
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $(x:xs)$ 
+
+For the left-hand side we reason
+\begin{calculation}
+  foldr~f~e~(x:xs)
+\step{definition of $foldr$}
+  f~x~(foldr~f~e~xs))
+\step{induction hypothesis}
+  f~x~(foldl~(flip~f)~e~(reverse~xs))
+\step{definition of flip}
+  (flip~f)~(foldl~(flip~f)~e~(reverse~xs))~x
+\end{calculation}
+For the right-hand side we reason
+\begin{calculation}
+  foldl~(flip~f)~e~(reverse~(x:xs))
+\step{definition of $reverse$}
+  foldl~(flip~f)~e~(reverse~xs\concat [x])
+\step{Lemma: $foldl~f~e~(xs\concat ys)~=~foldl~f~(foldl~f~e~xs)~ys$}
+  foldl~(flip~f)~(foldl~(flip~f)~e~(reverse~xs))~[x]
+\step{definition of $foldl$}
+  foldl~(flip~f)~((flip~f)~(foldl~(flip~f)~e~(reverse~xs))~x)~[]
+\step{definition of $foldl$}
+  (flip~f)~(foldl~(flip~f)~e~(reverse~xs))~x
+\end{calculation}
+Which equals the left-hand side, establishing the case.
+
+All that rests is proving the used lemma, i.e.:
+$$foldl~f~e~(xs\concat ys)~=~foldl~f~(foldl~f~e~xs)~ys$$
+We do it by induction on $xs$:
+
+\textbf{Case} $[]$
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~([] \concat ys)
+\step{definition of $\concat$}
+  foldl~f~e~ys
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~(foldl~f~e~ys)~[]
+\step{definition of $foldl$}
+  foldl~f~e~ys
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $(x:xs)$\newline
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~((x:xs) \concat ys)
+\step{definition of $\concat$}
+  foldl~f~e~(x:(xs \concat ys))
+\step{definition of $foldl$}
+  foldl~f~(f~e~x)~(xs \concat ys)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~(foldl~f~e~(x:xs))~ys
+\step{definition of $foldl$}
+  foldl~f~(foldl~f~(f~e~x)~xs)~ys
+\step{induction hypothesis}
+  foldl~f~(f~e~x)~(xs\concat ys)
+\end{calculation}
+\end{minipage}
+
+\end{proof}
+
+\subsection{The scan lemma}
+The scan lemma 
+$$map~(foldl~\odot~e)~.~inits~=~scanl~\odot~e$$
+The expression on the left requires $\Theta(n^2)$ evaluations of $\odot$ on a
+list of length $n$, while the expression on the right requires only $\Theta(n)$
+when using the standard Haskell function $scanl$.
+
+\subsection{Tupling law of $foldl$}
+Suppose we have a tuple of folds, as in $(foldl~f~e_1~xs,~foldl~g~e_2~xs)$. This
+requires two traversals of the list $xs$. It would be nice to find an equivalent
+expression $foldl~h~u~xs$, as it would require a single traversal, giving
+both time and space advantages. Lets prove by induction that both equations are
+equivalent, and derive whatever conditions needed along the way.
+
+\textbf{Case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  (foldl~f~e_1~[],~foldl~g~e_2~[])
+\step{definition of $foldl$}
+  (e_1, e_2)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~e~[]
+\step{definition of $foldl$}
+  e
+\end{calculation}
+\end{minipage}%
+
+Thus, for the equality to hold our first requirement is that $e = (e_1, e_2)$.
+
+\textbf{Case} $x:xs$\newline
+\begin{minipage}[t]{.5\textwidth}
+\begin{calculation}
+  (foldl~f~e_1~(x:xs),~foldl~g~e_2~(x:xs))
+\step{definition of $foldl$}
+  (foldl~f~(f~e_1~x)~xs,~foldl~g~(g~e_2~x)~xs)
+\step{defining $u_1~=~f~e_1~x$ and $u_2~=~g~e_2~x$}
+  (foldl~f~u_1~xs,~foldl~g~u_2~xs)
+\step{induction hypothesis}
+  foldl~h~(u_1,u_2)~xs
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~(e_1,e_2)~(x:xs)
+\step{definition of $foldl$}
+  foldl~h~(h~(e_1,e_2)~x)~xs
+\end{calculation}
+\end{minipage}
+
+For both sides to be equal, we require
+$h~(e_1,e_2)~x~=~(u_1,u_2)~=~(f~e_1~x,~f~e_2~x)$.
+What we have thus derived is known as the tupling law of $foldl$,
+although it is usually expressed in point-free style in terms of $fork$ as follows:
+
+\begin{align*}
+  fo&rk ~(foldl~f~e_1,~foldl~g~e_2)~=~foldl~h~(e_1,e_2)\\
+       &\text{where } h~(a,b)~x~=~(f~a~x,~g~b~x)\\
+\end{align*}
+\subsection{Tupling law of $foldr$}
+Similarly, we can derive a tupling law for $foldr$, which states:
+\begin{align*}
+  fo&rk~(foldr~f~e_1,~foldr~g~e_2)~=~foldr~h~(e_1,e_2)\\
+       &\text{where } h~x~(a,b)~=~(f~x~a,~g~x~b)\\
+\end{align*}
+
+\subsection{Divide and Conquer Property of $tails^+$}
+There are two functions $tails$ in the literature. The first one is sometimes
+also called $suffixes$, and is Haskell's $tails$ from Data.List; the other one
+differs in that it doesn't include an empty list in its result. To distinguish
+them, we will call $tails$ the first one, and
+$tails^+$ the second one, given by:
+%\footnote{We use the $+$ superscript to
+  %distinguish it from the standard Haskell function $tails$, which
+%differs in that it includes the empty list in its output. Effectively, that
+%function returns the list of all suffixes, while this one returns that
+%same list without the empty suffix.}
+
+\[
+\begin{array}{lcl}
+  tails~[]    & = & [[]] \\
+  tails~(x:xs)& = & (x:xs):tails~xs\\
+  tails^+~[]    & = & [] \\
+  tails^+~(x:xs)& = & (x:xs):tails~xs
+\end{array}
+\]
+
+The property states that:
+
+$$tails^+~(xs\concat ys)~=~map~(\concat ys)~(tails^+~xs)\concat tails^+~ys$$
+
+By induction on xs:
+
+\textbf{Case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  tails^+~([]~\concat~ys)
+  \step{definition of $\concat$}
+  tails^+~ys
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  map~(\concat ys)~(tails^+~[]) \concat tails^+~ys
+\step{definition of $tails^+$}
+  map~(\concat ys)~[] \concat tails^+~ys
+\step{definition of $map$}
+  [] \concat tails^+~ys
+\step{definition of $\concat$}
+  tails^+~ys
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $x:xs$
+
+For the left-hand side we reason
+\begin{calculation}
+  tails^+~((x:xs)~\concat~ys)
+  \step{definition of $\concat$}
+  tails^+~(x:(xs\concat ys))
+  \step{definition of $tails^+$}
+  (x:(xs\concat ys)):tails^+~(xs\concat ys)
+  \step{inductive hypothesis}
+  (x:(xs\concat ys)):map~(\concat ys)~(tails^+~xs) \concat tails^+~ys
+\end{calculation}
+
+For the right-hand side we reason
+\begin{calculation}
+  map~(\concat ys)~(tails^+~(x:xs)) \concat tails^+~ys
+\step{definition of $tails^+$}
+  map~(\concat ys)~((x:xs)tails^+~xs) \concat tails^+~ys
+\step{definition of $map$}
+((x:xs)\concat ys):map~(\concat ys)~(tails^+~xs) \concat tails^+~ys
+\step{definition of $\concat$}
+(x:(xs\concat ys)):map~(\concat ys)~(tails^+~xs) \concat tails^+~ys
+\end{calculation}
+
+There is an equivalent variant for $tails$, although it's slightly less clean:
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  tails~([]~\concat~ys)
+  \step{definition of $\concat$}
+  tails~ys
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  map~(\concat ys)~(tails~[]) \concat tails~ys
+\step{definition of $tails$}
+  map~(\concat ys)~[[]] \concat tails~ys
+\step{definition of $map$ and $\concat$}
+  [ys] \concat tails~ys
+\end{calculation}
+\end{minipage}
+
+That's clearly impossible, as the right-hand side will have an additional
+occurence of $ys$. Lets change $tails~ys$ for $f~ys$ and derive $f$ by case
+analysis on $ys$:
+
+\textbf{Case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  tails~[]
+\step{definition of $tails$}
+  [[]]
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  {[[]]} \concat f~[]
+\step{definition of $\concat$}
+  {[]}:([] \concat f~[])
+\step{definition of $\concat$}
+  {[]}: f~[]
+\end{calculation}
+\end{minipage}
+
+For both sides to be equal, we need $f~[]~=~[]$.
+
+\textbf{Case} $z:zs$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  tails~(z:zs)
+\step{definition of $tails$}
+  (z:zs):tails~zs
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  {[(z:zs)]} \concat f~(z:zs)
+\step{definition of $\concat$}
+  (z:zs):([]\concat f~(z:zs))
+\step{definition of $\concat$}
+  (z:zs): f~(z:zs)
+\end{calculation}
+\end{minipage}
+
+For both sides to be equal, we need $f~(z:zs)~=~tails~zs$. Thus, $f$ is a
+function that given a nonempty list, drops its head before returning its tails.
+Renaming $f$ to $ails$, we have:
+
+\[
+\begin{array}{lcl}
+  ails~[]    & = & [] \\
+  ails~(x:xs)& = & tails~xs
+\end{array}
+\]
+
+knowing this, we continue with the induction:
+
+\textbf{Case} $x:xs$
+
+For the left-hand side we reason
+\begin{calculation}
+  tails~((x:xs)~\concat~ys)
+  \step{definition of $\concat$}
+  tails~(x:(xs\concat ys))
+  \step{definition of $tails^+$}
+  (x:(xs\concat ys)):tails~(xs\concat ys)
+  \step{inductive hypothesis}
+  (x:(xs\concat ys)):map~(\concat ys)~(tails~xs) \concat ails~ys
+\end{calculation}
+
+For the right-hand side we reason
+\begin{calculation}
+  map~(\concat ys)~(tails+~(x:xs)) \concat ails~ys
+\step{definition of $tails$}
+  map~(\concat ys)~((x:xs)tails~xs) \concat ails~ys
+\step{definition of $map$}
+((x:xs)\concat ys):map~(\concat ys)~(tails~xs) \concat ails~ys
+\step{definition of $\concat$}
+(x:(xs\concat ys)):map~(\concat ys)~(tails~xs) \concat ails~ys
+\end{calculation}
+
+Ending our derivation. Thus, we have the following property for $tails$:
+
+\[
+  \begin{array}{@{}l@{}l@{}l@{}l}
+    ta&ils~(xs~&\concat ys)=ma&p~(\concat ys)~(tails~xs) \concat ails~ys\\
+      &\text{where } &ails~[]~&=~[]\\
+      &              &ails~(z:zs)~&=~tails~zs
+\end{array}
+\]
+
+
+\subsection{Divide and Conquer Property of $inits$}
+As with $tails$, there are two common versions of the function $inits$. One is
+as implemented in Haskell, and it basically gives all the prefixes of a list,
+including the empty prefix (i.e. the empty list). The other one gives all the
+prefixes except for the empty one. We are gonna call $inits$ the first one, and
+$inits^+$ the second one. These can be defined so:
+\[
+\begin{array}{lll}
+  inits~[]    &=& [[]] \\
+  inits~(x:xs)&=& []:map~(x:)~(inits~xs)\\
+  inits^+~[]    &=& [] \\
+  inits^+~(x:xs)&=& map~(x:)~(inits~xs)
+\end{array}
+\]
+
+
+Property of $inits$
+$$inits~(xs\concat ys)~=~inits~xs\concat map~(xs\concat)~(inits^+~ys)$$
+
+\textbf{Case} $[]$ 
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits~([] \concat ys)
+\step{definition of $\concat$}
+  inits~ys
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits~[]\concat map~([]\concat)~(inits^+~ys)
+\step{definition of inits}
+  {[[]]}\concat map~([]\concat)~(inits^+~ys)
+\step{$[]\concat~=~id$, and functor law ($map~id~=~id$)}
+  {[[]]}\concat inits^+~ys
+\end{calculation}
+\end{minipage}
+
+Though it might be clear both sides are equal, we proceed by case analysis on
+$ys$:
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits~[]
+\step{definition of $inits$}
+  [[]]
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  {[[]]}\concat inits^+~[]
+\step{definition of $inits^+$}
+  {[[]]}\concat []
+\step{$[]$ is the unit of $(\concat)$}
+  {[[]]}
+\end{calculation}
+\end{minipage}
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits~(z:zs)
+\step{definition of $inits$}
+  []:map~(z:)~(inits~zs)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  {[[]]}\concat inits^+~(z:zs)
+\step{definition of $inits^+$}
+  {[[]]}\concat map~(z:)~(inits~zs)
+\step{definition of $\concat$}
+[]:([]\concat map~(z:)~(inits~zs))
+\step{definition of $\concat$}
+[]:map~(z:)~(inits~zs)
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $x:xs$ 
+
+For the left-hand side we reason
+
+\begin{calculation}
+  inits~((x:xs) \concat ys)
+\step{definition of $\concat$}
+  inits~(x:(xs \concat ys))
+\step{definition of $inits$}
+{[]}:map~(x:)~(inits~(xs \concat ys))
+\step{inductive hypothesis}
+{[]}:map~(x:)~(inits~xs \concat map~(xs\concat)~(inits^+ys))
+\end{calculation}
+
+For the right-hand side we reason
+
+\begin{calculation}
+  inits~(x:xs)\concat map~((x:xs)\concat)~(inits^+~ys)
+\step{definition of $inits$}
+{[]}:map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(inits^+~ys)
+\step{definition of $\concat$}
+{[]}:(map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(inits^+~ys))
+\step{$(x:xs)\concat = (x:).(xs\concat)$}
+{[]}:(map~(x:)~(inits~xs)\concat map~((x:).(xs\concat))~(inits^+~ys))
+\step{Functor law}
+{[]}:(map~(x:)~(inits~xs)\concat map~(x:)~(map~(xs\concat)~(inits^+~ys)))
+\step{$map~f~xs\concat map~f~ys~=~map~f~(xs\concat ys)$}
+{[]}:map~(x:)~(inits~xs\concat map~(xs\concat)~(inits^+~ys))
+\end{calculation}
+
+
+
+$$inits^+~(xs\concat ys)~=~inits^+~xs\concat map~(xs\concat)~(inits^+~ys)$$
+\textbf{Case} $[]$ 
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits^+~([] \concat ys)
+\step{definition of $\concat$}
+  inits^+~ys
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits^+~[]\concat map~([]\concat)~(inits^+~ys)
+\step{definition of inits}
+  {[]}\concat map~([]\concat)~(inits^+~ys)
+\step{$[]\concat=~id$, and functor law ($map~id~=~id$)}
+  inits^+~ys
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $x:xs$ 
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits^+~((x:xs) \concat ys)
+\step{definition of $\concat$}
+  inits^+~(x:(xs \concat ys))
+\step{definition of $inits^+$}
+  map~(x:)~(inits~(xs\concat ys))
+%\step{inductive hypothesis}
+%map~(x:)~(inits~xs\concat map~(xs\concat)~(inits^+~ys))
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  inits^+~(x:xs)\concat map~((x:xs)\concat)~(inits^+~ys)
+\step{definition of inits}
+map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(inits^+~ys)
+\end{calculation}
+\end{minipage}
+
+Case analysis on ys:
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  map~(x:)~(inits~(xs\concat []))
+\step{concat}
+  map~(x:)~(inits~xs)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(inits^+~[])
+\step{$inits^+$}
+map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~[]
+\step{definition of $map$}
+map~(x:)~(inits~xs)\concat []
+\step{definition of $\concat$}
+map~(x:)~(inits~xs)
+\end{calculation}
+\end{minipage}
+
+case y = z:zs
+
+For the left-hand side we reason
+
+\begin{calculation}
+  map~(x:)~(inits~(xs\concat (z:zs)))
+\step{divide and conquer property for $inits$}
+  map~(x:)~(inits~xs\concat~map~(xs\concat)~(inits^+~ys))
+\end{calculation}
+
+For the right-hand side we reason
+
+\begin{calculation}
+  map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(inits^+~(z:zs))
+\step{$inits^+$}
+map~(x:)~(inits~xs)\concat map~((x:xs)\concat)~(map~(z:)~(inits~zs))
+\step{Functor law: $map~f~.~map~g~=~map~(f~.~g)$}
+map~(x:)~(inits~xs)\concat map~(((x:xs)\concat).(z:))~(inits~zs))
+\step{definition of $(.)$}
+map~(x:)~(inits~xs)\concat map~((x:).(xs\concat).(z:))~(inits~zs))
+\step{Functor law}
+map~(x:)~(inits~xs)\concat map~(x:)~(map~((xs\concat).(z:))~(inits~zs))
+\step{$map~f~xs\concat map~f~ys~=~map~f~(xs\concat ys)$}
+map~(x:)~(inits~xs\concat map~((xs\concat).(z:))~(inits~zs))
+\step{Functor law}
+map~(x:)~(inits~xs\concat map~(xs\concat)~(map~(z:)~(inits~zs))
+\step{definition of $inits^+$, and $y~=~z:zs$}
+map~(x:)~(inits~xs\concat map~(xs\concat)~(inits^+~ys))
+\end{calculation}
+
+\subsection{law of $iterate$}
+$$map~(\oplus~y)~(iterate~f~x)~=~map~(x~\oplus)~(iterate~g~y)$$
+provided $f~x~\oplus~y~=~x\oplus g~y$.
+
+ 
+here is an exercise:
+
+{\bf exercise:}  show that ${\rm p}\ne{\rm np}$.
+
+here is how to define things in the proper mathematical style.
+let $f_k$ be the $and-or$ function, defined by
+
+\[ f_k(x_1, x_2, \ldots, x_{2^k}) = \left\{ \begin{array}{ll}
+
+	x_1 & \mbox{if $k = 0$;} \\
+
+	and(f_{k-1}(x_1, \ldots, x_{2^{k-1}}),
+	   f_{k-1}(x_{2^{k-1} + 1}, \ldots, x_{2^k}))
+	 & \mbox{if $k$ is even;} \\
+
+	or(f_{k-1}(x_1, \ldots, x_{2^{k-1}}),
+	   f_{k-1}(x_{2^{k-1} + 1}, \ldots, x_{2^k}))	
+	& \mbox{otherwise.} 
+	\end{array}
+	\right. \]
+
+\begin{theorem}
+this is the first theorem.
+\end{theorem}
+
+\begin{proof}
+this is the proof of the first theorem. we show how to write pseudo-code now.
+%*** use pseudo-code only if it is clearer than an english description
+
+consider a comparison between $x$ and~$y$:
+\begin{tabbing}
+\hspace*{.25in} \= \hspace*{.25in} \= \hspace*{.25in} \= \hspace*{.25in} \= \hspace*{.25in} \=\kill
+\>{\bf if} $x$ or $y$ or both are in $s$ {\bf then } \\
+\>\> answer accordingly \\
+\>{\bf else} \\
+\>\>    make the element with the larger score (say $x$) win the comparison \\
+\>\> {\bf if} $f(x) + f(y) < \frac{n}{t-1}$ {\bf then} \\%
+\>\>\> $f(x) \leftarrow f(x) + f(y)$ \\
+\>\>\> $f(y) \leftarrow 0$ \\
+\>\> {\bf else}  \\
+\>\>\> $s \leftarrow s \cup \{ x \} $ \\
+\>\>\> $r \leftarrow r+1$ \\
+\>\> {\bf endif} \\
+\>{\bf endif} 
+\end{tabbing}
+
+this concludes the proof.
+\end{proof}
+\section{fusion} % don't be this informal in your notes!
+\subsection{fusion law for $foldr$}
+provided that:
+\begin{enumerate}
+  \item $f~a~=~b$.
+  \item $f~(g~x~y)~=~h~x~(f~y)$ for all $x$ and $y$.
+  \item $f$ is strict.
+\end{enumerate}
+then:
+$$f~.~foldr~g~a~=~foldr~h~b$$
+
+the last requirement is only necessary if we want the law to hold for infinite
+lists, as will be clear from the fact that it is only ever used in the $\bot$
+case.
+
+\begin{proof}
+by the extentionality principle, it is equivalent to prove that for all lists
+$xs$::
+$$(f~.~foldr~g~a)~xs=~foldr~h~b~xs$$
+by the definition of $(.)$, we have:
+$$f~(foldr~g~a~xs)~=~foldr~h~b~xs$$
+we proceed by induction on $xs$:
+
+\textbf{case} $\bot$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldr~g~a~\bot)
+\step{case exhaustion for $foldr$}
+  f~\bot
+\step{f is strict}
+  \bot
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldr~h~b~\bot
+\step{case exhaustion for $foldr$}
+  \bot
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldr~g~a~[])
+\step{definition of $foldr$}
+  f~a
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldr~h~b~[]
+\step{definition of $foldr$}
+  b
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $x:xs$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldr~g~a~(x:xs))
+\step{definition of $foldr$}
+  f~(g~x~(foldr~g~a~xs))
+  \step[\Leftarrow]{generalizing $foldr~g~a~xs~=~y$}
+  f~(g~x~y)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldr~h~b~(x:xs)
+\step{definition of $foldr$}
+  h~x~(foldr~h~b~xs)
+\step{induction hypothesis}
+  h~x~(f~(foldr~g~a~xs))
+  \step[\Leftarrow]{generalizing $foldr~g~a~xs~=~y$}
+  h~x~(f~y)
+\end{calculation}
+\end{minipage}
+\end{proof}
+
+\subsection{fusion law for foldl}
+provided that:
+\begin{enumerate}
+  \item $f~a~=~b$.
+  \item $f~(g~y~x)~=~h~(f~x)$ for all $x$ and $y$.
+  \item $f$ is strict.
+\end{enumerate}
+then:
+$$f~.~foldl~g~a~=~foldl~h~b$$
+the last requisite is only necessary if we want the law to hold for infinite
+lists.
+
+\begin{proof}
+by the definition of $(.)$ and the extentionality principle, we prove the
+equivalent statement:
+$$f~(foldl~g~a~xs)~=~foldl~h~b~xs$$
+
+\textbf{case} $\bot$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~a~\bot)
+\step{case exhaustion}
+  f~\bot
+\step{$f$ is strict}
+  \bot
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+for the right-hand side
+\begin{calculation}
+  foldl~h~b~\bot
+\step{case exhaustion}
+  \bot
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~a~[])
+\step{definition of $foldl$}
+  f~a
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~b~[]
+\step{definition of $foldl$}
+  b
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $(x:xs)$
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~a~(x:xs))
+\step{definition of $foldl$}
+  f~(foldl~g~(g~a~x)~xs)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~b~(x:xs)
+\step{definition of $foldl$}
+  foldl~h~(h~b~x)~xs
+\step{law assumption that $f a = b$}
+  foldl~h~(h~(f~a)~x)~xs
+\end{calculation}
+\end{minipage}
+
+both sides simplified to different expressions. instead of directly proving
+they are equal, we prove a stronger statement, namely:
+$$f~(foldl~g~(g~x~y)~zs)~=~foldl~h~(h~(f~x)~y)~zs$$
+for all $x$, $y$, and all lists $zs$, by induction on $zs$.
+
+\textbf{case} $\bot$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~(g~x~y)~\bot)
+\step{case exhaustion with $foldl$}
+  f~\bot
+\step{$f$ is strict}
+  \bot
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~(h~(f~x)~y)~\bot
+\step{case exhaustion with $foldl$}
+  \bot
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $[]$
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~(g~x~y)~[])
+\step{definition of $foldl$}
+  f~(g~x~y)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~(h~(f~x)~y)~[]
+\step{definition of $foldl$}
+  h~(f~x)~y
+\end{calculation}
+\end{minipage}
+
+\textbf{case} $(z:zs)$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  f~(foldl~g~(g~x~y)~(z:zs))
+\step{definition of $foldl$}
+  f~(foldl~g~(g~(g~x~y)~z)~zs)
+\step{induction hypothesis}
+  foldl~h~(h~(f~(g~x~y)~z))~zs
+\end{calculation}
+\end{minipage}\hspace{.1\textwidth}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~h~(h~(f~x)~y)~(z:zs)
+\step{definition of $foldl$}
+  foldl~h~(h~(h~(f~x)~y)~z)~zs
+\step{law assumption that $f~(g~x~y)~=~h~(f~x)~y$}
+  foldl~h~(h~(f~(g~x~y))~z)~zs
+\end{calculation}
+\end{minipage}
+\end{proof}
+
+\subsection{special cases of the fusion laws}
+\subsubsection{fold-map fusion}
+\subsubsection{fold-concat fusion}
+\subsubsection{bookkeeping law}
+\subsubsection{fold-scan fusion}
+
+\subsection{others}
+
+map f (concat xs) = concat (map (map f) xs)
+
+filter p (concat xs) = concat (map (filter p) xs)
+
+rev (concat xs) = concat (map rev (rev xs))
+
+concat (xss ++ yss) = concat xss ++ concat yss
+
+last(xs ++ ys) = if ys == [] then last xs else last ys
+
+\section{Some definitions}
+
+\[
+\begin{array}{lll}
+  []&\concat xs      &= xs\\
+  (x:xs) &\concat ys &= x:(xs\concat ys)
+\end{array}
+\]
+
+\section{Exercises}
+Prove that $head~(scanr~f~z~xs)~=~foldr~f~z~xs$.
+
+\begin{proof}
+  TODO
+\end{proof}
+
+Prove that $last~(scanl~f~e~xs)~=~foldl~f~e~xs$.
+
+\begin{proof}
+By induction on $xs$:
+
+  \textbf{Case} $\bot$
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  last~(scanl~f~e~\bot)
+  \step{case exhaustion}
+  last~\bot
+\step{case exhaustion}
+  \bot
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~\bot
+\step{case exhaustion}
+  \bot
+\end{calculation}
+\end{minipage}
+
+Note: Haskell's implementation of $scanl$ is not strict, i.e.
+$scanl~f~e~\bot~=~e:\bot$, but it only changes to proof steps, not the end
+result (since $last~(e:\bot)~=~\bot$).
+
+\textbf{Case} $[]$
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  last~(scanl~f~e~[])
+  \step{definition of $scanl$}
+  last~[e]
+\step{definition of $last$}
+  e
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~[]
+  \step{definition of $foldl$}
+  e
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $x:xs$
+
+For the left-hand side, we reason
+\begin{calculation}
+  last~(scanl~f~e~(x:xs))
+  \step{definition of $scanl$}
+  last~(e:scanl~f~(f~e~x)~xs)
+\end{calculation}
+We proceed by case analysis on $xs$:
+
+\textbf{Case} $xs~=~[]$
+
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  last~(e:scanl~f~(f~e~x)~[])
+  \step{definition of scanl}
+  last~(e:f~e~x:[])
+  \step{definition of last}
+  f~e~x
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~(x:[])
+  \step{definition of $foldl$}
+  foldl~f~(f~e~x)~[]
+  \step{definition of $foldl$}
+  f~e~x
+\end{calculation}
+\end{minipage}
+
+\textbf{Case} $xs~=~(z:zs)$
+
+\begin{minipage}[t]{.5\textwidth}
+\begin{calculation}
+  last~(e:scanl~f~(f~e~x)~(z:zs))
+  \step{definition of $scanl$}
+  last~(e:(f~e~x):scanl~f~(f~(f~e~x)~z)~zs)
+  \step{definition of $last$}
+  last~(f~e~x:scanl~f~(f~(f~e~x)~z)~zs)
+  \step{definition of $scanl$, with $z:zs~=~xs$}
+  last~(scanl~f~(f~e~x)~xs)
+\end{calculation}
+\end{minipage}%
+\begin{minipage}[t]{.4\textwidth}
+\begin{calculation}
+  foldl~f~e~(x:xs)
+\step{definition of $foldl$}
+  foldl~f~(f~e~x)~xs
+\step{induction hypothesis}
+  last~(scanl~f~(f~e~x)~xs)
+\end{calculation}
+\end{minipage}
+
+\end{proof}
+
+1. Prove $flip~(flip~f)~=~f$.
+
+This is equivalent to proving $flip~(flip~f)~x~y~=~f~x~y$
+
+\begin{calculation}
+  flip~(flip~f)~x~y
+\step{definition of $flip$}
+  (flip~f)~y~x
+\step{definition of $flip$}
+  f~x~y
+\end{calculation}
+
+2. Prove $reverse~(reverse~xs)~=~xs$ for any finite list $xs$.
+   Can we then say that $reverse~\cdot~reverse~=~id$?
+
+3. The third duality law favors $foldr$; it could be equivalently stated as:
+$$foldl~f~e~xs~=~foldr~(flip~f)~e~(reverse~xs)$$
+
+3.1 prove this version of the third law by referring to the third law, and
+the two previous results.
+
+3.2 prove it without referring to the original third duality law. (hint: as with
+the third duality law proof, a lemma will come in handy along the way).
+%the lemma is: foldr f e (xs ++ ys) = foldr f (foldr f e ys) xs
+
+\section{Hylomorphisms}
+
+Coined by Erik Meijer on his thesis, and hylomorphism refers to a
+computation that consists of an unfold followed by a fold, i.e.
+$$hylo~f~g~=~fold~f~.~unfold~g$$
+The process of eliminating the intermediate data structure is called
+\textit{deforestation}.
+
+\section{Notes}
+
+The duality theorems and fusion laws are treated in \cite{bw90} and \cite{b98}.
+Some other equalities with their derivations can be found in the more recent
+\cite{B14}. Other laws are used in \cite{b10}.
+
+\bibliography{refs}
+\bibliographystyle{apalike}
+
+\end{document}
