@@ -1,0 +1,17 @@
+Muralla china
+
+Autenticación:
+  - Componentes de un sistema de autenticación
+  - Diferencia con autorización
+Passwords:
+  - Describir contraseñas seguras, fundamentando con referencias.
+  - Phishing (para esto y lo anterior, usar papers del curso de Katz).
+  - Hablar de salt y pepper, con referencias originales (ver apunte de Cornell)
+
+Matriz de control de acceso
+Listas de control de acceso
+Capacidades:
+  - Dar ejemplos: Google Fuchsia, etc.
+
+SQL Injection
+XSS
