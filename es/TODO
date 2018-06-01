@@ -1,5 +1,9 @@
 Muralla china
 
+Principios de diseño:
+  - https://cryptosmith.com/2013/10/19/security-design-principles/
+  - https://www.us-cert.gov/bsi/articles/knowledge/principles/psychological-acceptability
+
 Autenticación:
   - Componentes de un sistema de autenticación
   - Diferencia con autorización
@@ -11,7 +15,8 @@ Passwords:
 Matriz de control de acceso
 Listas de control de acceso
 Capacidades:
-  - Dar ejemplos: Google Fuchsia, etc.
+  - Dar ejemplos: Google Fuchsia, Capability URLs, etc.
+  - https://homes.cs.washington.edu/~levy/capabook/
 
 SQL Injection
 XSS
