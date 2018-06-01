@@ -1,0 +1,1 @@
+El CSRF Token es un ejemplo de capacidad (Access Control de Ben Laurie).

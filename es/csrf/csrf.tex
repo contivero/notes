@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \input{../commands.tex}
+\usepackage{listings}
 
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -13,7 +14,7 @@
 \graphicspath{{imgs/}}
 
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, babel, decorations.pathreplacing, positioning,fit}
+\usetikzlibrary{shapes.misc, arrows.meta, babel, decorations.pathreplacing, positioning,fit}
 
 \newlength\tindent
 \setlength{\tindent}{\parindent}
@@ -43,6 +44,7 @@
 
 \newtheorem{ex}{Ejemplo}
 \newcommand{\exautorefname}{Ejemplo}
+\renewcommand{\figureautorefname}{Figura}
 
 \newtheorem*{soln}{Solución}
 \newtheorem{prop}{Proposición}
@@ -94,9 +96,7 @@
 \pagestyle{empty}
 
 
-
 \begin{document}
-
 
 \begin{center}
   {\LARGE Cross-Site Request Forgery}\\[.2cm]
@@ -105,8 +105,7 @@
 \end{center}
 
 \vspace{0.2 cm}
-%\section{Cross-Site Scripting}
-\section{Cross-Site Request Forgery}
+%\section{Cross-Site Request Forgery}
 El Cross-Site Request Forgery (CSRF\footnote{Abreviado como XSRF por algunos, se
   pronuncia ``sea-surf'' de acuerdo a quien lo acuñó. Otros nombres menos usados
   son \textit{one-click attack}, \textit{session riding}, o \textit{hostile
@@ -124,7 +123,7 @@ autenticado.
   del atacante. Oculto en esta página, se encuentra el código: 
 
   \begin{center}
-\verb+<img style="display:none" src="https://vuln.com/account/delete">+
+\verb+<img src="https://vuln.com/account/delete" style="display:none">+
   \end{center}
 
  Al leer  esto, el navegador realiza el GET a \verb+vuln.com+, la página web
@@ -140,34 +139,33 @@ confianza que la aplicación tiene en el usuario.
 
 Las formas más comunes de explotar esta vulnerabilidad son mediante:
 \begin{enumerate}
-\item el atributo \verb+src+ de diferentes elementos:
+  \itemsep 0cm
+\item El atributo \verb+src+ de diferentes elementos:
 \begin{itemize}
 	\item \verb+<img src="http://host/?command">+
 	\item \verb+<script src="http://host/?command">+
 	\item \verb+<iframe src="http://host/?command">+
 \end{itemize}
-\item un objeto \verb+Image+:
+\item Un objeto \verb+Image+:
   \begin{verbatim}
   <script>
       const img = new Image();
       img.src = "http://host/?command";
   </script>
   \end{verbatim}
-\item un objeto \verb+XMLHttpRequest+:
+\item Un objeto \verb+XMLHttpRequest+:
   \begin{verbatim}
   <script>
-      const postData = "name=value";
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", "https://example.com/shop/voteForProduct", false);
+      xhr.open("POST", "https://example.com/shop/voteForProduct");
       xhr.withCredentials = true;
-      const params = "productId=1337&vote=AAA";
-      xhr.send(params);
+      xhr.send("productId=1337&vote=AAA");
   </script>
   \end{verbatim}
-\item un \verb+form+ oculto que se envía automáticamente:
+\item Un \verb+form+ oculto que se envía automáticamente:
   \begin{verbatim}
   <form method="POST" id="ezpz" name="ezpz"
-   action="https://socialnetwork.com/user/passwordchange">
+   action="https://socialnetwork.com/user/change-password">
       <input type="hidden" name="newpass" value="hacked">
   </form>
   <script>document.ezpz.submit()</script>
@@ -175,8 +173,8 @@ Las formas más comunes de explotar esta vulnerabilidad son mediante:
 \end{enumerate}
 
 Notese que en el \autoref{ex:1} se estaba utilizando un GET de manera
-incorrecta de acuerdo a la especificación de HTTP. GET es uno de los
-denominados \textit{safe methods} listados en \cite{rfc7231}, por lo que no
+incorrecta de acuerdo a la especificación de HTTP\@. GET es uno de los
+denominados \textit{safe methods} listados en~\cite{rfc7231}, por lo que no
 debería usarse para cambiar estado en el servidor. Esto, además de ser buena
 práctica, nos lleva a una primera medida de prevención:
 
@@ -190,14 +188,14 @@ automática sin el uso de JavaScript.
 
 Aun así, si bien esto es un buen primer paso preventivo, no es suficiente.
 
-\subsection{Prevención}
+\subsection*{Prevención}
 Varios métodos de prevención se desarollaron a través de los años, y cuentan con
 diferentes niveles de soporte en navegadores. Es importante tener presente que
 ninguna de las prevenciones estandar contra CSRF sirven si el atacante tiene la
 posibilidad de realizar un XSS, por lo que es primordial cubrirse ante estos.
 
-\subsubsection{Recomendaciones de OWASP}
-El Open Web Application Security Project \cite{owasp} recomienda dos medidas
+\subsubsection*{Recomendaciones de OWASP}
+El Open Web Application Security Project~\cite{owasp} recomienda dos medidas
 contra los CSRF, en el orden de prioridad listados:
 
 \begin{enumerate}
@@ -205,7 +203,7 @@ contra los CSRF, en el orden de prioridad listados:
   \item Usar algún método adicional específico contra CSRFs.
 \end{enumerate}
 
-\paragraph{Digresión sobre origenes} En \cite{rfc6454} se define que dos recursos son parte del mismo
+\paragraph{Digresión sobre origenes} En~\cite{rfc6454} se define que dos recursos son parte del mismo
 origen si poseen el mismo protocolo, host, y puerto. En la \autoref{tab:origin} se pueden ver
 algunos ejemplos de comparaciones con \texttt{http://store.company.com/dir/page.html}.
 
@@ -238,7 +236,7 @@ diferencia de \texttt{Referer}, solo se envía al hacer POST, y no incluye el
 path ni los query parameters, mejorando la privacidad del usuario.
 
 Es importante remarcar que ambos headers pertenecen al grupo de
-\textit{forbidden header names} \cite{fetch}, por lo que no pueden ser modificados
+\textit{forbidden header names}~\cite{fetch}, por lo que no pueden ser modificados
 programáticamente (estan bajo control exclusivo del navegador). Caso
 contrario, el atacante podría simplemente modificarlos mediante un script,
 tornandolos inservibles en la defensa que se describe a continuación.
@@ -252,8 +250,7 @@ toma del header \verb+Referer+.
 Dependiendo de la aplicación, el target origin puede ser una constante conocida
 en tiempo de compilación, puede obtenerse de la URL del request, o puede
 requerir de más trabajo si, por ejemplo, el servidor cuenta con varias
-instancias o se encuentra detrás de un proxy. Para mayor detalle, referirse a
-\cite{owasp}.
+instancias o se encuentra detrás de un proxy. Para mayor detalle, referirse a~\cite{owasp}.
 
 En los casos en que no haya ni \verb+Origin+ ni \verb+Referer+ entre los
 headers, se puede tanto aceptar como rechazar la petición, pero lo seguro (y
@@ -264,27 +261,27 @@ previamente descripta. OWASP lista cuatro distintas, en orden de preferencia:
 \begin{enumerate}
   \itemsep 0pt
   \item Tokens sincronizadores.
-  \item Defensa de doble cookies.
+  \item Defensa de doble cookie.
   \item Patrón de token cifrado.
-  \item Custom header (e.g. \texttt{X-Requested-With}).
+  \item Header personalizado (por ejemplo: \texttt{X-Requested-With}).
 \end{enumerate}
 
 Para mayor detalle, referirse al \textit{cheat sheet} de OWASP, o la
-documentación de algunas implementaciones como \cite{django, django2}. Cabe
+documentación de algunas implementaciones como~\cite{django, django2}. Cabe
 mencionar que existen frameworks (e.g.  CSRF Guard para Java) que implementan
 las defensas previamente explicadas (o alguna variante de las mismas), por lo
 que puede ser conveniente delegar la prevención en alguno de
 estos\footnote{Citando a Rich Lundeen: \textit{Never inventing your own} is one
 of the most quoted rules of cryptography, but it \textit{should} be an accepted
-rule of development security in general \cite{Lundeen13}.}. Aun así, es importante saber qué
+rule of development security in general~\cite{Lundeen13}.}. Aun así, es importante saber qué
 medidas de prevención existen, con sus pros y contras, para entender si la
 seguridad que otorga el framework es la necesaria, y si se lo está usando
 correctamente.
 
 
 
-\subsubsection{Directiva \texttt{SameSite} para cookies}
-Definida en \cite{ietf}, esta directiva le indica al navegador nunca enviar una cookie cuando se realiza
+\subsubsection*{Directiva \texttt{SameSite} para cookies}
+Definida en~\cite{ietf}, esta directiva le indica al navegador nunca enviar una cookie cuando se realiza
 un request desde una URL externa (\textit{cross-site}). Un ejemplo de uso sería:
 \begin{verbatim}
   Set-Cookie: session_cookie=d34db33f; path=/; SameSite
@@ -295,11 +292,15 @@ Esta galletita viene en dos sabores: \verb+SameSite=strict+, y
 mismo sitio, mientras que con \verb+lax+ se envía también desde otros sitios,
 siempre y cuando:
 \begin{enumerate}
-  \item El método usado sea uno de los seguros (GET, HEAD, OPTIONS, TRACE).
-  \item La petición HTTP sea a un \textit{top-level browsing context}.
+  \item El método usado sea uno de los seguros (GET, HEAD, OPTIONS, o TRACE).
+  \item La petición HTTP sea a un \textit{top-level browsing
+    context}\footnote{Este término se refiere a que la ventana no esta embebida
+(por ejemplo, mediate un \texttt{<iframe>})}.
 \end{enumerate}
 Ante la falta de atributo, o un atributo inválido, el valor predeterminado es
 \verb+strict+.
+
+%\input{browsing-context}
 
 \paragraph{SameSite contra CSRF} Una forma de utilizar \verb+SameSite+ para
 evitar ataques CSRF es tener dos cookies en lugar de una. La primera puede no
@@ -310,42 +311,44 @@ acciones con efectos secundarios (o no idempotentes). Conceptualmente, la
 primera otorga permisos de lectura, mientras que la segunda, permisos de
 escritura.
 
-Si bien aun no cuenta con soporte de la mayoría de los navegadores, puede
-aprovecharse para aquellos que si, y a medida que los navegadores lo
-implementen, se espera que sea una media efectiva de prevención.
+Si bien no todos los navegadores lo soportan, puede aprovecharse en aquellos
+que sí, y a medida que más lo implementen, se espera que sea una media efectiva
+de prevención.
 
-\subsubsection{Defensas con interacción del usuario}
+\subsubsection*{Defensas con interacción del usuario}
 Las medidas de prevención antes mencionadas son imperceptibles para el usuario,
 por lo que son preferibles desde un punto de vista de usabilidad. Existen otras,
 que a pesar de resultar más engorrosas para el usuario, tienen sus usos. Un
 ejemplo típico es requerir la contraseña actual antes de poder cambiarla. Otra
 posibilidad es pedir al usuario completar un CAPTCHA.\ En general, cualquier
 medida del estilo ``desafío-respuesta'' (\textit{challenge-response}), que no
-pueda ser predecido por el atacante, es efectivo. No obstante, su uso suele
+pueda ser predecido por el atacante, es efectiva. No obstante, su uso suele
 restringirse a operaciones de alto riesgo (e.g.\ transferencias bancarias) por afectar la
 experiencia del usuario.
 
-\subsection{Notas Finales}
+\subsection*{Notas Finales}
 
-El header HTTP \texttt{Origin} fue propuesto en \cite{Barth}, y posteriormente
-definido en \cite{rfc6454}. En \cite{Barth} también se describe un ataque
+El header HTTP \texttt{Origin} fue propuesto en~\cite{Barth}, y posteriormente
+definido en~\cite{rfc6454}. En~\cite{Barth} también se describe un ataque
 llamado \textit{login CSRF}, en el que el atacante hace que la victima ingrese
 con la cuenta del atacante (referirse al paper para mayor detalle).
-Cuatro casos de vulnerabilidades pueden leerse en \cite{Zeller}.
-Otros documentos como \cite{Burns,Blatz} también son instructivos, pero algunas
+Cuatro casos de vulnerabilidades pueden leerse en~\cite{Zeller}.
+Otros documentos como~\cite{Burns,Blatz} también son instructivos, pero algunas
 recomendaciones estan desactualizadas, por lo que a la hora de implementar una
-defensa, se recomienda referirse al OWASP.\
+defensa, se recomienda referirse al OWASP\@.
 A pesar de ser robusta, por sí sola la defensa de doble cookie es vulnerable a
 \textit{man-in-the-middle attacks} por HTTP, y XSS en subdominios.  Para más
-detalles referirse a \cite{Johansson}.
+detalles referirse a~\cite{Johansson}.
 
 \paragraph{Origen} Norm Hardy publicó en 1988 un documento sobre un problem de
 permisos al nivel de aplicación que denominó diputado confundido
-(\textit{confused deputy}) \cite{Hardy}. Luego, durante el 2000 en un correo en
-bugtraq \cite{bugtraq} se describió cómo ZOPE, al igual que otras páginas, se
+(\textit{confused deputy})~\cite{Hardy}. Luego, durante el 2000 en un correo en
+bugtraq~\cite{bugtraq} se describió cómo ZOPE, al igual que otras páginas, se
 veían afectadas por un problema del estilo diputado confundido, que hoy se
-conoce como una vulnerabilidad CSRF.\ El término \textit{Cross-site Request Forgery} fue acuñado por Peter Watkins un año más tarde nuevamente en bugtraq
-\cite{watkins}, como respuesta a un correo cuyo asunto era \textit{The Dangers of Allowing Users to Post Images}.
+conoce como una vulnerabilidad CSRF.\ El término \textit{Cross-site Request
+Forgery} fue acuñado por Peter Watkins un año más tarde nuevamente en
+bugtraq~\cite{watkins}, como respuesta a un correo cuyo asunto era \textit{The
+Dangers of Allowing Users to Post Images}.
 \bibliography{refs}
 \bibliographystyle{unsrt}
 

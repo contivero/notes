@@ -2,7 +2,7 @@
   \centering
   \begin{tikzpicture}
     \node [rectangle, draw=darkblue, very thick, minimum width=3cm,minimum height=1.4cm, inner sep=.3cm] at (1,10) (Br) {Navegador};
-    \node [align=center,rectangle, draw=darkblue, very thick, minimum height=1.4cm,inner sep=.3cm] at (7,10) (Vul) {Sitio vulnerable \\ \texttt{https://vuln.com}};
+    \node [align=center,rectangle, draw=darkblue, very thick, minimum height=1.4cm,inner sep=.3cm] at (7,10) (Vul) {Sitio Vulnerable \\ \texttt{https://vuln.com}};
     \node [align=center,rectangle, draw=darkblue, very thick, minimum
     height=1.4cm,inner sep=.3cm] at (13,10) (Evil) {Sitio Maligno \\ \texttt{https://evil.com}};
 
@@ -26,7 +26,7 @@
     \draw[color=lightblue,{Latex[length=2mm]}-,dashed,very thick] (1.15,5.3) to (c4);
     \draw[color=lightblue,dashed,very thick] (s4) to (12.85,5.3);
 
-    \node[draw, inner sep=.2cm] at (7,4.3) (b1) {\footnotesize \verb+<img style="display:none" src="https://vuln.com/account/delete">+};
+    \node[draw, inner sep=.2cm] at (7,4.3) (b1) {\footnotesize \verb+<img src="https://vuln.com/account/delete" style="display:none">+};
     \draw[color=lightblue,dotted,very thick] (s4) to (b1);
 
     \node at (4.2,3.3) (s5) {\texttt{GET /account/delete}};
