@@ -1,0 +1,152 @@
+\documentclass[spanish]{article}
+
+\input{../../commands.tex}
+
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage[bottom,flushmargin]{footmisc} 
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+  {\LARGE Minimización de DFAs \\[.3cm]
+	Teorema de Myhill-Nerode y Algoritmo de Moore }\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate
+\end{center}
+
+\vspace{0.2 cm}
+
+El \textit{índice}\footnote{En inglés: \textit{index}. } de una relación de
+equivalencia, es la cantidad de clases de equivalencia que genera. Una relación
+de equivalencia $R$ sobre un conjunto $G$ se dice \textit{invariante por
+derecha}\footnote{En inglés \textit{right invariant}, también \textit{right
+congruent}.} si: 
+
+\[ \forall x,y \in G (x R y \implies \forall z \in G, xz R yz)\]
+
+
+Teorema Myhill-Nerode
+
+Las siguientes tres afirmaciones son equivalentes:
+\begin{enumerate}
+  \item El conjunto $L \subseteq \Sigma^*$ es reconozido por un autómata finito.
+  \item $L$ es la unión de algunas de las clases de equivalencia de una relación de equivalencia invariante por derecha y de índice finito. 
+  \item Sea $R$ una relación definida por: 
+	\[ \forall x, y \in \Sigma^* : xRy \iff \forall z \in \Sigma^*(xz \in L \iff yz \in L) \]
+  Entonces $R$ es de índice finito.
+\end{enumerate}
+
+Demostración:
+ \[ TODO \]
+
+
+Dado un lenguaje $L$ sobre un alfabeto finito $\Sigma$, se conoce por
+\textit{relación de equivalencia Myhill-Nerode}, a la relación $\sim$ de
+equivalencia invariante por derecha, asociada al lenguaje $L$ y definida
+por: 
+
+\[ \forall x,y \in \Sigma^* : x \sim y \iff \forall z \in \Sigma^* (xz \in L \iff yz \in L)\]
+
+
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}
+
+

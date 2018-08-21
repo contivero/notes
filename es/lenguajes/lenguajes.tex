@@ -1,0 +1,208 @@
+\documentclass[spanish]{article}
+
+\input{../commands.tex}
+
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage[bottom,flushmargin]{footmisc} 
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+\begin{center}
+  {\LARGE Pequeña Cronología y Bibliografía Sobre Teoría de Lenguajes}\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate%
+\end{center}
+
+\vspace{0.2 cm}
+
+A continuación se presenta una (muy) acotada cronología de los principales resultados
+que sentaron las bases de lenguajes formales y autómatas. La mayoría se toma
+de~\cite{Gre81}, que presenta un \textit{survey} muy completo del área hasta el
+81. 
+
+\begin{itemize}
+  \item[1936] Máquinas de Turing~\cite{Tur36}.
+  %\item[1943] Post - Formal Reductionsof the General Combinatorial decision problem.
+  %\item[1947] Post - Recursive unsolvability of a problem of Thue.
+
+Ya por 1947, las gramáticas (o sistemas generadores) y máquinas en la cima de la
+jerarquía de Chomsky eran conocidas, y se sabía que eran equivalentes.
+
+  \item[1951] Kleene~\cite{Kle51}:
+
+\begin{itemize}
+\item establece correspondencia entre ``conjuntos regulares''\footnote{Llamados \textit{regular events} por el.} y automatas finitos.
+\item da origen a las expresiones regulares.
+\item demuestra que la clase de conjuntos aceptados por automatas finitos es la clase más pequeña que contiene a todos los conjuntos finitos, y es cerrada bajo union, producto (concatenación), y clausura de Kleene.
+\end{itemize}
+
+  \item [1957-58] Teorema Myhill-Nerode\footnote{En el libro seguido por la
+    cátedra, corresponde al Teorema 3.1.} \cite{Nerode58}, el cual da
+    condiciones necesarias y suficientes para que un lenguaje sea regular.
+
+  \item[1959] \begin{enumerate}[leftmargin=.5cm, label=\alph*.]
+    \item Jerarquía de Chomsky~\cite{Cho59}.
+
+    \item Autómata finito no deterministico (NFA)~\cite{RS59}. En 1976, Rabin y
+    Scott ganaron el Turing Award:
+
+    \textit{[\ldots]for their joint paper ``Finite Automata and Their Decision
+      Problem,'' which introduced the idea of nondeterministic machines, which
+    has proved to be an enormously valuable concept. Their (Scott~\&~Rabin)
+  classic paper has been a continuous source of inspiration for subsequent work
+in this field.}
+\end{enumerate}
+
+  \item[1961] Lema de Bombeo (o ``Teorema $uvwxy$'')~\cite{BarHillel61}.
+
+    Posteriormente hecho más fuerte en 1968~\cite{Ogden1968}.
+   \item[1964] Kuroda completa la jerarquía de Chomsky de lenguajes y máquinas,
+     al definir los automatas linearmente acotados no deterministas
+     (NLBAs)~\cite{Kur64}.
+
+\end{itemize}
+
+De aquí en adelante, la teoría formal de lenguajes diverge de la lingüística
+matemática o computacional, y a partir de 1965 aproximadamente, se puede
+considerar a la teoría de lenguajes formales como una rama de teórica de la
+informática.
+
+
+\section*{Bibliografía}
+
+Algunos posibles libros de referencia son:
+
+\begin{itemize}
+  \item \underline{Formal Languages and Their Relation to Automata} (Hopcroft \& Ullman)
+
+Primer libro en juntar y organizar información sobre teoría de autómatas y
+lenguajes formales, hasta ese entonces dispersa en articulos cientificos. Si
+bien el libro es del 69, para ese entonces ya se encontraba completa la
+jerarquía de Chomsky, y \textbf{es el seguido por la cátedra}.
+El libro se encuentra fuera de impresión, pero puede conseguirse fácilmente
+versiones en PDFs, e imprimirlas si lo desean.
+
+\item \underline{Introduction to Automata Theory, Languages and Computation} (Hopcroft,
+  Motwani \& Ullman)
+
+  Sucesor del libro anterior, más adaptado a \textit{``undergraduates''}. Puede
+  ser más amigable como una primera introducción, pero muchos se quejan de que
+  se perdió la brevedad del original, y varios de mejores ejercicios fueron
+  quitados.~\cite{wikiCinderella}
+
+\item \underline{Introduction to the Theory of Computation} (Sipser)
+  
+  El libro ``estandar'' de muchos cursos similares en la actualidad. Altamente
+  recomendado, si bien en lo que respecta a la materia, sólo nos incumbe la
+  primera parte (la segunda trata sobre teoría de complejidad, en la cuál no
+  nos adentraremos).
+
+\item \underline{Automata and Computability} (Kozen)
+
+  Otra alternativa. Se lo suele recomendar como una introducción a la materia.
+
+\end{itemize}
+
+\bibliography{refs}
+\bibliographystyle{alpha}
+
+\end{document}
+
+
