@@ -106,7 +106,8 @@ fact(unsigned n, unsigned acc) {
 ```C
 /* iterative-factorial.c */
 
-int fact(unsigned n) {
+unsigned 
+fact(unsigned n) {
     unsigned ret = 1;
 
     while (n != 0) {
@@ -145,7 +146,7 @@ fact:
 	rep ret
 	.cfi_endproc
 ```
-```asm:
+```asm
 # tail-recursive-factorial.s
 
 .LFB0:
