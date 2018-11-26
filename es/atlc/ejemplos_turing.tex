@@ -1,0 +1,319 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\renewcommand*{\figureautorefname}{Figura}
+
+\usepackage{caption}
+
+\usepackage{float}
+\usepackage{epigraph}
+\usepackage{multicol}
+\usepackage[bottom,flushmargin]{footmisc} 
+
+\usepackage{adjustbox}
+\usepackage[spanish]{babel}
+\usepackage{tikz}
+\usetikzlibrary{babel} % fix problem with babel in spanish and tikz arrows
+
+\usepackage[spanish=spanish]{csquotes}
+\DeclareQuoteStyle{mystyle}
+{\guillemotleft}{\guillemotright}
+{\textquoteleft}{\textquoteright}
+\setquotestyle{mystyle}
+
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.pathmorphing, calc}
+\usetikzlibrary{chains}
+\newcommand{\emptystr}{\varepsilon}
+\newcommand{\lp}{\text{\tt (}}
+\newcommand{\rp}{\text{\tt )}}
+\newcommand{\X}{\text{\tt X}}
+\newcommand{\Y}{\text{\tt Y}}
+\newcommand{\N}{\text{\tt N}}
+\newcommand{\blank}{\text{\tt \textvisiblespace}}
+
+\usetikzlibrary{automata, positioning, arrows,
+fit, % for the dashed boxes on Thompson's construction
+calc
+}
+\tikzset{%
+  node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+  every state/.style={thick}, % sets the properties for each ’state’ node
+  double distance=2.5pt,
+  shorten >= 2pt, shorten <= 2pt,
+  initial text=$ $,
+  every edge/.style={%
+    draw,->, >=stealth, auto, semithick
+  }
+}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\def\isodate{\leavevmode\hbox{\the\year-\twodigits\month-\twodigits\day}}
+\def\twodigits#1{\ifnum#1<10 0\fi\the#1}
+\begin{document}
+\begin{center}
+  {\LARGE Máquinas de Turing}\\[.2cm]
+  Cristian Adrián Ontivero \\[.05cm]%
+  \isodate%
+\end{center}
+
+Formalmente, una máquina de Turing es una tupla $(Q, \Sigma, \Gamma, \blank, \delta, q_0, F)$, donde:
+\begin{itemize}
+  \setlength\itemsep{0pt}
+   \item $Q$ es el conjunto finito de estados.
+   \item $\blank \in \Gamma \setminus \Sigma$ representa la celda vacía o \textit{blank}.
+   \item $\Gamma$ es el conjunto finito de símbolos de la cinta. 
+   \item $\Sigma$ es el alfabeto de símbolos de entrada.
+   \item $q_0 \in Q$ es el estado inicial.
+   \item $\delta$ es la función de transición.
+   \item $F \subset Q$ es el conjunto de estados finales.
+ \end{itemize}
+
+Para computar, una máquina de Turing se vale de cambios en su estado, en la
+cinta, y en dónde apunta la cabecera. Se llama \textbf{configuración} de la
+máquina de Turing a una terna de estas cosas. Dadas las cadenas $\alpha$ y
+$\beta$ sobre el alfabeto $\Gamma$ de la cinta, escribimos $\alpha~q~\beta$ para
+la configuración cuyo estado es $q$, los contenidos de la cinta son
+$\alpha\beta$, y la cabecera apunta al primer símbolo de $\beta$. A la derecha
+de $\beta$, la cinta esta vacía (consta sólo de \blank).
+
+Informalmente, un procedimiento (\textit{procedure}) es una secuencia finita de
+instrucciones que pueden ser llevadas a cabo mecánicamente. Cuando consideramos
+una máquina de Turing como un procedimiento, decimos que el procedimiento es un
+\textbf{algoritmo} si la TM se detiene (\textit{halts}) para toda entrada. 
+
+\subsubsection*{Parity checker}
+Para hacer una máquina que acepte cadenas binarias con paridad par (o peso de
+Hamming par), basta con un DFA, pero en el siguiente ejemplo lo haremos con una
+máquina de Turing.
+
+La idea es construir una máquina de Turing que acepte una cadena binaria si la
+cantidad de {\tt 1}s es par, y si no la rechace. Por ejemplo, dada la siguiente
+cinta con el cabezal apuntando al comienzo de la cadena de entrada:
+
+\begin{center}
+ \begin{tikzpicture}
+  \tikzset{tape/.style={minimum size=.5cm, draw, font=\tt}}
+\begin{scope}[start chain=0 going right, node distance=0mm]
+  \foreach \x [count=\i] in {0,1,1,0,\blank,\blank}{%
+    \ifnum\i=6 % if last node reset outer sep to 0pt
+      \node [on chain=0, tape, outer sep=0pt] (n\i) {\x};
+      \draw (n\i.north east) -- ++(.1,0) decorate [decoration={zigzag, segment length=.12cm, amplitude=.02cm}] {-- ($(n\i.south east)+(+.1,0)$)} -- (n\i.south east) -- cycle;
+     \else
+        \ifnum\i=1
+        \node [on chain=0, tape, outer sep=0pt] (n\i) {\x};
+        \draw (n\i.north west) -- ++(-.1,0) decorate [decoration={zigzag,
+        segment length=.12cm, amplitude=.2mm}] {-- ($(n\i.south west)+(-.1,0)$)}
+        -- (n\i.south west) -- cycle;
+        \else 
+          \node [on chain=0, tape] (n\i) {\x};
+        \fi
+     \fi
+   }
+   %\node [right=.25cm of n11] {$\cdots$};
+   \node [tape, below=5mm of n1] (q0) {$q_0$};
+   \draw [->] (q0) to (n1); 
+  \end{scope}  
+ \end{tikzpicture}
+\end{center}
+Una solución simple sería recorrer la cinta partiendo de un estado inicial
+$q_0$, y cambiar de estado al ver un $1$, digamos a un estado $q_1$. De esta
+forma, $q_0$ indica paridad par, mientras que $q_1$ indica paridad impar. Si al
+finalizar la cadena la máquina está en el estado $q_0$, acepta. Dado que la
+definición de máquina de Turing vista en la cátedra requiere explícitamente de
+un estado de aceptación, agregamos un estado $q_{\text{a}}$ en el que la
+máquina entra si la cadena se acepta. Razonando con el ejemplo, llegamos a la
+siguiente función de transición:
+\begin{align*}
+ \delta(q_0, 0) &= (q_0, X, R) \\
+ \delta(q_0, 1) &= (q_1, X, R) \\
+ \delta(q_1, 0) &= (q_1, X, R) \\
+ \delta(q_1, 1) &= (q_1, X, R) \\
+ \delta(q_0, \text{\blank}) &= (q_{\text{a}}, X, R)
+\end{align*}
+
+Toda transición no presente en $\delta$ causa que la máquina entre en un estado
+de error, y por lo tanto no acepte la palabra, por lo que crear un estado
+\enquote{trampa} es innecesario. El diagrama de estados de la máquina en cuestión se observa en la \autoref{fig:state_diagram}.
+
+\begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
+\centering % centers the figure
+\begin{tikzpicture}[node distance=3cm, every edge/.style={draw,->, >=stealth, auto, semithick }]
+    \node[state, initial] (q0) {$q_0$};
+    \node[state, right of=q0] (q1) {$q_1$};
+    \node[state, accepting, below of=q0] (qa) {$q_{\text{a}}$};
+    \draw (q0) edge[bend left] node {1/X,R} (q1);
+    \draw (q1) edge[bend left] node {1/X,R} (q0);
+    \draw (qa) edge[<-] node {\blank/X,R} (q0);
+    \draw (q0) edge[loop above] node {0/X,R} (q0);
+    \draw (q1) edge[loop above] node {0/X,R} (q1);
+  \end{tikzpicture}
+\caption{Diagrama de estados.}\label{fig:state_diagram}
+\end{figure}
+
+La máquina de Turing pasa por las siguientes configuraciones de la
+\autoref{fig:configurations}:
+
+\begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
+\centering % centers the figure
+{%
+\setlength\tabcolsep{0mm}
+\tt
+ \begin{tabular}{cccccc}
+   $q_0$ & 0   & 1 & 1 & 0 & \blank \\
+   X   & $q_0$ & 1 & 1 & 0 & \blank \\
+   X   & X & $q_1$ & 1 & 0 & \blank \\
+   X   & X & X & $q_0$ & 0 & \blank \\
+   X   & X & X & X & $q_0$ & \blank \\
+   X   & X & X & X & X & $q_{\text{a}}$\\
+ \end{tabular}
+ }
+\caption{Configuraciones por las que transiciona la TM.}\label{fig:configurations}
+ \end{figure}
+
+Formalmente, definimos la máquina de Turing del ejemplo como una 7-tupla $(Q,
+\Sigma, \Gamma, \blank, q_0, \delta, F)$ donde:
+\begin{multicols}{2}
+\raggedcolumns%
+\begin{itemize}
+  \setlength\itemsep{0pt}
+   \item $Q = \{q_0, q_1, q_{\text{a}}\}$
+   \item $\Sigma = \{{\tt 0,1}\}$
+   \item $\Gamma = \{{\tt 0,1, X, \blank}\}$
+   \item $\blank \in \Gamma \setminus \Sigma$, el espacio en
+     blanco de la cinta
+   \item $q_0$ es el estado inicial
+   \item $\delta$, la función de transición previamente definida
+   \item $F = \{ q_{\text{a}} \}$
+ \end{itemize}
+\end{multicols}
+
+\subsubsection*{Parenthesis checker}
+
+Se conoce como lenguaje de Dyck (\textit{Dyck Language})\footnote{Por Walther
+von Dyck, un matemático alemán.} al lenguaje de
+paréntesis bien balanceados. Es un CFL, por lo que basta con un PDA para
+reconocerlo, pero diseñaremos una TM para la misma tarea. Para esto, nos
+basaremos en un ejemplo. Supongamos que tenemos la siguiente cinta:
+
+\begin{center}
+ \begin{tikzpicture}
+  \tikzset{tape/.style={minimum size=.5cm, draw, font=\tt}}
+\begin{scope}[start chain=0 going right, node distance=0mm]
+  \foreach \x [count=\i] in {\blank, {(}, {(}, {)}, {(}, {)}, {)},
+    {(}, {)}, \blank}{%
+    \ifnum\i=10 % if last node reset outer sep to 0pt
+      \node [on chain=0, tape, outer sep=0pt] (n\i) {\x};
+      \draw (n\i.north east) -- ++(.1,0) decorate [decoration={zigzag, segment length=.12cm, amplitude=.02cm}] {-- ($(n\i.south east)+(+.1,0)$)} -- (n\i.south east) -- cycle;
+     \else
+        \ifnum\i=1
+        \node [on chain=0, tape, outer sep=0pt] (n\i) {\x};
+        \draw (n\i.north west) -- ++(-.1,0) decorate [decoration={zigzag, segment length=.12cm, amplitude=.2mm}] {-- ($(n\i.south west)+(-.1,0)$)} -- (n\i.south west) -- cycle;
+        \else 
+          \node [on chain=0, tape] (n\i) {\x};
+        \fi
+     \fi
+   }
+   \node [tape, below=5mm of n2] (q0) {$q_0$};
+   \draw [->] (q0) to (n2); 
+  \end{scope}  
+ \end{tikzpicture}
+\end{center}
+
+La idea es buscar un paréntesis derecho, marcarlo con \X, buscar el correspondiente
+izquierdo, marcarlo, etc., \enquote{zigzageando} en la cinta. Al llegar a la primera celda en
+blanco, sabemos que se agotaron los \rp, en cuyo caso barremos a izquierda. Si
+hallamos una celda en blanco, vamos al estado de \textit{halt} $q_h$ y marcamos
+{\tt Y} en la cinta para indicar que está balanceado. Si encontramos un \lp,
+habían más paréntesis izquierdos que derechos, por lo que vamos a $q_h$ y
+marcamos \N. Con esto en mente, llegamos a la siguiente función de transición:
+
+\begin{center}
+ \begin{tabular}{c@{\hskip 36pt}c@{\hskip 36pt}c}
+   $\delta(q_0, \lp) = (q_0, \lp, R)$ & $\delta(q_1, \lp) = (q_0, \X, R)$ & $\delta(q_2, \X) = (q_2, \X, L)$ \\
+   $\delta(q_0, \rp) = (q_1, \X, L)$  & $\delta(q_1, \X) = (q_1, \X, L)$ & $\delta(q_2, \blank) = (q_h, \Y, R)$ \\
+   $\delta(q_0, \X)  = (q_0, \X, R)$  & $\delta(q_1, \blank) = (q_h, \N, R)$ & $\delta(q_2, \lp) = (q_h, \N, R)$\\ 
+   $\delta(q_0, \blank) = (q_2, \blank, L)$ & & 
+ \end{tabular}
+\end{center}
+
+El diagrama de estados de la máquina resultante se observa en la
+\autoref{fig:state_diagram2}.
+\begin{figure}[ht] % ’ht’ tells LaTeX to place the figure ’here’ or at the top of the page
+\centering % centers the figure
+\begin{tikzpicture}[node distance=2.8cm, every edge/.style={draw,->, >=stealth, auto, semithick }]
+    \node[state, initial above] (q0) {$q_0$};
+    \node[state, right of=q0] (q1) {$q_1$};
+    \node[state, below of=q0] (q2) {$q_2$};
+    \node[state, accepting, right of=q2] (qa) {$q_h$};
+
+    \draw (q0) edge[out=195, in=165, looseness=8] node[text width=1cm] {\X/\X,R \\ \lp/\lp,R} (q0);
+    \draw (q1) edge[out=15, in=345, looseness=8] node {\X/\X,L} (q1);
+    \draw (q2) edge[out=195, in=165, looseness=8] node {\X/\X,L} (q2);
+
+    \draw (q0) edge node {\rp/\X,L} (q1);
+    \draw (q2) edge node[text width=1cm] {\blank/\Y,R \\ \lp/\N,R} (qa);
+
+    \draw (q2) edge[<-] node {\blank/\blank, L} (q0);
+    \draw (q1) edge node {\blank/\N, L} (qa);
+  \end{tikzpicture}
+  \caption{Diagrama de estados del \textit{parenthesis checker}.}\label{fig:state_diagram2}
+\end{figure}
+
+\subsection*{Notas finales}
+Ambos ejemplos fueron sacados casi verbatim de la clase 26 del IIT Madras, por
+la Dr.\ Kamala Krithivasan.
+%\newpage 
+\bibliography{refs}
+\bibliographystyle{alpha}
+
+\end{document}
+
+
