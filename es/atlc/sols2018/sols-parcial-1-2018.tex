@@ -1,0 +1,301 @@
+\documentclass[spanish]{article}
+
+\input{../../commands.tex}
+
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{booktabs}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning,arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{xpatch}
+\DeclareMathVersion{ttmath}
+\SetSymbolFont{letters}{ttmath}{OT1}{\ttdefault}{m}{n}
+\xapptocmd{\ttfamily}{\mathversion{ttmath}}{}{}
+
+\newcommand{\emptystr}{\lambda}
+
+\usetikzlibrary{automata, positioning, arrows,
+fit, % for the dashed boxes on Thompson's construction
+calc
+}
+\tikzset{%
+  node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+  every state/.style={thick}, % sets the properties for each ’state’ node
+  double distance=2.5pt,
+  shorten >= 2pt, shorten <= 2pt,
+  initial text=$ $,
+  every edge/.style={%
+    draw,->, >=stealth, auto, semithick
+  }
+}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+\newcommand{\smallunderbracket}[1]{\underbracket[0.7pt][2pt]{#1}}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\begin{document}
+\centerline{\LARGE{Autómatas, Teoría de Lenguajes y Compiladores (72.39)}}
+\vspace{6pt}
+\centerline{\Large{Soluciones del 1\textsuperscript{er} Parcial 2018}}
+\paragraph{Ejercicio 1} Demostrar que el lenguaje $L = \{a^i b^j\mid i, j~\text{primos}\}$ no es regular.
+
+\paragraph{Solución} Lo probamos por contradicción. Supongamos que $L$ es regular. Entonces $L$ debe cumplir el lema de bombeo para
+lenguajes regulares. Es decir, existe un entero $p \geq 1$, tal que para todo
+$w \in L$ de longitud igual o mayor que $p$, $w$ puede ser escrito como $xyz$,
+satisfaciendo las siguientes condiciones:
+\begin{enumerate}
+  \item $|y| \geq 1$
+  \item $|xy| \leq p$
+  \item $\forall i\geq 0, xy^iz \in L$
+\end{enumerate}
+
+En particular, sea $w = a^nb^2$, con $n$ un primo mayor que $p$. Como $|w|\geq p$,
+debemos poder escribir $w$ como $xyz$. Analizamos los posibles casos:
+\begin{enumerate}
+  \item $w = \smallunderbracket{a^r}_x \smallunderbracket{a^s}_y
+    \smallunderbracket{bb}_z$
+
+    Como $r + s = n > p$, y a su vez $r + s \leq p$ por la condición 2, este caso es
+    absurdo. Lo mismo sucede en casos en los que $y$ cubre no sólo parte de las
+    $a$, sino que también una o las dos $b$.
+
+  \item $w = \smallunderbracket{a^r}_x \smallunderbracket{a^s}_y \smallunderbracket{a^tbb}_z$
+
+    Ya que por la condición 3, $\forall i\geq 0(xy^iz \in L)$, tomamos en
+    particular $i = r + s + t + 1 = n + 1$ para bombear, es decir $w' =
+    xy^{n+1}z$. Entonces:
+\begin{align*}
+  |w'|_a & = r + si + t\\
+        & = r + s(r + s + t + 1) + t\\
+        & = r + sr + s^2 + st + s + t\\
+        & = n + sr + s^2 + st\\
+        & = n + s(r + s + t)\\
+        & = n + sn\\
+        & = n(1 + s)
+\end{align*}
+Dado que $n$ es primo, y $s = |y| \geq 1$ por la condición 1, $|w'|_a$ es un número
+compuesto, por lo que $w' \not\in L$, contradiciendo la condición 3.
+\end{enumerate}
+Hemos visto que no hay configuración de $x, y, z$ que cumpla con el lema,
+llegando a una contradicción. Por lo tanto, el lenguaje $L$ no es regular.
+
+\paragraph{Ejercicio 2} Transformar paso a paso en autómata finito
+deterministico mínimo a la expresión regular {\tt $(a^* + b^* + c^*)abb$}.
+Justificar cada paso realizado en la transformación.
+
+\paragraph{Solución}
+Usando la construcción McNaughton-Yamada (también conocida como construcción
+Thompson), construimos un $\emptystr$-NFA que
+reconoce el mismo lenguaje denotado por la expresión regular. Un autómata que
+reconozca {\tt a} (análogo para {\tt b} y {\tt c}) equivale a:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+  \node[state, initial] (A) {};
+  \node[state, right of=A, accepting] (B) {};
+  \draw (A) edge node {{\tt a}} (B);
+\end{tikzpicture}
+\]
+Para que reconozca la clausura Kleene ${\tt a}^*$, siguiendo al pie de la letra
+la construcción, tendríamos:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+
+    \node[state, node distance=3cm] (q15) {};
+    \node[state, initial, left of=q15] (q16) {};
+    \node[state, right of=q15] (q17) {};
+    \node[state, accepting, right of=q17] (q18) {};
+
+    \draw (q15) edge node {{\tt a}} (q17);
+    \draw (q16) edge node {$\emptystr$} (q15);
+    \draw (q17) edge node {$\emptystr$} (q18);
+    \draw (q17) edge[bend right=80, looseness=1.5] node[sloped, above]
+    {$\emptystr$} (q15);
+    \draw (q16) edge[bend right=40] node[above] {$\emptystr$} (q18);
+\end{tikzpicture}
+\]
+Pero esto complica pasos posteriores, y no es difícil ver que es equivalente al
+autómata:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+  \node[state, initial, accepting] (A) {};
+  \draw[loop above] (A) edge node {{\tt a}} (A);
+\end{tikzpicture}
+\]
+Simplificando un poco (ya que si seguimos la construcción estrictamente, el
+automata resultante es mayor), para reconocer {\tt $(a^*+b^*+c^*)$} usamos:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+  \node[state, initial] (i) {};
+  \node[state, right of=i] (b) {};
+  \node[state, above of=b] (a) {};
+  \node[state, below of=b] (c) {};
+  \node[state, right of=b, accepting] (d) {};
+  %\draw(a) edge[out=15, in=345, looseness=8] node {a} (a);
+  \draw[loop above] (a) edge node {{\tt a}} (a);
+  \draw[loop above] (b) edge node {{\tt b}} (b);
+  \draw[loop above] (c) edge node {{\tt c}} (c);
+  \draw (i) edge node[above, sloped] {$\emptystr$} (a);
+  \draw (i) edge node {$\emptystr$} (b);
+  \draw (i) edge node[below, sloped] {$\emptystr$} (c);
+  \draw (a) edge node[above, sloped] {$\emptystr$} (d);
+  \draw (b) edge node {$\emptystr$} (d);
+  \draw (c) edge node[below, sloped] {$\emptystr$} (d);
+\end{tikzpicture}
+\]
+Para {\tt $abb$}, es simple ver que el siguiente lo reconoce:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+  \node[state, initial] (i) {};
+  \node[state, right of=i] (a) {};
+  \node[state, right of=a] (b) {};
+  \node[state, right of=b, accepting] (c) {};
+  \draw (i) edge node {{\tt a}} (a);
+  \draw (a) edge node {{\tt b}} (b);
+  \draw (b) edge node {{\tt b}} (c);
+\end{tikzpicture}
+\]
+Finalmente, concatenamos ambas máquinas, para obtener un $\emptystr$-NFA que
+reconozca la expresión regular:
+\[
+\begin{tikzpicture} [node distance=2cm, every state/.style={thick, minimum size=16pt}]
+  \node[state, initial] (i) {$q_0$};
+  \node[state, right of=i] (b) {$q_2$};
+  \node[state, above of=b] (a) {$q_1$};
+  \node[state, below of=b] (c) {$q_3$};
+  \node[state, right of=b] (d) {$q_4$};
+  \draw[loop above] (a) edge node {{\tt a}} (a);
+  \draw[loop above] (b) edge node {{\tt b}} (b);
+  \draw[loop above] (c) edge node {{\tt c}} (c);
+  \draw (i) edge node[above, sloped] {$\emptystr$} (a);
+  \draw (i) edge node {$\emptystr$} (b);
+  \draw (i) edge node[below, sloped] {$\emptystr$} (c);
+  \draw (a) edge node[above, sloped] {$\emptystr$} (d);
+  \draw (b) edge node {$\emptystr$} (d);
+  \draw (c) edge node[below, sloped] {$\emptystr$} (d);
+
+  \node[state, right of=d] (a2) {$q_5$};
+  \node[state, right of=a2] (b2) {$q_6$};
+  \node[state, right of=b2, accepting] (c2) {$q_7$};
+  \draw (d) edge node {{\tt a}} (a2);
+  \draw (a2) edge node {{\tt b}} (b2);
+  \draw (b2) edge node {{\tt b}} (c2);
+\end{tikzpicture}
+\]
+
+Luego, calculamos las clausuras-$\emptystr$ para llevar el $\emptystr$-NFA a un
+NFA:\@
+
+\begin{center}
+\begin{tabular}{rc}
+  & Clausura-$\emptystr$  \\
+  \toprule
+  $q_0$ & $\{q_0, q_1, q_2, q_3, q_4\}$ \\
+  $q_1$ & $\{q_1, q_4\}$ \\
+  $q_2$ & $\{q_2, q_4\}$\\
+  $q_3$ & $\{q_3, q_4\}$\\
+  $q_4$ & $\{q_4\}$\\
+  $q_5$ & $\{q_5\}$\\
+  $q_6$ & $\{q_6\}$\\
+  $q_7$ & $\{q_7\}$
+\end{tabular}
+\hfill
+\begin{tabular}{rccc}
+  & {\tt a} & {\tt b} & {\tt c} \\
+  \toprule
+  $\to q_0$ & $\{q_1, q_4, q_5\}$ & $\{q_2, q_4\}$ & $\{q_3, q_4\}$ \\
+  $q_1$ & $\{q_1, q_4, q_5\}$ & $\emptyset$ & $\emptyset$\\
+  $q_2$ & $\{q_5\}$ & $\{q_2, q_4\}$ & $\emptyset$\\
+  $q_3$ & $\{q_5\}$ & $\emptyset$ & $\{q_3, q_4\}$ \\
+  $q_4$ & $\{q_5\}$ & $\emptyset$  & $\emptyset$\\
+  $q_5$ & $\emptyset$ & $\{q_6\}$ & $\emptyset$\\
+  $q_6$ & $\emptyset$ & $\{q_7\}$ & $\emptyset$\\
+  $\prescript{*}{}{q_7}$ & $\emptyset$ & $\emptyset$ & $\emptyset$
+\end{tabular}
+\end{center}
+
+En base a esto, podemos obtener un DFA equivalente:
+
+\begin{center}
+\begin{tabular}{rccc}
+  & {\tt a} & {\tt b} & {\tt c} \\
+  \toprule
+  $\to Q_0$ & $Q_{145}$ & $Q_{24}$ & $Q_{34}$ \\
+  $Q_{145}$ & $Q_{145}$ & $Q_6$ & $\emptyset$ \\
+  $Q_{24}$ & $Q_5$ & $Q_{24}$ & $\emptyset$ \\
+  $Q_{34}$ & $Q_5$ & $\emptyset$ & $Q_{34}$ \\
+  $Q_5$ & $\emptyset$ & $Q_6$ & $\emptyset$ \\
+  $Q_6$ & $\emptyset$ & $Q_7$ & $\emptyset$ \\
+  $\prescript{*}{}{Q_7}$ & $\emptyset$ & $\emptyset$ & $\emptyset$
+\end{tabular}
+\end{center}
+El cual tiene el siguiente diagrama de estados:
+\[
+\begin{tikzpicture} [node distance=2.4cm, every state/.style={thick, minimum
+  size=31pt}, every edge/.style={draw,->, >=stealth, auto, semithick,font=\tt}]
+  \node[state, initial] (i) {$Q_0$};
+  \node[state, right of=i] (q24) {$Q_{24}$};
+  \node[state, below of=q24] (q34) {$Q_{34}$};
+  \node[state, right of=q24] (q5) {$Q_5$};
+  \node[state, above of=q24] (q145) {$Q_{145}$};
+
+  \node[state, right of=q5] (q6) {$Q_6$};
+  \node[state, right of=q6, accepting] (q7) {$Q_7$};
+
+  \draw (i) edge[out=90, in=180] node[sloped] {a} (q145);
+  \draw (i) edge node {b} (q24);
+  \draw (i) edge[out=270, in=180] node[sloped, below] {c} (q34);
+
+  \draw[loop above] (q145) edge node {a} (q145);
+  \draw (q145) edge[out=0, in=90] node[sloped] {a} (q6);
+
+  \draw (q24) edge node {a} (q5);
+  \draw[loop above] (q24) edge node {b} (q24);
+
+  \draw (q34) edge[out=0, in=270] node[sloped, below] {a} (q5);
+  \draw[loop above] (q34) edge node {c} (q34);
+
+  \draw (q5) edge node {a} (q6);
+  \draw (q6) edge node {b} (q7);
+\end{tikzpicture}
+\]
+
+Se obvió el estado trampa $\emptyset$ para simplificar el diagrama, pero considerar
+que cualquier transición faltante en el diagrama implica una transición al estado $\emptyset$.
+
+Finalmente, minimizamos el DFA usando el algoritmo de Moore: 
+\begin{align*}
+  \frac{Q}{E_0} &= \{\{Q_0, Q_{24}, Q_{34}, \emptyset, Q_{145}, Q_5, Q_6\}, \{Q_7\}\}\\
+  \frac{Q}{E_1} &= \{\{Q_0, Q_{24}, Q_{34}, \emptyset, Q_{145}, Q_5\}, \{Q_6\}, \{Q_7\}\}\\
+  \frac{Q}{E_2} &= \{\{Q_0, Q_{24}, Q_{34}, \emptyset\}, \{Q_{145}, Q_5\}, \{Q_6\}, \{Q_7\}\}\\
+  \frac{Q}{E_3} &= \{\{Q_0, Q_{24}, Q_{34}\}, \{\emptyset\}, \{Q_{145}\} , \{Q_5\}, \{Q_6\}, \{Q_7\}\}\\
+  \frac{Q}{E_4} &= \{\{Q_0\}, \{Q_{24}\}, \{Q_{34}\}, \{\emptyset\}, \{Q_{145}\} , \{Q_5\}, \{Q_6\}, \{Q_7\}\}
+\end{align*}
+No es posible seguir subdividiendo las particiones, por lo tanto, el DFA mínimo
+resulta ser el que habíamos encontrado en el paso anterior.
+
+\end{document}
