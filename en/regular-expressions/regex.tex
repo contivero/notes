@@ -53,7 +53,7 @@ calc
 \newtheorem{lem}{Lema}
 \newtheorem*{joke}{Joke}
 
-\newtheorem{ex}{Ejemplo}
+\newtheorem{ex}{Example}
 \newcommand{\exautorefname}{Ejemplo}
 
 \newtheorem{exercise}{Ejercicio}
@@ -102,7 +102,7 @@ calc
 
 \newcommand{\emptystr}{\varepsilon}
 \newcommand{\emptylan}{\emptyset}
-\newcommand{\pdv}[2]{\frac{\partial}{\partial #2}\bigl(#1\bigr)}
+\newcommand{\pdv}[2]{\partial_{#1} \bigl(#2\bigr)}
 
 %Pagination stuff.
 \setlength{\topmargin}{-.3 in}
@@ -127,7 +127,7 @@ calc
 \section{Regular Expressions}
 Regular expressions were introduced by Kleene, and may be inductively defined as follows:
 \begin{defn}
-Regular expression. Let $\Sigma$ be an alphabet. Then:
+Let $\Sigma$ be an alphabet. Then:
 \begin{enumerate}
   \item $\emptyset, \emptystr$, and $a$, for $a \in \Sigma$ are regular expressions.
   \item If $R, S$ are regular expressions, then so are $R\cdot S, R+S$, and $R^*$.
@@ -166,7 +166,48 @@ Regular expression. Let $\Sigma$ be an alphabet. Then:
     %- Antimirov's construction.
   %* Cham. \& Ziadi
 
-Brzozowski introduced the notion of derivatives of regular expressions~\cite{Brz64}.
+Brzozowski introduced the notion of derivatives of regular
+expressions~\cite{Brz64}. Given a language $L$ over an alphabet $\Sigma$, and a
+word $w \in \Sigma^*$, the derivative of $L$ with respect to $w$ is $D_w(L) = \{ t~|~wt\in L \}$. This is the same as the left
+quotient set of $L$ with respect to $w$, sometimes denoted $w^{-1}(L)$.
+
+\begin{defn}
+(Brzozowski~\cite{Brz64}) Given a regular expression, and a symbol $a \in \Sigma$, the
+derivative of the regular expression with respect to $a$ may be inductively
+defined as follows:
+
+\begin{minipage}{.4\textwidth}
+\[
+  \arraycolsep=2pt\def\arraystretch{1.4}
+  \begin{array}{rl}
+    D_{a}(\emptystr) &= \emptylan \\
+    D_{a}(\emptylan) &= \emptylan \\
+    D_{a}(b) &= \left\{ 
+      \begin{array}{ll}
+        \emptystr, &\text{if } b = a\\ 
+        \emptylan, &\text{otherwise}
+      \end{array}
+    \right
+\end{array}
+\]
+\end{minipage}%
+\begin{minipage}{.4\textwidth}
+\[
+  \arraycolsep=2pt\def\arraystretch{1.4}
+  \begin{array}{rl}
+    D_{a}(R^*) &= (D_a R)R^* \\
+    D_{a}(R+S) &= D_a R + D_a S \\
+    D_{a}(RS) &= \left\{ 
+      \begin{array}{ll}
+        (D_a R)S + D_a S, &\text{if $R$ accepts $\emptystr$} \\ 
+        (D_a R)S,         &\text{otherwise}
+      \end{array}
+        \right \\
+\end{array}
+\]
+\end{minipage}%
+\end{defn}
+
 Although the set of derivatives of a regular expression may not be finite,
 Brzozowski proved that its quotient modulo the ACI-axioms of the sum is, where
 the ACI-axioms are:
@@ -178,9 +219,20 @@ the ACI-axioms are:
     r + r &=& r &\text{Idempotence}
 \end{array}
 \]
-%In practical terms, this means that we can In other words, as long as we
+\begin{defn}
+Two regular expressions are said to be \textit{similar} if one can be converted
+into the other by using only the ACI-axioms, and \textit{dissimilar} otherwise.
+\end{defn}
+Although that was Brzozowski's definition, some authors have exteded the list of
+axioms used (e.g.\ see~\cite{ORT09}). 
+The original equation for $D_a(RS)$ in \cite{Brz64} was slightly different, but
+Antimirov~\cite{An96} noted that using that definition allows an infinite
+sequence of regular expressions, even modulo the ACI-axioms. Using the
+definition given circumvents the problem, and makes Brzozowski's finiteness
+proof be correct without further changes.
 
-Example: Let $\tt E = {(a+b)}^*a{(a+b)}^2$ be a regular expression. For
+\begin{ex}
+Let $\tt E = {(a+b)}^*a{(a+b)}^2$ be a regular expression. For
 simplicity let also $\tt R = a + b$. For every symbol of
 the alphabet $\Sigma = \{{\tt a, b}\}$, take the derivative of {\tt E} with
 respect to the symbol, and for each new regular expression found, do the same
@@ -195,7 +247,7 @@ until no new regular expression is found:
            &=& a{(a+b)}^2 + {(a+b)}^2 \\
            &=& E + R^2 \\
     D_b(E) &=& D_b({(a+b)}^*)a{(a+b)}^2 + D_b(a{(a+b)}^2) \\
-           &=& E + \emptylan = E \\
+           &=& E + \emptylan \\
            &=& E \\
 \end{array}
 \]
@@ -263,6 +315,7 @@ seen in \autoref{fig:example-derivatives}.
   \end{tikzpicture}
   \caption{Brzozowski's derivative automaton for $E = {(a+b)}^*a{(a+b)}^2$.}\label{fig:example-derivatives}
 \end{figure}
+\end{ex}
 
 Partial derivatives of regular expression are due to Antimirov~\cite{An96}. Just as
 derivatives give a way to build a DFA, partial derivatives give a way to build
@@ -270,29 +323,30 @@ an NFA. Keeping with the example previously used, we take the partial
 derivatives of $E$, and whatever other regular expression shows up in the
 process:
 
-\begin{minipage}[t]{.5\textwidth}
+\begin{minipage}{.5\textwidth}
 \[
 \arraycolsep=2pt\def\arraystretch{1.4}
   \begin{array}{rcl}
-    \dfrac{\partial E}{\partial a} &=& \pdv{{(a+b)}^*}{a}\cdot a{(a+b)}^2 \cup
-    \pdv{a{(a+b)}^2}{a} \\
+  \partial_a E &=& \pdv{a}{{(a+b)}^*}\cdot a{(a+b)}^2 \cup
+    \pdv{a}{a{(a+b)}^2} \\
     &=& \bigl\{{(a+b)}^*a{(a+b)}^2, {(a+b)}^2\bigr\} \\
                                    &=& \bigl\{E, R^2\bigr\} \\
-    \dfrac{\partial R^2}{\partial a} &=& \pdv{a+b}{a}\cdot {(a+b)} = \bigl\{R \bigr\} = \dfrac{\partial R^2}{\partial b} \\
+    \partial_a R^2 &=& \pdv{a}{a+b}\cdot {(a+b)} = \bigl\{R \bigr\} = \partial_b R^2 \\
   \end{array}
 \]
 \end{minipage}%
-\begin{minipage}[t]{.5\textwidth}
+\begin{minipage}{.5\textwidth}
 \[
 \arraycolsep=2pt\def\arraystretch{1.4}
   \begin{array}{rcl}
-    \dfrac{\partial E}{\partial b} &=& \pdv{{(a+b)}^*}{b}\cdot a{(a+b)}^2 \cup \pdv{a{(a+b)}^2}{b} \\
+    \partial_b E &=& \pdv{b}{{(a+b)}^*}\cdot a{(a+b)}^2 \cup \pdv{b}{a{(a+b)}^2} \\
                                   &=& \bigl\{E \bigr\} \\
     \\
-    \dfrac{\partial R}{\partial a} &=& \pdv{a+b}{a} = \bigl\{\emptystr \bigr\} = \dfrac{\partial R}{\partial b} \\
+    \partial_a R &=& \pdv{a}{a+b} = \bigl\{\emptystr \bigr\} = \partial_b R \\
   \end{array}
 \]
 \end{minipage}
+\vspace{14pt}
 
 The resulting NFA can be seen in \autoref{fig:example-pdv}.
 
@@ -313,6 +367,8 @@ The resulting NFA can be seen in \autoref{fig:example-pdv}.
   \end{tikzpicture}
   \caption{Antimirov's partial derivative automaton for $E = {(a+b)}^*a{(a+b)}^2$.}\label{fig:example-pdv}
 \end{figure}
+
+\section{Extended Regular Expressions}
 
 \subsection{Final Remarks}
 For a more recent treatment on Brzozowski's derivatives, see~\cite{ORT09}.
