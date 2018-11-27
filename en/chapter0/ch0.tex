@@ -1,7 +1,6 @@
 \documentclass{article}
 
 \usepackage[utf8]{inputenc}
-\usepackage{babel}
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{float}
@@ -100,6 +99,10 @@ calc
 \newcommand{\st}{\ni}
 \newcommand{\wh}{\widehat}
 
+\newcommand{\PS}{\mathcal{P}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\bra}[1]{\left[#1\right]}
+\newcommand{\abs}[1]{\left|#1\right|}
 \newcommand{\emptystr}{\varepsilon}
 \newcommand{\emptylan}{\emptyset}
 \newcommand{\pdv}[2]{\partial_{#1} \bigl(#2\bigr)}
@@ -116,47 +119,226 @@ calc
 \def\isodate{\leavevmode\hbox{\the\year-\twodigits\month-\twodigits\day}}
 \def\twodigits#1{\ifnum#1<10 0\fi\the#1}
 
+% The problem environment is a regular ams theorem environment with "Problem"
+% text and some leading space to give some separation between the problems.
+\theoremstyle{definition}
+\newtheorem{problem-internal}{Problem}[subsection]
+\newenvironment{problem}{
+  \medskip
+  \begin{problem-internal}
+}{
+  \end{problem-internal}
+}
+
+% The solution environment is a proof environment with the "solution" text as
+% well as the following adjustments:
+% - No indent on paragraphs;
+% - A small amount of space between paragraphs.
+%
+% Note: The negative space at the beginning is to remove the space before the
+% first paragraph in the solution.
+\newenvironment{solution}{%
+  \begin{proof}[Solution]
+  \vspace{-8px}
+  \setlength{\parskip}{4px}
+  \setlength{\parindent}{0px}
+}{
+  \end{proof}
+}
+
 \begin{document}
 \begin{center}
-  {\LARGE Down the Regular Expression Rabbit Hole}\\[.2cm]
+  {\LARGE Algebra: Chapter 0}\\[.2cm]
   Cristian Adrián Ontivero \\[.05cm]%
-  \isodate
 \end{center}
 
-1.2 Suppose $\sim$ is an equivalence relation on a set S.
-Since $\sim$ is reflexive, $x \sim x \forall x \in S$, so $x \in {[x]}_{\sim}
-\forall x \in S$. Thus, no equivalence class is empty, and their union is the
-whole set $S$.
-It remains to show the disjointness of the equivalence classes.
-Let $x$ and $y$ be two elements of $S$. Suppose ${[x]}_{\sim} \cap {[y]}_{\sim} \neq
-\emptyset$. Then there exists $z \in {[x]}_{\sim} \cap {[y]}_{\sim}$, i.e. $z \in
-{[x]}_{\sim} \wedge z \in {[y]}_{\sim}$. So, by definition of equivalence class,
-$z \sim x$ and $z \sim y$. By symmetry $x \sim z$, and by transitivity $x \sim
-y$. Once more, by symmetry $y \sim x$. Knowing all this, we proceed to prove
-that ${[x]}_{\sim} = {[y]}_{\sim}$.
-
-$\subseteq$: Let $d \in {[x]}_{\sim}$, this means that $d \sim x$. By
+\begin{solution}
+Suppose $\sim$ is an equivalence relation on a set $S$.
+Since $\sim$ is reflexive, $\forall x \in S (x \sim x) $, so $\forall x\in S
+(x \in {[x]}_{\sim})$. Thus, no equivalence class is empty, and their union is
+the whole set $S$.  It remains to show the disjointness of the equivalence
+classes.  Let $x$ and $y$ be two elements of $S$. Suppose ${[x]}_{\sim} \cap
+{[y]}_{\sim} \neq \emptyset$. Then there exists $z \in {[x]}_{\sim} \cap
+{[y]}_{\sim}$, i.e. $z \in {[x]}_{\sim} \wedge z \in {[y]}_{\sim}$. By
+definition of equivalence class, $z \sim x$ and $z \sim y$. By symmetry $x \sim
+z$, and by transitivity $x \sim y$. Once more, by symmetry $y \sim x$. Knowing
+all this, we proceed to prove that ${[x]}_{\sim} = {[y]}_{\sim}$.
+\begin{itemize}
+\item[$\subseteq$:] Let $d \in {[x]}_{\sim}$, this means that $d \sim x$. By
 transitivity $d \sim y$, so $d \in {[y]}_{\sim}$.
-
-$\supseteq$: Let $d \in {[y]}_{\sim}$, this means that $d \in y$. By
+\item[$\supseteq$:] Let $d \in {[y]}_{\sim}$, this means that $d \sim y$. By
 transitivity $d \in x$, so $d \in {[x]}_{\sim}$.
+\end{itemize}
 
 Thus ${[x]}_{\sim} = {[y]}_{\sim}$.
+\end{solution}
 
-1.3 Given a partition \mathcal{P} on a set $S$, we define a relation $\sim$ on
+\begin{solution}
+1.3 Given a partition $\mathcal{P}$ on a set $S$, we define a relation $\sim$ on
 $S$ as follows: $x \sim y$ iff $x, y \in X$, for some $X \in \mathcal{P}$.
 Let's prove that $\sim$ is an equivalence relation on S.
 \begin{itemize}
   \item Reflexive: Let $x \in S$ be arbitrary. $x \in X$ for some $X \in
     \mathcal{P}$, so $x \sim x$.
-  \item Symmetric: Let $x, y \in S$
-  \item Transitive: Let $x \in S$
+  \item Symmetric: Let $x, y \in S$ be such that $x \sim y$ and $y \sim z$.
+Then by definition of $\sim$ there ixists an $X \in \PS$ such that $x, y \in X$.
+This also means that $x, y \in X$, thus $y \sim x$.
+  \item Transitive: Let $x, y, z \in S$ be such that $x \sim y$ and $y \sim z$.
+Then by definition $x, y \in X_1$ and $y,z \in X_2$, with $X_1, X_2 \in \PS$.
+Since $\PS$ is a partition, $y$ is only in one part, thus $X_1 = X_2$. Therefore
+$x, z \in X_1$, so $x \sim z$.
+\end{itemize}
+It now remains to prove that $\PS$ is $\PS_{\sim}$, the set of equivalence classes of $\sim$. Let $X \in \PS$ be a part of the partition. By definition of $\sim$, $\forall x, y \in X (x \sim y)$. Furthermore, given $a \in X$ and $S - X$ we know by definition that $a$ and $b$ are not related. Thus $X$ is an equivalence class of $\sim$. Finally, since every element of $S$ is in exactly one of the parts of $\PS$, we have that there are no equivalence classes besides the ones from the partition. Therefore $\PS$ is the set of equivalence classes of $\sim$.
+\end{solution}
+
+\begin{solution}
+1.4 Five. These are:
+\begin{align*}
+  \sim_1 &= \set{(1,1), (2,2), (3,3)} \\
+  \sim_2 &= \set{(1,1), (1,2), (2,1), (2,2), (3,3)} \\
+  \sim_3 &= \set{(1,1), (1,3), (3,1), (3,3), (2,2)} \\
+  \sim_4 &= \set{(1,1), (2,2), (2,3), (3,2), (3,3)} \\
+  \sim_5 &= \set{(1,1), (1,2), (1,3), (2,2), (2,1), (2,3), (3,1), (3,2), (3,3)}
+\end{align*}
+This might be easier to think in terms of how many partitions of $\set{1,2,3}$ we can make:
+\begin{align*}
+  \PS_1 &= \set{\{1\}, \{2\}, \{3\}} \\
+  \PS_2 &= \set{\{1, 2\}, \{3\}} \\
+  \PS_3 &= \set{\{1, 3\}, \{2\}} \\
+  \PS_4 &= \set{\{1\}, \{2, 3\}} \\
+  \PS_5 &= \set{\{1, 2, 3\}}
+\end{align*}
+In general, the number of ways to partition a set of $n$ elements is given by the $n^{\text{th}}$ Bell number.
+\end{solution}
+
+\begin{solution}
+1.5 Take $S = \set{1,2,3}$ and $R = \set{(1,1), (2,2), (3,3), (1,2), (2,1),
+(2,3), (3,2)}$. $R$ is reflexive and symmetric, but not transitive. Recall that
+an equivalence class of $x$ with respect to $R$ is
+\[ \bra{x}_R = \set{y \in S \mid yRx} \]
+Thus we have $\bra{1}_R = \set{1,2}$ and $\bra{2}_R = \set{1,2,3}$. Clearly
+$\bra{1}_R \neq \bra{2}_R$, but they aren't disjoint ($\bra{1}_R \cap \bra{2}_R
+\neq \emptyset$), so they can't form a partition.
+\end{solution}
+
+\begin{solution}
+1.6 $\forall a, b \in \R (a \sim b \iff b - a \in \Z)$.
+\begin{itemize}
+\item Reflexive: $\forall a \in R, a \sim a \iff a - a = 0 \in Z$
+\item Symmetric: Let $a,b \in \R$ by such that $a \sim b$. Then $b - a \in Z$, so its opposite $-(b-a) \in Z$, i.e. $a-b \in Z$, thus $b \sim a$.
+\item Transitive: Let $a, b, c \in \R$ by such that $a \sim b$ and $b \sim c$. Then $b - a \in Z$, and $c - b \in Z$. Since $\Z$ is closed under addition, $(b-a) + (c-b) = c - a \in Z$. Thus $a \sim c$.
+\end{itemize}
+Under $\sim$ all reals with the same decimal expansion belong to the same
+equivalence class. In other words $\forall x \in [0,1), \bra{x}_{\sim} = \set{n + x \mid n \in \Z}$.
+In particular $\bra{0} = \Z$. Thus $\R/\sim = \R/\Z$ which is isomorphic to
+$[0,1)$ and the unit circle (the book until here doesn't get into quotient
+groups though!).
+
+\[ \forall (a_1, a_2), (b_1, b_2) \in \R \times \R, (a_1, a_2) \approx (b_1, b_2) \iff b_1 - a_1, b_2 - a_2 \in Z \]
+
+\begin{itemize}
+\item Reflexive: Let $(a_1, a_2) \in \R^2$, $(a_1, a_2) \approx (a_1, a_2) \iff a_1 - a_1 = 0 \in \Z$ and $a_2 - a_2 = 0 \in \Z$.
+\item Symmetric: Let $(a_1, a_2), (b_1, b_2) \in \R^2$ be such that $(a_1, a_2) \approx (b_1, b_2)$.
+Then $b_1 - a_1 \in \Z \AND -(b_2 - a_1) \in \Z$, i.e.  $a_1 -b_1 \in \Z \AND a_2 - b_2 \in \Z$.
+Therefore $(b_1, b_2) \approx (a_1, a_2)$.
+\item Transitive: Let $(a_1, a_2), (b_1, b_2), (c_1, c_2) \in \R^2$ be such that $(a_1, a_2) \approx (b_1, b_2)$ and $(b_1, b_2) \approx (c_1, c_2)$. Then $(b_1 - a_1), (b_2 - a_2), (c_1 - b_1), (c_2 - b_2) \in \Z$, so $(b_1 - a_1) + (c_1 - b_1) = c_1 - a_1 \in \Z$ and $(b_2 - a_2) + (c_2 - b_2) = c_2 - a_2 \in \Z$, because $\Z$ is closed under addition. Therefore $(a_1, a_2) \approx (c_1, c_2)$.
+\end{itemize}
+\end{solution}
+
+Check from section 2.5
+Let $f \colon A \to B$ be a bijection, and define $g \colon B \to A$ by $g(b) = a$ whenever $f(a) = b$. We need to show that $g$, the flip of $\Gamma_f$ is a function according to the definition given, that is: 
+\[ (\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g \]
+We prove it by contradiction. Suppose $\neg (\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g$. This is equivalent to $\exists b \in B \neg (\exists! a \in A) (b,a) \in \Gamma_g$. Take this $b$. Either there is no element in $A$ such that $(b,a) \in \Gamma_g$, or there is more than one.
+\begin{itemize}
+\item Suppose $\neg \exists a \in A$ such that $(b,a) \in \Gamma_g$: then
+$g(b)$ isn't defined, which by the way $g$ is defined implies that $f$ isn't
+surjective, which is absurd.
+\item Suppose there is more than one: then there are at least two different ones. Call them $c$ and $d$. Then $g(b) = c \AND g(b) = d \AND c \neq d$. By how $g$ is defined, this implies that $f(c) = b$, $f(d) = b$, and $c \neq d$, meaning that $f$ isn't injective, which is absurd.
+\end{itemize}
+Thus $(\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g$.
+
+Corollary 2.2: See Proposition 4.2
+
+Canonical decomposition (2.8) (p.15)
+\begin{itemize}
+\item Reflexive: Let $a \in A$, $f(a) = f(a)$, so $a \sim a$.
+\item Symmetric: Let $a, b \in A$ be such that $a \sim b$. Then $f(a) = f(b)$. Since $=$ is symmetric, $f(b) = f(a)$, so $b \sim a$.
+\item Transitive: Let $a, b, c \in A$ be such that $a \sim b$ and $b \sim c$. Then $f(a) = f(b)$ and $f(b) = f(c)$. Since $=$ is transitive, $f(a) = f(c)$, so $a \sim c$.
 \end{itemize}
 
+\begin{solution}
+There are $n!$ different bijections from a set of $n$ elements to itself, which
+amount to the different possible permutations of the set. Take the first
+element. You can map it to any of the n elements. Once that has been chosen,
+map a second element to the remaining $(n-1)$, and so on.
+\end{solution}
 
-\newpage 
-\bibliography{refs}
-\bibliographystyle{unsrt}
+\begin{solution}
+2.2 Assume $A \neq \emptyset$ and let $f \colon A \to B$ be a function. To be proved: $f$ has a right-inverse iff it is surjective.
+\begin{itemize}
+\item[$\Longrightarrow$:] Suppose $f$ has a right-inverse, then there exists $g \colon B \to A$ such that $f \circ g = id_B$. We need to show that $f$ is surjective. Let $b \in B$. Then $\exists a \in A$, namely $g(b)$, such that $f(a) = b$. Hence $f$ is surjective.
+\item[$\Longleftarrow$:] Suppose $f$ is surjective. For each $b \in B$ construct a set
+\[ \Lambda_b = \set{(a,b) \mid a \in A, f(a) = b} \]
+Every $\Lambda_b$ is nonempty due to $f$ begin surjective, so we can choose a
+pair from each $\Lambda_b$ to define $g \colon B \to A$ by $g(b) = a$, where
+$(a,b) \in \Lambda_b$. Since $b = f(a) = f(g(b)) = (f \circ g)(b)$, $g$ is a
+right-inverse of $f$.
+\end{itemize}
+\end{solution}
+
+\begin{solution}
+2.3 Suppose $f$ is a bijection, and $f^{-1}$ its inverse. Then $f^{-1}$ is a bijection too, since it has $f$ as its inverse: 
+\[f \circ f^{-1} = id_B \AND f^{-1} \circ f = id_A \]
+where $f \colon A \to B$ and $f^{-1} \colon B \to A$.
+\end{solution}
+Let $f\colon A \to B$ and $g\colon B \to C$ be two bijections, with $f^{-1}$
+and $g^{-1}$ their inverses, respectively. Then $g \circ f \colon A \to C$ is
+also a bijection, with its inverse $(g\circ f)^{-1}\colon C \to A$ being $f^{-1} \circ g^{-1}$. To see this:
+
+\[(g \circ f)\circ {(g\circ f)}^{-1} = (g\circ f) \circ (f^{-1}\circ g^{-1}) = g \circ id_B \circ g^{-1} = id_C \]
+\[{(g\circ f)}^{-1}\circ (g \circ f) = (f^{-1}\circ g^{-1}) \circ (g\circ f) = f^{-1} \circ id_B \circ f = id_A \]
+
+\begin{solution}
+2.4 Let $A,B,C$ be sets. We need to show that the relation ``is isomorphic
+to'', denoted $\cong$, is an equivalence relation.
+\begin{itemize}
+\item Reflexive: $id_A\colon A \to A$ is an isomorphism, so $A\cong A$.
+\item Symmetric: Suppose $A \cong B$. Then there exists an isomorphism $f\colon A \to B$, and it has another isomorphism $f^{-1}\colon B \to A$ as its inverse. Thus $B\cong A$.
+\item Transitive: Suppose $A\cong B$ and $B\cong C$. There there exists $f\colon A \to B$ and $g\colon B \to C$, both isomorphisms. From the previous problem we know that $(g \circ f)\colon A \to C$ is an isomorphism, so $A \cong C$.
+\end{itemize}
+\end{solution}
+
+\begin{solution}
+2.5 A function $f\colon A \to B$ is an epimorphism (or epi) if the following holds:
+for all sets $Z$ and all functions $\alpha', \alpha''\colon B \to Z (\alpha' \circ f = \alpha'' \circ f) \implies \alpha' = \alpha'')$.
+
+Proposition: a function is surjective iff it is an epimorphism.
+Proof
+\begin{itemize}
+\item[$(\implies)$:] Suppose $f\colon A \to B$ is surjective. By proposition 2.1 there is a function $g\colon B \to A$ which is its right-inverse. Assume $\alpha',\alpha''$ are arbitrary functions from $B$ to another set $Z$, and that $\alpha' \circ f = \alpha'' \circ f$.
+Composing on the right by $g$, and using the associtivity of composition:
+\begin{align*}
+(\alpha' \circ f)\circ g &= (\alpha''\circ f)\circ g \\
+\alpha' \circ (f\circ g) &= \alpha''\circ (f\circ g) \\
+\alpha' \circ (id_B) &= \alpha''\circ (id_B) \\
+\alpha' &= \alpha''
+\end{align*}
+Thus $f$ is an epimorphism.
+\item[$(\Longleftarrow)$:] We prove by contradiction. Suppose $f$ is not
+surjective. Then there is some $b \in B$ such that $\forall a \in A (f(a) \neq
+b)$.Take two functions $\alpha', \alpha''\colon B \to Z$ where $Z =
+\set{z_1,z_2,\dots}$ has at least two elements. $\alpha'(b) = z_1$,
+$\alpha''(b) = z_2$, and they agree on the rest of the points (say $\forall b' \in B - \set{b}, \alpha'(b') = \alpha''(b') = z_1)$.
+Suppose $\alpha \circ f = \alpha'' \circ f$. Since $\alpha' \neq \alpha''$, $f$
+cannot be epic. Therefore $f$ is surjective.
+\end{itemize}
+\end{solution}
+
+\begin{solution}
+2.6 Let $A, B$ be sets. Given a function $f\colon A\to B$, we can define a function $s\colon A \to A \times B$ as $s(a) = (a, f(a))$. Then:
+\[ todo \]
+i.e. $(\pi_A \circ g)(a) = \pi_A(g(a)) = \pi_A(a, f(a)) = a$.
+\end{solution}
 
 \end{document}
 
