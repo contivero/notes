@@ -319,7 +319,46 @@ seen in \autoref{fig:example-derivatives}.
 
 Partial derivatives of regular expression are due to Antimirov~\cite{An96}. Just as
 derivatives give a way to build a DFA, partial derivatives give a way to build
-an NFA. Keeping with the example previously used, we take the partial
+an NFA. 
+
+\begin{defn}
+(Antimirov~\cite{An96}) Given a regular expression, and a symbol $a \in \Sigma$, the
+set of partial derivatives of the regular expression with respect to $a$ may be
+inductively defined as:
+
+\begin{minipage}{.4\textwidth}
+\[
+  \arraycolsep=2pt\def\arraystretch{1.4}
+  \begin{array}{rl}
+    \partial_{a}(\emptystr) &= \emptylan \\
+    \partial_{a}(\emptylan) &= \emptylan \\
+    \partial_{a}(b) &= \left\{ 
+      \begin{array}{ll}
+        \{\emptystr\}, &\text{if } b = a\\ 
+        \emptylan, &\text{otherwise}
+      \end{array}
+    \right
+\end{array}
+\]
+\end{minipage}%
+\begin{minipage}{.4\textwidth}
+\[
+  \arraycolsep=2pt\def\arraystretch{1.4}
+  \begin{array}{rl}
+    \partial_{a}(R^*) &= (\partial_a R)R^* \\
+    \partial_{a}(R+S) &= \partial_a R \cup \partial_a S \\
+    \partial_{a}(RS) &= \left\{ 
+      \begin{array}{ll}
+        (\partial_a R)S \cup \partial_a S, &\text{if $R$ accepts $\emptystr$} \\ 
+        (\partial_a R)S,                &\text{otherwise}
+      \end{array}
+        \right \\
+\end{array}
+\]
+\end{minipage}%
+\end{defn}
+
+Keeping with the previously used example, we take the partial
 derivatives of $E$, and whatever other regular expression shows up in the
 process:
 
