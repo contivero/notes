@@ -4,6 +4,7 @@
 \hypersetup{pdfauthor={Cristian Adrián Ontivero}}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{gensymb} % for the degree symbol
 \usepackage{caption}
 \usepackage{float}
 \usepackage{color}
@@ -91,6 +92,8 @@ calc
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\bra}[1]{\left[#1\right]}
 \newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\ec}[1]{{\left[#1\right]}_{\sim}}
+\newcommand{\thra}{\twoheadrightarrow}
 \newcommand{\emptystr}{\varepsilon}
 \newcommand{\emptylan}{\emptyset}
 \newcommand{\pdv}[2]{\partial_{#1} \bigl(#2\bigr)}
@@ -268,6 +271,12 @@ Therefore $(b_1, b_2) \approx (a_1, a_2)$.
 \end{itemize}
 \end{solution}
 
+
+\section*{Chapter 2}
+\subsection*{TODO complete title}
+\setcounter{subsection}{2}
+\setcounter{solution-internal}{0}
+
 Check from \S 2.5.
 Let $f \colon A \to B$ be a bijection, and define $g \colon B \to A$ by $g(b)=a$ whenever $f(a)=b$. We need to show that $g$, the flip of $\Gamma_f$ is a
 function according to the definition given, which is: 
@@ -293,6 +302,8 @@ Canonical decomposition (2.8) (p.15)
 \item Transitive: Let $a, b, c \in A$ be such that $a \sim b$ and $b \sim c$. Then $f(a) = f(b)$ and $f(b) = f(c)$. Since $=$ is transitive, $f(a) = f(c)$, so $a \sim c$.
 \end{itemize}
 
+
+% Problem 2.1
 \begin{solution}
 There are $n!$ different bijections from a set of $n$ elements to itself, which
 amount to the different possible permutations of the set. Take the first
@@ -300,8 +311,9 @@ element. You can map it to any of the n elements. Once that has been chosen,
 map a second element to the remaining $(n-1)$, and so on.
 \end{solution}
 
+% Problem 2.2
 \begin{solution}
-2.2 Assume $A \neq \emptyset$ and let $f \colon A \to B$ be a function. To be proved: $f$ has a right-inverse iff it is surjective.
+Assume $A \neq \emptyset$ and let $f \colon A \to B$ be a function. To be proved: $f$ has a right-inverse iff it is surjective.
 \begin{itemize}
   \item[$(\Rightarrow)$:] Suppose $f$ has a right-inverse, then there exists $g \colon B \to A$ such that $f \circ g = id_B$. We need to show that $f$ is surjective. Let $b \in B$. Then $\exists a \in A$, namely $g(b)$, such that $f(a) = b$. Hence $f$ is surjective.
 \item[$(\Leftarrow)$:] Suppose $f$ is surjective. For each $b \in B$ construct a set
@@ -313,8 +325,9 @@ right-inverse of $f$.
 \end{itemize}
 \end{solution}
 
+% Problem 2.3
 \begin{solution}
-2.3 Suppose $f$ is a bijection, and $f^{-1}$ its inverse. Then $f^{-1}$ is a bijection too, since it has $f$ as its inverse: 
+Suppose $f$ is a bijection, and $f^{-1}$ its inverse. Then $f^{-1}$ is a bijection too, since it has $f$ as its inverse: 
 \[f \circ f^{-1} = id_B \AND f^{-1} \circ f = id_A \]
 where $f \colon A \to B$ and $f^{-1} \colon B \to A$.
 \end{solution}
@@ -325,8 +338,9 @@ also a bijection, with its inverse $(g\circ f)^{-1}\colon C \to A$ being $f^{-1}
 \[(g \circ f)\circ {(g\circ f)}^{-1} = (g\circ f) \circ (f^{-1}\circ g^{-1}) = g \circ id_B \circ g^{-1} = id_C \]
 \[{(g\circ f)}^{-1}\circ (g \circ f) = (f^{-1}\circ g^{-1}) \circ (g\circ f) = f^{-1} \circ id_B \circ f = id_A \]
 
+% Problem 2.4
 \begin{solution}
-2.4 Let $A,B,C$ be sets. We need to show that the relation ``is isomorphic
+Let $A,B,C$ be sets. We need to show that the relation ``is isomorphic
 to'', denoted $\cong$, is an equivalence relation.
 \begin{itemize}
 \item Reflexive: $id_A\colon A \to A$ is an isomorphism, so $A\cong A$.
@@ -335,8 +349,9 @@ to'', denoted $\cong$, is an equivalence relation.
 \end{itemize}
 \end{solution}
 
+% Problem 2.5
 \begin{solution}
-2.5 A function $f\colon A \to B$ is an epimorphism (or epi) if the following holds:
+A function $f\colon A \to B$ is an epimorphism (or epi) if the following holds:
 for all sets $Z$ and all functions $\alpha', \alpha''\colon B \to Z (\alpha' \circ f = \alpha'' \circ f) \implies \alpha' = \alpha'')$.
 
 Proposition: a function is surjective iff it is an epimorphism.
@@ -361,12 +376,87 @@ cannot be epic. Therefore $f$ is surjective.
 \end{itemize}
 \end{solution}
 
+% Problem 2.6
 \begin{solution}
-2.6 Let $A, B$ be sets. Given a function $f\colon A\to B$, we can define a function $s\colon A \to A \times B$ as $s(a) = (a, f(a))$. Then:
-\[ todo \]
+Let $A, B$ be sets. Given a function $f\colon A\to B$, we can define a function $s\colon A \to A \times B$ as $s(a) = (a, f(a))$. Then:
+
+\begin{center}
+\begin{tikzcd}
+A \arrow[rr, two heads, "\pi_A"'] &  & B \arrow[ll, "f"', bend right]
+\end{tikzcd}
+\end{center}
+
 i.e. $(\pi_A \circ g)(a) = \pi_A(g(a)) = \pi_A(a, f(a)) = a$.
 \end{solution}
 
+% Problem 2.7
+\begin{solution}
+To prove $\Gamma_A \cong A$ we need to find some isomorphism $g\colon \Gamma_f \to A$. Define $g = \pi_A|_{\Gamma_f}$ (i.e. the natural projection restricted to the subset $\Gamma_f$ of $A \times B$). This $g$ has a section $s$ as previously proved, namely $s(a) = (a, f(a))$. Thus we have:
+\begin{align}
+  (g\circ s)(a) = g(s(a)) = g(a, f(a)) = a \\
+  (s\circ g)(a, f(a)) = s(g(a, f(a)) = s(a) = (a, f(a))
+\end{align}
+i.e. $g$ is the inverse of $s$, so it is an isomorphism.
+\end{solution}
+
+% Problem 2.8
+\begin{solution}
+The canonical decomposition of $f$ (theorem 2.7) is given by:
+
+\begin{center}
+\begin{tikzcd}
+\R \arrow[r, two heads] \arrow[rrr, bend left] & \R/\sim \arrow[r, "\tilde f"', "\sim"] & im f \arrow[r, hook] & \C
+\end{tikzcd}
+\end{center}
+
+where $f\colon \R \to \C$ is defined as $f(r) = e^{2\pi i r}$. Thus, $f$ can be decomposed into three functions:
+\begin{enumerate}
+\item The canonical projection $\R \thra \R/\sim$, which sends every $r \in R$
+to its equivalence class $\ec{r}$. Since $f$ is periodic with period 1, the
+relation $a \sim b$ on $\R$ means that $a-b$ is an integer (as in exercise
+1.6). The space $\R/\sim$ is the set of all equivalence classes, so for example $\frac{1}{8}$ (i.e. 45 degrees) becomes the same as $\frac{9}{8}$ (a $360\degree + 45\degree = 405\degree$ angle).
+\item A bijection $\tilde f$ defined by $\tilde f(\ec{r}) = f(r)$. $im f$ is
+the unit circle $\set{z \in \C : \abs{z} = 1}$. $\tilde f$ takes the equivalene
+class to which $r$ belongs, to the point $e^{2\pi i r}$. For instance, if $r = \frac{1}{12}$, then:
+\[ 
+\textstyle
+\tilde f(\ec{\frac{1}{12}}) = e^{2\pi i (\frac{1}{12})} = \cos(\frac{\pi}{6}) + i\sin(\frac{\pi}{6}) = \frac{\sqrt{3}}{2} + i\frac{1}{2}
+\]
+that point is on the circle $\abs{z} = 1$. To see $\tilde f$ is iso, note that
+it is mono because it takes different equivalence classes to different points,
+and is epic because every point on the circle is the image of some equivalence
+class.
+
+\item A function taking a point in $im f$ to itself in $\C$, which is clearly mono.
+\end{enumerate}
+\end{solution}
+
+% Problem 2.9
+\begin{solution}
+Let $A', A'', B', B''$ be as stated. Then we have two bijections $f\colon A' \to A''$ and $g\colon B' \to B''$. Define a function $h\colon A' \cup B' \to A'' \cup B''$ as:
+\[ h(x) = 
+\left\{
+  \begin{array}{ll}
+    f(x), & \text{if $x \in A'$} \\
+    g(x), & \text{otherwise}
+  \end{array}\right.
+\]
+We need to that $h$ is a bijection. Let $d \in A'' \cup B''$. Since $A'' \cap B'' = \emptyset$, $d \in A''$ or $d \in B''$.
+\begin{itemize}
+\item Suppose $d \in A''$, then there is some $x_0 \in A'$ such that $f(x_0) = d$, since $f$ is surjective.
+\item Analogous reasoning applies if $d \in B''$.
+\end{itemize}
+Thus $h$ is surjective. Now let $d_1, d_2 \in A' \cup B'$ be such that $d_1 \neq d_2$. We have four possibilities (since $A' \cap B' = \emptyset$):
+\begin{itemize}
+\item Case $d_1, d_2 \in A'$: then $h(d_1) = f(d_1)$ and $h(d_2) = f(d_2)$. Since $f$ is injective, $f(d_1) \neq f(d_2)$, i.e. $h(d_1) \neq h(d_2)$.
+\item Case $d_1, d_2 \in B'$: analogous to the previous case.
+\item Case $d_1 \in A', d_2 \in B'$: then $h(d_1) = f(d_1) \neq g(d_2) = h(d_2)$.
+\item Case $d_1 \in B', d_2 \in A'$: analogous to the previous case.
+\end{itemize}
+Thus $h$ is injective. So $h$ is bijective.
+Since $A', A''$ correspond to ``copies'' of $A$, and $B', B''$ correspond to copies of $B$ for use in the disjoint set operation, the disjoint union is well-defined \textit{up to isomorphism}.
+
+\end{solution}
+
+
 \end{document}
-
-
