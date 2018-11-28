@@ -1,5 +1,7 @@
 \documentclass{article}
 
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{caption}
@@ -7,9 +9,11 @@
 \usepackage{color}
 \usepackage{epigraph}
 \usepackage[hang,flushmargin]{footmisc} 
+
+% For the commutative diagrams.
+\usepackage{tikz-cd}
+
 \usepackage{tikz}
-\usepackage{hyperref}
-\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
 \usetikzlibrary{automata, positioning, arrows,
 fit, % for the dashed boxes on Thompson's construction
 calc
@@ -41,25 +45,9 @@ calc
 \usepackage{amsxtra}
 \usepackage{amsthm}
 \usepackage{mathrsfs}
-\usepackage{color}
 
 %Here I define some theorem styles and shortcut commands for symbols I use often
 \theoremstyle{definition}
-\newtheorem{defn}{Definition}
-\newtheorem{thm}{Teorema}
-\newtheorem{cor}{Corolario}
-\newtheorem*{rmk}{Remark}
-\newtheorem{lem}{Lema}
-\newtheorem*{joke}{Joke}
-
-\newtheorem{ex}{Example}
-\newcommand{\exautorefname}{Ejemplo}
-
-\newtheorem{exercise}{Ejercicio}
-\newcommand{\exerciseautorefname}{Ejercicio}
-
-\newtheorem{soln}{Solución}
-\newtheorem{prop}{Proposición}
 
 \newcommand{\lra}{\longrightarrow}
 \newcommand{\ra}{\rightarrow}
@@ -115,10 +103,6 @@ calc
 \setlength{\textwidth}{6.5in}
 \pagestyle{empty}
 
-% Print today's date in ISO format (YYYY-MM-DD).
-\def\isodate{\leavevmode\hbox{\the\year-\twodigits\month-\twodigits\day}}
-\def\twodigits#1{\ifnum#1<10 0\fi\the#1}
-
 % The problem environment is a regular ams theorem environment with "Problem"
 % text and some leading space to give some separation between the problems.
 \theoremstyle{definition}
@@ -137,20 +121,59 @@ calc
 %
 % Note: The negative space at the beginning is to remove the space before the
 % first paragraph in the solution.
-\newenvironment{solution}{%
-  \begin{proof}[Solution]
-  \vspace{-8px}
-  \setlength{\parskip}{4px}
-  \setlength{\parindent}{0px}
+%\newenvironment{solution}{%
+  %\begin{proof}[Solution]
+  %\vspace{-8px}
+  %\setlength{\parskip}{4px}
+  %\setlength{\parindent}{0px}
+%}{
+  %\end{proof}
+%}
+\theoremstyle{definition}
+\newtheorem{solution-internal}{}[subsection]
+\newenvironment{solution}{
+  \medskip
+  \begin{solution-internal}
 }{
-  \end{proof}
+  \end{solution-internal}
 }
 
+% The chngcntr ("change counter") package is used here so that subsection
+% numbers are written without the leading section number. This takes place in
+% the subsection headings as well as the theorem environment numbering.
+%
+% Before:
+% 1. Section
+% 1.1. Subsection
+% Problem 1.1.1. What is 1 + 1?
+% Problem 1.1.2. What is 1 + 2?
+%
+% After:
+% 1. Section
+% 1. Subsection
+% Problem 1.1. What is 1 + 1?
+% Problem 1.2. What is 1 + 2?
+\usepackage{chngcntr}
+\counterwithout{subsection}{section}
+
+% Renewing the \thesection command changes the section numbers to roman
+% numerals. This matches the style of the Aluffi textbook.
+%
+% Before:
+% 1. Section
+% 1.1. Subsection
+%
+% After:
+% I. Section
+% I.1. Subsection
+\renewcommand{\thesection}{\Roman{section}} 
+
 \begin{document}
-\begin{center}
-  {\LARGE Algebra: Chapter 0}\\[.2cm]
-  Cristian Adrián Ontivero \\[.05cm]%
-\end{center}
+
+\section*{Chapter 1}
+\subsection*{Preliminaries: Set theory and categories}
+\setcounter{subsection}{1}
+\stepcounter{solution-internal}
 
 \begin{solution}
 Suppose $\sim$ is an equivalence relation on a set $S$.
@@ -192,7 +215,7 @@ It now remains to prove that $\PS$ is $\PS_{\sim}$, the set of equivalence class
 \end{solution}
 
 \begin{solution}
-1.4 Five. These are:
+Five. These are:
 \begin{align*}
   \sim_1 &= \set{(1,1), (2,2), (3,3)} \\
   \sim_2 &= \set{(1,1), (1,2), (2,1), (2,2), (3,3)} \\
@@ -212,7 +235,7 @@ In general, the number of ways to partition a set of $n$ elements is given by th
 \end{solution}
 
 \begin{solution}
-1.5 Take $S = \set{1,2,3}$ and $R = \set{(1,1), (2,2), (3,3), (1,2), (2,1),
+Take $S = \set{1,2,3}$ and $R = \set{(1,1), (2,2), (3,3), (1,2), (2,1),
 (2,3), (3,2)}$. $R$ is reflexive and symmetric, but not transitive. Recall that
 an equivalence class of $x$ with respect to $R$ is
 \[ \bra{x}_R = \set{y \in S \mid yRx} \]
@@ -222,7 +245,7 @@ $\bra{1}_R \neq \bra{2}_R$, but they aren't disjoint ($\bra{1}_R \cap \bra{2}_R
 \end{solution}
 
 \begin{solution}
-1.6 $\forall a, b \in \R (a \sim b \iff b - a \in \Z)$.
+$\forall a, b \in \R (a \sim b \iff b - a \in \Z)$.
 \begin{itemize}
 \item Reflexive: $\forall a \in R, a \sim a \iff a - a = 0 \in Z$
 \item Symmetric: Let $a,b \in \R$ by such that $a \sim b$. Then $b - a \in Z$, so its opposite $-(b-a) \in Z$, i.e. $a-b \in Z$, thus $b \sim a$.
@@ -245,10 +268,14 @@ Therefore $(b_1, b_2) \approx (a_1, a_2)$.
 \end{itemize}
 \end{solution}
 
-Check from section 2.5
-Let $f \colon A \to B$ be a bijection, and define $g \colon B \to A$ by $g(b) = a$ whenever $f(a) = b$. We need to show that $g$, the flip of $\Gamma_f$ is a function according to the definition given, that is: 
+Check from \S 2.5.
+Let $f \colon A \to B$ be a bijection, and define $g \colon B \to A$ by $g(b)=a$ whenever $f(a)=b$. We need to show that $g$, the flip of $\Gamma_f$ is a
+function according to the definition given, which is: 
 \[ (\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g \]
-We prove it by contradiction. Suppose $\neg (\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g$. This is equivalent to $\exists b \in B \neg (\exists! a \in A) (b,a) \in \Gamma_g$. Take this $b$. Either there is no element in $A$ such that $(b,a) \in \Gamma_g$, or there is more than one.
+We prove it by contradiction. Suppose $\neg (\forall b \in B)(\exists! a \in A)
+(b,a) \in \Gamma_g$. This is equivalent to:
+\[ \exists b \in B \neg (\exists! a \in A) (b,a) \in \Gamma_g \]
+Take this $b$. Either there is no element in $A$ such that $(b,a) \in \Gamma_g$, or there is more than one.
 \begin{itemize}
 \item Suppose $\neg \exists a \in A$ such that $(b,a) \in \Gamma_g$: then
 $g(b)$ isn't defined, which by the way $g$ is defined implies that $f$ isn't
@@ -276,8 +303,8 @@ map a second element to the remaining $(n-1)$, and so on.
 \begin{solution}
 2.2 Assume $A \neq \emptyset$ and let $f \colon A \to B$ be a function. To be proved: $f$ has a right-inverse iff it is surjective.
 \begin{itemize}
-\item[$\Longrightarrow$:] Suppose $f$ has a right-inverse, then there exists $g \colon B \to A$ such that $f \circ g = id_B$. We need to show that $f$ is surjective. Let $b \in B$. Then $\exists a \in A$, namely $g(b)$, such that $f(a) = b$. Hence $f$ is surjective.
-\item[$\Longleftarrow$:] Suppose $f$ is surjective. For each $b \in B$ construct a set
+  \item[$(\Rightarrow)$:] Suppose $f$ has a right-inverse, then there exists $g \colon B \to A$ such that $f \circ g = id_B$. We need to show that $f$ is surjective. Let $b \in B$. Then $\exists a \in A$, namely $g(b)$, such that $f(a) = b$. Hence $f$ is surjective.
+\item[$(\Leftarrow)$:] Suppose $f$ is surjective. For each $b \in B$ construct a set
 \[ \Lambda_b = \set{(a,b) \mid a \in A, f(a) = b} \]
 Every $\Lambda_b$ is nonempty due to $f$ begin surjective, so we can choose a
 pair from each $\Lambda_b$ to define $g \colon B \to A$ by $g(b) = a$, where
@@ -315,7 +342,7 @@ for all sets $Z$ and all functions $\alpha', \alpha''\colon B \to Z (\alpha' \ci
 Proposition: a function is surjective iff it is an epimorphism.
 Proof
 \begin{itemize}
-\item[$(\implies)$:] Suppose $f\colon A \to B$ is surjective. By proposition 2.1 there is a function $g\colon B \to A$ which is its right-inverse. Assume $\alpha',\alpha''$ are arbitrary functions from $B$ to another set $Z$, and that $\alpha' \circ f = \alpha'' \circ f$.
+\item[$(\Rightarrow)$:] Suppose $f\colon A \to B$ is surjective. By proposition 2.1 there is a function $g\colon B \to A$ which is its right-inverse. Assume $\alpha',\alpha''$ are arbitrary functions from $B$ to another set $Z$, and that $\alpha' \circ f = \alpha'' \circ f$.
 Composing on the right by $g$, and using the associtivity of composition:
 \begin{align*}
 (\alpha' \circ f)\circ g &= (\alpha''\circ f)\circ g \\
@@ -324,7 +351,7 @@ Composing on the right by $g$, and using the associtivity of composition:
 \alpha' &= \alpha''
 \end{align*}
 Thus $f$ is an epimorphism.
-\item[$(\Longleftarrow)$:] We prove by contradiction. Suppose $f$ is not
+\item[$(\Leftarrow)$:] We prove by contradiction. Suppose $f$ is not
 surjective. Then there is some $b \in B$ such that $\forall a \in A (f(a) \neq
 b)$.Take two functions $\alpha', \alpha''\colon B \to Z$ where $Z =
 \set{z_1,z_2,\dots}$ has at least two elements. $\alpha'(b) = z_1$,
