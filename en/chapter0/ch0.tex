@@ -92,7 +92,10 @@ calc
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\bra}[1]{\left[#1\right]}
 \newcommand{\abs}[1]{\left|#1\right|}
-\newcommand{\ec}[1]{{\left[#1\right]}_{\sim}}
+
+% Equivalence class
+\newcommand{\ec}[2][\sim]{{\left[#2\right]}_{#1}}
+
 \newcommand{\thra}{\twoheadrightarrow}
 \newcommand{\emptystr}{\varepsilon}
 \newcommand{\emptylan}{\emptyset}
@@ -181,26 +184,27 @@ calc
 \begin{solution}
 Suppose $\sim$ is an equivalence relation on a set $S$.
 Since $\sim$ is reflexive, $\forall x \in S (x \sim x) $, so $\forall x\in S
-(x \in {[x]}_{\sim})$. Thus, no equivalence class is empty, and their union is
+(x \in \ec{x})$. Thus, no equivalence class is empty, and their union is
 the whole set $S$.  It remains to show the disjointness of the equivalence
-classes.  Let $x$ and $y$ be two elements of $S$. Suppose ${[x]}_{\sim} \cap
-{[y]}_{\sim} \neq \emptyset$. Then there exists $z \in {[x]}_{\sim} \cap
-{[y]}_{\sim}$, i.e. $z \in {[x]}_{\sim} \wedge z \in {[y]}_{\sim}$. By
+classes.  Let $x$ and $y$ be two elements of $S$. Suppose $\ec{x} \cap
+\ec{y} \neq \emptyset$. Then there exists $z \in \ec{x} \cap
+\ec{y}$, i.e. $z \in \ec{x} \wedge z \in \ec{y}$. By
 definition of equivalence class, $z \sim x$ and $z \sim y$. By symmetry $x \sim
 z$, and by transitivity $x \sim y$. Once more, by symmetry $y \sim x$. Knowing
-all this, we proceed to prove that ${[x]}_{\sim} = {[y]}_{\sim}$.
+all this, we proceed to prove that $\ec{x} = \ec{y}$.
 \begin{itemize}
-\item[$\subseteq$:] Let $d \in {[x]}_{\sim}$, this means that $d \sim x$. By
-transitivity $d \sim y$, so $d \in {[y]}_{\sim}$.
-\item[$\supseteq$:] Let $d \in {[y]}_{\sim}$, this means that $d \sim y$. By
-transitivity $d \in x$, so $d \in {[x]}_{\sim}$.
+  \item[$\subseteq$:] Let $d \in \ec{x}$, this means that $d \sim x$. By
+    transitivity $d \sim y$, so $d \in \ec{y}$.
+  \item[$\supseteq$:] Let $d \in \ec{y}$, this means that $d \sim y$. By
+  transitivity $d \in x$, so $d \in \ec{x}$.
 \end{itemize}
 
-Thus ${[x]}_{\sim} = {[y]}_{\sim}$.
+Thus $\ec{x} = \ec{y}$.
 \end{solution}
 
+% Problem 1.3
 \begin{solution}
-1.3 Given a partition $\mathcal{P}$ on a set $S$, we define a relation $\sim$ on
+Given a partition $\mathcal{P}$ on a set $S$, we define a relation $\sim$ on
 $S$ as follows: $x \sim y$ iff $x, y \in X$, for some $X \in \mathcal{P}$.
 Let's prove that $\sim$ is an equivalence relation on S.
 \begin{itemize}
@@ -241,9 +245,9 @@ In general, the number of ways to partition a set of $n$ elements is given by th
 Take $S = \set{1,2,3}$ and $R = \set{(1,1), (2,2), (3,3), (1,2), (2,1),
 (2,3), (3,2)}$. $R$ is reflexive and symmetric, but not transitive. Recall that
 an equivalence class of $x$ with respect to $R$ is
-\[ \bra{x}_R = \set{y \in S \mid yRx} \]
-Thus we have $\bra{1}_R = \set{1,2}$ and $\bra{2}_R = \set{1,2,3}$. Clearly
-$\bra{1}_R \neq \bra{2}_R$, but they aren't disjoint ($\bra{1}_R \cap \bra{2}_R
+\[ \ec[R]{x} = \set{y \in S \mid yRx} \]
+Thus we have $\ec[R]{1} = \set{1,2}$ and $\ec[R]{2} = \set{1,2,3}$. Clearly
+$\ec[R]{1} \neq \ec[R]{2}$, but they aren't disjoint ($\ec[R]{1} \cap \ec[R]{2}
 \neq \emptyset$), so they can't form a partition.
 \end{solution}
 
@@ -255,7 +259,7 @@ $\forall a, b \in \R (a \sim b \iff b - a \in \Z)$.
 \item Transitive: Let $a, b, c \in \R$ by such that $a \sim b$ and $b \sim c$. Then $b - a \in Z$, and $c - b \in Z$. Since $\Z$ is closed under addition, $(b-a) + (c-b) = c - a \in Z$. Thus $a \sim c$.
 \end{itemize}
 Under $\sim$ all reals with the same decimal expansion belong to the same
-equivalence class. In other words $\forall x \in [0,1), \bra{x}_{\sim} = \set{n + x \mid n \in \Z}$.
+equivalence class. In other words $\forall x \in [0,1), \ec{x} = \set{n + x \mid n \in \Z}$.
 In particular $\bra{0} = \Z$. Thus $\R/\sim = \R/\Z$ which is isomorphic to
 $[0,1)$ and the unit circle (the book until here doesn't get into quotient
 groups though!).
