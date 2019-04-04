@@ -1,0 +1,434 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{float}
+
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows,
+fit, % for the dashed boxes on Thompson's construction
+calc
+}
+
+\newcommand{\emptystr}{\varepsilon}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usepackage{ebproof}
+\usepackage{enumitem}
+\graphicspath{{imgs/}}
+
+\newlength\tindent%
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definición}
+\newtheorem{thm}{Teorema}
+\newtheorem{cor}{Corolario}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lema}
+\newtheorem*{joke}{Joke}
+
+\newtheorem{ex}{Ejemplo}
+\newcommand{\exautorefname}{Ejemplo}
+
+\newtheorem{exercise}{Ejercicio}
+\newcommand{\exerciseautorefname}{Ejercicio}
+
+\newtheorem{soln}{Solución}
+\newtheorem{prop}{Proposición}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+\newcommand{\lra}{\leftrightarrow}
+% Logic rules
+\newcommand{\ii}{\footnotesize ($\rightarrow$I)}
+\newcommand{\ie}{\footnotesize ($\rightarrow$E)}
+\newcommand{\ci}{\footnotesize ($\wedge$I)}
+\newcommand{\ce}{\footnotesize ($\wedge$E)}
+\newcommand{\di}{\footnotesize ($\vee$I)}
+\newcommand{\de}{\footnotesize ($\vee$E)}
+\newcommand{\bi}{\footnotesize ($\leftrightarrow$I)}
+\newcommand{\be}{\footnotesize ($\leftrightarrow$E)}
+\newcommand{\negi}{\footnotesize ($\neg$I)}
+\newcommand{\nege}{\footnotesize ($\neg$E)}
+\newcommand{\raa}{\footnotesize (RAA)}
+\newcommand*\cir[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {\footnotesize #1};}}
+
+            \newcommand{\danda}[2]{%
+    \tikz[baseline=(tocancel.base)]{%
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {\(#1\)};
+        \node[inner sep=0pt,outer sep=1pt,above right=0mm of tocancel] (end)
+        {\cir{#2}};
+        \draw (tocancel.south west) -- (end.260);
+    }\hspace{-1.2em}%
+}%
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+
+2.2.2)
+\begin{enumerate}[label=(\alph*)]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{\psi}
+      \hypo{\chi}
+      \infer2[\ci]{(\psi\land\chi)}
+      \infer2[\ci]{(\phi \land (\psi\land\chi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\chi}
+      \hypo{\phi}
+      \infer2[\ci]{(\chi\land\phi)}
+    \end{prooftree}
+  \]
+
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{\phi}
+      \infer2[\ci]{(\phi\land\phi)}
+      \hypo{\phi}
+      \infer2[\ci]{((\phi\land\phi)\land \phi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{\psi}
+      \infer2[\ci]{(\phi\land\psi)}
+      \hypo{\phi}
+      \hypo{\psi}
+      \infer2[\ci]{(\phi\land\psi)}
+      \infer2[\ci]{((\phi\land\psi)\land(\phi\land\psi))}
+    \end{prooftree}
+  \]
+
+\end{enumerate}
+
+2.3.1)
+\begin{enumerate}[label=(\alph*)]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{(\phi\land\psi)}
+      \infer1[\ce]{\phi}
+      \hypo{(\phi\land\psi)}
+      \infer1[\ce]{\phi}
+      \infer2[\ci]{(\phi\land\phi)}
+    \end{prooftree}
+  \]
+
+  \item \(\land\) associativity in one direction:
+  \[
+    \begin{prooftree}
+      \hypo{((\phi\land\psi)\land\chi)}
+      \infer1[\ce]{(\phi\land\psi)}
+      \infer1[\ce]{\phi}
+      \hypo{((\phi\land\psi)\land\chi)}
+      \infer1[\ce]{(\phi\land\psi)}
+      \infer1[\ce]{\psi}
+      \hypo{((\phi\land\psi)\land\chi)}
+      \infer1[\ce]{\chi}
+      \infer2[\ci]{(\psi\land\chi)}
+      \infer2[\ci]{(\phi\land(\psi\land\chi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{(\psi\land\chi)}
+      \infer1[\ce]{\chi}
+      \hypo{\phi}
+      \infer2[\ci]{(\chi\land\phi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{(\phi\land(\psi\land\chi))}
+      \infer1[\ce]{(\psi\land\chi)}
+      \infer1[\ce]{\chi}
+      \hypo{(\phi\land(\psi\land\chi))}
+      \infer1[\ce]{\phi}
+      \infer2[\ci]{(\chi\land\phi)}
+      \hypo{(\phi\land(\psi\land\chi))}
+      \infer1[\ce]{(\psi\land\chi)}
+      \infer1[\ce]{\psi}
+      \infer2[\ci]{((\chi\land\phi)\land\psi)}
+    \end{prooftree}
+  \]
+\end{enumerate}
+
+2.3.2)
+  \[
+    \begin{prooftree}
+      \hypo{D}
+      \infer[rule style=no rule]1{\phi}
+      \hypo{D'}
+      \infer[rule style=no rule]1{\psi}
+      \infer2[\ci]{(\phi\land\psi)}
+      \infer1[\ce]{\phi}
+    \end{prooftree}
+  \]
+  Just do $D$ to derive $\phi$.
+
+2.3.3) Suppose \(\{\phi_1, \phi_2\} \vdash \psi\). Then:
+  \[
+    \begin{prooftree}
+      \hypo{(\phi_1\land\phi_2)}
+      \infer1[\ce]{\phi_1}
+      \hypo{(\phi_1\land\phi_2)}
+      \infer1[\ce]{\phi_2}
+      \infer2[(assumption)]{\psi}
+    \end{prooftree}
+  \]
+Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
+  \[
+    \begin{prooftree}
+      \hypo{\phi_1}
+      \hypo{\phi_2}
+      \infer2[\ci]{(\phi_1\land\phi_2)}
+      \infer1[(assumption)]{\psi}
+    \end{prooftree}
+  \]
+
+2.4.1) 
+\begin{enumerate}
+  \item \(f\) is differentiable \(\ra\) \(f\) is continuous.
+  \item \(x\) is positive \(\ra\) \(x\) has a square root.
+  \item \(b \neq 0 \ra \dfrac{ab}{b} = a\)
+\end{enumerate}
+
+2.4.2) Proof of \(\vdash ((\phi\land\psi)\ra(\psi\land\phi))\)
+\begin{enumerate}[label=(\alph*)]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\land\psi)}{1}}
+      \infer1[\ce]{\psi}
+      \hypo{\danda{(\phi\land\psi)}{1}}
+      \infer1[\ce]{\phi}
+      \infer2[\ci]{(\psi\land\phi)}
+      \infer[left label=\cir{1}]1[\ii]{((\phi\land\psi)\ra(\psi\land\phi))}
+    \end{prooftree}
+  \]
+  \item Proof of \(\vdash ((\psi\ra\chi)\ra((\phi\ra\psi)\ra(\phi\ra\chi)))\)
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\phi\ra\psi)}{2}}
+      \infer2[\ie]{\psi}
+      \hypo{\danda{(\psi\ra\chi)}{3}}
+      \infer2[\ie]{\chi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\chi)}
+      \infer[left label=\cir{2}]1[\ii]{((\phi\ra\psi)\ra(\phi\ra\chi))}
+      \infer[left label=\cir{3}]1[\ii]{((\psi\ra\chi)\ra((\phi\ra\psi)\ra(\phi\ra\chi)))}
+    \end{prooftree}
+  \]
+\end{enumerate}
+2.4.3)
+\begin{enumerate}[label=(\alph*)]
+  \item \(\vdash (\phi \ra (\psi \ra \phi))\)
+  \item \(\{\phi\}\vdash (\phi \ra (\psi \ra \phi))\)
+  \item \(\{(\phi\land\psi)\} \vdash (\psi \ra (\psi \land \phi))\)
+  \item \(\vdash \phi \ra \phi\)
+\end{enumerate}
+
+2.4.4)
+\begin{enumerate}[label=(\alph*)]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\psi}{1}}
+      \infer[left label=\cir{1}]1[\ii]{(\psi\ra\psi)}
+      \infer1[\ii]{(\phi\ra(\psi\ra\psi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\phi)}
+      \hypo{\danda{\psi}{2}}
+      \infer[left label=\cir{2}]1[\ii]{(\psi\ra\psi)}
+      \infer2[\ci]{((\phi\ra\phi)\land(\psi\ra\psi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\phi\ra(\theta\ra\psi))}{3}}
+      \infer2[\ie]{(\theta\ra\psi)}
+      \hypo{\danda{\theta}{1}}
+      \infer2[\ie]{\psi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\psi)}
+      \infer[left label=\cir{2}]1[\ii]{(\theta\ra(\phi\ra\psi))}
+      \infer[left label=\cir{3}]1[\ii]{((\phi\ra(\theta\ra\psi))\ra(\theta\ra(\phi\ra\psi)))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\phi\ra\chi)}
+      \infer2[\ie]{\chi}
+      \infer2[\ci]{(\psi\land\chi)}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra(\psi\land\chi))}
+    \end{prooftree}
+  \]
+  \item 
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\land\psi)}{1}}
+      \infer1[\ce]{\psi}
+      \hypo{\danda{(\phi\land\psi)}{1}}
+      \infer1[\ce]{\phi}
+      \hypo{(\phi\ra(\psi\ra\chi))}
+      \infer2[\ie]{(\psi\ra\chi)}
+      \infer2[\ie]{\chi}
+      \infer[left label=\cir{1}]1[\ii]{((\phi\land\psi)\ra\chi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\phi\ra\psi)}{3}}
+      \infer2[\ie]{\psi}
+      \hypo{\danda{(\psi\ra\theta)}{2}}
+      \infer2[\ie]{\theta}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\chi)}
+      \infer[left label=\cir{2}]1[\ii]{((\psi\ra\theta)\ra(\phi\ra\chi))}
+      \infer[left label=\cir{3}]1[\ii]{((\phi\ra\psi)\ra((\psi\ra\theta)\ra(\phi\ra\chi)))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\phi\ra(\psi\land\theta))}{3}}
+      \infer2[\ie]{(\psi\land\theta)}
+      \infer1[\ce]{\theta}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\theta)}
+      \hypo{\danda{\phi}{2}}
+      \hypo{\danda{(\phi\ra(\psi\ra\theta))}{3}}
+      \infer2[\ie]{(\psi\land\theta)}
+      \infer1[\ce]{\psi}
+      \infer[left label=\cir{2}]1[\ii]{(\phi\ra\psi)}
+      \infer2[\ci]{(\psi\ra\theta)\land(\psi\ra\psi)}
+      \infer[left label=\cir{3}]1[\ii]{((\phi\ra(\psi\land\theta))\ra((\psi\ra\theta)\land(\psi\ra\psi)))}
+    \end{prooftree}
+  \]
+\end{enumerate}
+  
+
+Prove \(\{(\neg(\phi\lra\psi))\}\vdash(\neg\phi)\lra\psi\)
+
+
+\begin{prooftree}
+  \hypo{\danda{\phi}{1}}
+  \hypo{\danda{\neg\phi}{4}}
+  \infer2[\nege]{\bot}
+  \infer1[\raa]{\psi}
+  \infer[left label=\cir{1}]1[\ii]{\phi\to\psi}
+  \hypo{\danda{\psi}{2}}
+  \hypo{\danda{\neg\psi}{3}}
+  \infer2[\nege]{\bot}
+  \infer1[\raa]{\phi}
+  \infer[left label=\cir{2}]1[\ii]{\psi\to\phi}
+  \infer2[\bi]{\phi\lra\psi}
+  \hypo{\neg(\phi\lra\psi)}
+  \infer2[\nege]{\bot}
+  \infer[left label=\cir{3}]1[\raa]{\psi}
+  \infer[left label=\cir{4}]1[\ii]{\neg\phi\to\psi}
+
+  \hypo{\neg(\phi\lra\psi)}
+
+  \hypo{\danda{\psi}{6}}
+  \infer1[\ii]{\phi\to\psi}
+  \hypo{\danda{\phi}{5}}
+  \infer1[\ii]{\psi\to\phi}
+  \infer2[\bi]{\phi\lra\psi}
+  \infer2[\nege]{\bot}
+  \infer[left label=\cir{5}]1[\negi]{(\neg\phi)}
+  \infer[left label=\cir{6}]1[\ii]{\psi\to(\neg\phi)}
+  \infer2[\bi]{(\neg\phi)\lra\psi}
+\end{prooftree}
+
+\newpage 
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}
+
+
