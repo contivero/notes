@@ -15,7 +15,11 @@ calc
 \usepackage{hyperref}
 \hypersetup{pdfauthor={Cristian Adrián Ontivero}}
 \usepackage{ebproof}
+
+% Set items in enumerate environment to letters.
 \usepackage{enumitem}
+\setenumerate[0]{label=(\alph*)}
+
 \graphicspath{{imgs/}}
 
 \newlength\tindent%
@@ -125,7 +129,7 @@ calc
 \begin{document}
 
 2.2.2)
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}
   \item 
   \[
     \begin{prooftree}
@@ -171,7 +175,7 @@ calc
 \end{enumerate}
 
 2.3.1)
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}
   \item
   \[
     \begin{prooftree}
@@ -265,7 +269,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
 \end{enumerate}
 
 2.4.2) Proof of \(\vdash ((\phi\land\psi)\ra(\psi\land\phi))\)
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}
   \item 
   \[
     \begin{prooftree}
@@ -292,7 +296,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
   \]
 \end{enumerate}
 2.4.3)
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}
   \item \(\vdash (\phi \ra (\psi \ra \phi))\)
   \item \(\{\phi\}\vdash (\phi \ra (\psi \ra \phi))\)
   \item \(\{(\phi\land\psi)\} \vdash (\psi \ra (\psi \land \phi))\)
@@ -300,7 +304,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
 \end{enumerate}
 
 2.4.4)
-\begin{enumerate}[label=(\alph*)]
+\begin{enumerate}
   \item 
   \[
     \begin{prooftree}
@@ -345,7 +349,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer[left label=\cir{1}]1[\ii]{(\phi\ra(\psi\land\chi))}
     \end{prooftree}
   \]
-  \item 
+  \item TODO
   \item 
   \[
     \begin{prooftree}
@@ -390,45 +394,485 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
     \end{prooftree}
   \]
 \end{enumerate}
+
+2.4.5) \((\Rightarrow)\) Suppose \(\{\phi\}\vdash\psi\). Then:
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \infer1[(assumption)]{\psi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\psi)}
+    \end{prooftree}
+  \]
+\((\Rightarrow)\) Suppose \(\vdash(\phi\ra\psi)\). Then:
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+    \end{prooftree}
+  \]
   
+2.4.6) Suppose \(D_1\) is a derivation whose undischarged assumptions are all in \(\Gamma \cup \{\phi\}\). Take \(D*\) to be a copy of \(D_1\) where each ocurrence of \(\phi\) is replaced by \(\danda{\phi}{1}\)~. Then take the derivation \(D'_1\) to be:
+  \[
+    \begin{prooftree}
+      \hypo{D*}
+      \infer[rule style=no rule]1{\psi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\psi)}
+    \end{prooftree}
+  \]
+\((\Rightarrow)\) Now suppose \(D_2\) is a derivation whose undischarged
+assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{D_1}
+      \infer[rule style=no rule]1{(\phi\ra\psi)}
+      \infer2[\ii]{\psi}
+    \end{prooftree}
+  \]
 
-Prove \(\{(\neg(\phi\lra\psi))\}\vdash(\neg\phi)\lra\psi\)
+2.5.1) 
+\begin{enumerate}
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\phi}
+      \hypo{(\phi\lra\psi)}
+      \infer1[\be]{(\phi\ra\psi)}
+      \infer2[\ii]{\psi}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\phi)}
+      \hypo{\danda{\phi}{2}}
+      \infer[left label=\cir{2}]1[\ii]{(\phi\ra\phi)}
+      \infer2[\bi]{(\phi\ra\phi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\phi\lra\psi)}
+      \infer1[\be]{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+      \hypo{(\psi\lra\chi)}
+      \infer1[\be]{(\psi\ra\chi)}
+      \infer2[\ie]{\chi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\chi)}
 
+      \hypo{\danda{\chi}{2}}
+      \hypo{(\psi\lra\chi)}
+      \infer1[\be]{(\chi\ra\psi)}
+      \infer2[\ie]{\psi}
+      \hypo{(\phi\lra\psi)}
+      \infer1[\be]{(\psi\ra\phi)}
+      \infer2[\ie]{\phi}
+      \infer[left label=\cir{2}]1[\ii]{(\chi\ra\phi)}
+      \infer2[\bi]{(\phi\lra\chi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\psi}{1}}
+      \infer1[\ii]{(\phi\ra\psi)}
+      \hypo{\danda{\phi}{3}}
+      \infer1[\ii]{(\psi\ra\phi)}
+      \infer2[\bi]{(\phi\lra\psi)}
 
-\begin{prooftree}
-  \hypo{\danda{\phi}{1}}
-  \hypo{\danda{\neg\phi}{4}}
-  \infer2[\nege]{\bot}
-  \infer1[\raa]{\psi}
-  \infer[left label=\cir{1}]1[\ii]{\phi\to\psi}
-  \hypo{\danda{\psi}{2}}
-  \hypo{\danda{\neg\psi}{3}}
-  \infer2[\nege]{\bot}
-  \infer1[\raa]{\phi}
-  \infer[left label=\cir{2}]1[\ii]{\psi\to\phi}
-  \infer2[\bi]{\phi\lra\psi}
-  \hypo{\neg(\phi\lra\psi)}
-  \infer2[\nege]{\bot}
-  \infer[left label=\cir{3}]1[\raa]{\psi}
-  \infer[left label=\cir{4}]1[\ii]{\neg\phi\to\psi}
+      \hypo{((\phi\lra\psi)\lra\chi)}
+      \infer1[\be]{((\phi\lra\psi)\ra\chi)}
+      \infer2[\ie]{\chi}
+      \infer[left label=\cir{1}]1[\ii]{(\psi\ra\chi)}
 
-  \hypo{\neg(\phi\lra\psi)}
+      \hypo{\danda{\phi}{3}}
+      \hypo{\danda{\chi}{2}}
+      \hypo{((\phi\lra\psi)\lra\chi)}
+      \infer1[\be]{(\chi\ra(\phi\lra\psi))}
+      \infer2[\ie]{(\phi\lra\psi)}
+      \infer1[\be]{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+      \infer[left label=\cir{2}]1[\be]{(\chi\ra\psi)}
+      \infer2[\ie]{(\psi\lra\chi)}
+      \infer[left label=\cir{3}]1[\be]{(\phi\ra(\psi\lra\chi))}
 
-  \hypo{\danda{\psi}{6}}
-  \infer1[\ii]{\phi\to\psi}
-  \hypo{\danda{\phi}{5}}
-  \infer1[\ii]{\psi\to\phi}
-  \infer2[\bi]{\phi\lra\psi}
-  \infer2[\nege]{\bot}
-  \infer[left label=\cir{5}]1[\negi]{(\neg\phi)}
-  \infer[left label=\cir{6}]1[\ii]{\psi\to(\neg\phi)}
-  \infer2[\bi]{(\neg\phi)\lra\psi}
-\end{prooftree}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\psi}{1}}
+      \infer[left label=\cir{1}]1[\ii]{(\psi\ra\psi)}
+      \hypo{\danda{\psi}{2}}
+      \infer[left label=\cir{2}]1[\ii]{(\psi\ra\psi)}
+      \infer2[\bi]{(\psi\lra\psi)}
+
+      \hypo{(\phi\lra(\psi\lra\psi))}
+      \infer1[\be]{((\psi\lra\psi)\lra\phi)}
+      \infer2[\ie]{\phi}
+    \end{prooftree}
+  \]
+\end{enumerate}
+
+2.5.2) We know that \(\forall \phi,\psi \in S, \phi \sim \psi \text{ iff }
+\vdash (\phi\lra\phi)\). We have to show that \(\sim\) is an equivalence
+relation.
+\begin{itemize}
+  \item Reflexive: Let \(\phi\) be a formula. By 2.5.1(b), \(\vdash(\phi\lra\phi)\), then \(\phi\sim\phi\).
+  \item Symmetric: Let \(\phi,\psi\) be formulas such that \(\phi\sim\psi\).
+  Then \(\vdash(\phi\lra\psi\). By example 2.5.1,
+  \(\{(\phi\lra\psi)\}\vdash(\psi\lra\phi)\), so \(\psi\sim\phi\).
+  In more detail:
+  TODO (add derivation as in the transitive case)
+
+  \item Transitive: Let \(\phi,\psi,\chi\) be formulas such that
+  \(\phi\sim\psi\) and \(\psi\sim\chi\). Then \(\vdash(\phi\lra\psi)\) and
+  \(\vdash(\psi\lra\chi)\). Then by exercise 2.5.1 (c),
+  \(\{(\phi\lra\psi),(\psi\lra\chi)\}\vdash (\phi\lra\chi)\), so
+  \((\phi\sim\chi)\). In more detail, we have:
+  \[
+    \begin{prooftree}
+      \hypo{D}
+      \infer[rule style=no rule]1{(\phi\lra\psi)}
+    \end{prooftree}\hspace{6mm}
+    \begin{prooftree}
+      \hypo{D'}
+      \infer[rule style=no rule]1{(\psi\lra\chi)}
+    \end{prooftree}\hspace{6mm}
+    \begin{prooftree}
+      \hypo{D'}
+      \infer[rule style=no rule]1{(\psi\lra\chi)}
+    \end{prooftree}
+  \]
+  \[
+    \begin{prooftree}
+      \hypo{D_c}
+      \infer[rule style=no rule]1{(\phi\lra\chi)}
+    \end{prooftree}
+  \]
+  where \(D_c\) is all the derivation we did in 2.5.1(c).
+  
+\end{itemize}
+
+2.5.3) Suppose we have a derivation \(D\) with no undischarged assumptions. Let \(\phi\) by any statement. Then:
+\[
+    \begin{prooftree}
+      \hypo{D}
+      \infer[rule style=no rule]1{\psi}
+      \hypo{\danda{(\phi\lra\psi)}{1}}
+      \infer1[\be]{(\psi\ra\phi)}
+      \infer2[\ie]{\phi}
+      \infer[left label=\cir{1}]1[\ii]{((\phi\lra\psi)\ra\phi)}
+
+      \hypo{D}
+      \infer[rule style=no rule]1{\psi}
+      \infer1[\ii]{(\phi\ra\psi)}
+
+      \hypo{\danda{\phi}{2}}
+      \infer1[\ii]{(\psi\ra\phi)}
+      \infer2[\bi]{(\phi\lra\psi)}
+      \infer[left label=\cir{2}]1[\ii]{(\phi\ra(\psi\ra\phi))}
+      \infer2[\ii]{((\phi\lra\psi)\lra\phi)}
+    \end{prooftree}
+\]
+
+2.5.4) Sequent Rule \(\lra I\): If the sequents \((\Gamma \cup \{\phi\}\vdash
+\psi)\) and \((\Delta \cup \{\psi\} \vdash \phi)\) are correct, then so is
+\((\Gamma \cup \Delta\vdash (\phi\lra\psi))\).
+
+Sequent Rule \(\lra E\): If the sequent \((\Gamma \vdash (\phi\lra\psi))\) is
+correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
+(\psi \ra \phi))\).
+
+2.6.1)
+\begin{enumerate}
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\land(\neg \phi))}{1}}
+      \infer1[\ce]{\phi}
+      \hypo{\danda{(\phi\land(\neg \phi))}{1}}
+      \infer1[\ce]{(\neg\phi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg(\phi\land(\neg \phi)))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\neg(\phi\ra\psi))}{2}}
+      \hypo{\danda{\psi}{1}}
+      \infer1[\ii]{(\phi\ra\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg\psi)}
+      \infer[left label=\cir{2}]1[\ii]{((\neg(\phi\ra\psi))\ra(\neg\psi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\land\psi)}{2}}
+      \infer1[\ce]{\psi}
+
+      \hypo{\danda{(\phi\land\psi)}{2}}
+      \infer1[\ce]{\phi}
+      \hypo{\danda{(\phi\ra(\neg\psi))}{1}}
+      \infer2[\ie]{(\neg\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg(\phi\ra(\neg\psi)))}
+      \infer[left label=\cir{2}]1[\ii]{((\phi\land\psi)\ra(\neg(\phi\ra(\neg\psi))))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{((\neg(\phi\land\psi))\land\phi)}
+      \infer1[\ce]{(\neg(\phi\land\psi))}
+
+      \hypo{((\neg(\phi\land\psi))\land\phi)}
+      \infer1[\ce]{\phi}
+      \hypo{\danda{\psi}{1}}
+      \infer2[\ie]{(\phi\land\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg\psi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\neg\psi)}{2}}
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg\phi)}
+      \infer[left label=\cir{2}]1[\ii]{((\neg\psi)\ra(\neg\phi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\land(\neg\psi))}{1}}
+      \infer1[\ce]{\phi}
+
+      \hypo{(\phi\ra\psi)}
+      \infer2[\ie]{\psi}
+
+      \hypo{\danda{(\phi\land(\neg\psi))}{1}}
+      \infer1[\ce]{(\neg\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg(\phi\land(\neg\psi)))}
+    \end{prooftree}
+  \]
+\end{enumerate}
+
+2.6.2)
+\begin{enumerate}
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{2}}
+      \hypo{\danda{(\neg\psi)}{1}}
+      \hypo{((\neg\psi)\ra(\neg\phi))}
+      \infer2[\ie]{(\neg\phi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\raa]{\psi}
+      \infer[left label=\cir{2}]1[\negi]{(\phi\ra\psi)}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\neg\phi)}{2}}
+      \infer2[\nege]{\bot}
+      \infer1[\raa]{\psi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra\psi)}
+      \hypo{\danda{(\neg(\phi\ra\psi))}{3}}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{2}]1[\raa]{\phi}
+      \infer[left label=\cir{3}]1[\ii]{((\neg(\phi\ra\psi))\ra\phi)}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{2}}
+      \hypo{\danda{(\neg\phi)}{1}}
+      \infer2[\nege]{\bot}
+      \infer1[\raa]{\psi}
+      \infer[left label=\cir{1}]1[\ii]{((\neg\phi)\ra\psi)}
+      \infer[left label=\cir{2}]1[\ii]{(\phi\ra((\neg\phi)\ra\psi))}
+    \end{prooftree}
+  \]
+  \item 
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \hypo{\danda{(\neg\phi)}{4}}
+      \infer2[\nege]{\bot}
+      \infer1[\raa]{\psi}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\to\psi)}
+      \hypo{\danda{\psi}{2}}
+      \hypo{\danda{(\neg\psi)}{3}}
+      \infer2[\nege]{\bot}
+      \infer1[\raa]{\phi}
+      \infer[left label=\cir{2}]1[\ii]{(\psi\to\phi)}
+      \infer2[\bi]{(\phi\lra\psi)}
+      \hypo{(\neg(\phi\lra\psi))}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{3}]1[\raa]{\psi}
+      \infer[left label=\cir{4}]1[\ii]{(\neg(\phi\to\psi))}
+
+      \hypo{(\neg(\phi\lra\psi))}
+
+      \hypo{\danda{\psi}{6}}
+      \infer1[\ii]{(\phi\to\psi)}
+      \hypo{\danda{\phi}{5}}
+      \infer1[\ii]{(\psi\to\phi)}
+      \infer2[\bi]{(\phi\lra\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{5}]1[\negi]{(\neg\phi)}
+      \infer[left label=\cir{6}]1[\ii]{(\psi\to(\neg\phi))}
+      \infer2[\bi]{((\neg\phi)\lra\psi)}
+    \end{prooftree}
+  \]
+\end{enumerate}
+
+2.7.1)
+\begin{enumerate}
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{\danda{\phi}{1}}
+      \infer1[\di]{(\phi\lor\psi)}
+      \infer[left label=\cir{1}]1[\ii]{(\phi\ra(\phi\lor\psi))}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{(\neg(\phi\lor\psi))}
+      \hypo{\danda{\phi}{1}}
+      \infer1[\di]{(\phi\lor\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\negi]{(\neg\phi)}
+
+      \hypo{(\neg(\phi\lor\psi))}
+      \hypo{\danda{\psi}{2}}
+      \infer1[\di]{(\phi\lor\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{2}]1[\negi]{(\neg\psi)}
+
+      \infer2[\di]{((\neg\phi)\land(\neg\psi))}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\neg\phi)}{1}}
+      \infer1[\di]{((\neg\phi)\lor\psi)}
+      \hypo{\danda{(\neg(\neg(\phi\lor\psi)))}{3}}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]1[\raa]{\phi}
+
+      \hypo{\danda{\phi}{2}}
+      \hypo{\danda{(\phi\ra\psi)}{4}}
+      \infer2[\ie]{\psi}
+      \infer1[\di]{((\neg\phi)\lor\psi)}
+      \hypo{\danda{(\neg((\neg\phi)\lor\psi))}{3}}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{2}]1[\negi]{(\neg\phi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{3}]1[\raa]{((\neg\phi)\lor\psi)}
+      \infer[left label=\cir{4}]1[\raa]{((\phi\ra\psi)\ra((\neg\phi)\lor\psi))}
+    \end{prooftree}
+  \]
+\end{enumerate}
+
+2.7.2)
+\begin{enumerate}
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{(\phi\lor\psi)}
+      \hypo{\danda{\phi}{1}}
+      \infer1[\di]{(\psi\lor\phi)}
+      \hypo{\danda{\psi}{1}}
+      \infer1[\di]{(\psi\lor\phi)}
+      \infer[left label=\cir{1}]3[\de]{(\psi\lor\phi)}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{(\phi\lor\psi)}
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\phi\ra\chi)}
+      \infer2[\ie]{\chi}
+      \hypo{\danda{\psi}{1}}
+      \hypo{(\psi\ra\chi)}
+      \infer2[\ie]{\chi}
+      \infer[left label=\cir{1}]3[\de]{\chi}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{(\phi\lor\psi)}
+
+      \hypo{\danda{\phi}{1}}
+      \hypo{(\neg\phi)}
+      \infer2[\nege]{\bot}
+      \infer1[\raa]{\psi}
+      \hypo{\danda{\psi}{1}}
+      \infer[left label=\cir{1}]3[\de]{\psi}
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{\danda{(\phi\lor\psi)}{2}}
+
+      \hypo{\danda{\phi}{1}}
+      \hypo{((\neg\phi)\land(\neg\psi))}
+      \infer1[\ce]{(\neg\phi)}
+      \infer2[\nege]{\bot}
+
+      \hypo{\danda{\psi}{1}}
+      \hypo{(\neg\psi)}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]3[\de]{\bot}
+      \infer[left label=\cir{2}]1[\negi]{(\neg(\phi\lor\psi))}
+
+    \end{prooftree}
+  \]
+  \item
+  \[
+    \begin{prooftree}
+      \hypo{\danda{((\neg\phi)\lor(\neg\psi))}{2}}
+
+      \hypo{(\phi\land\psi)}
+      \infer1[\ce]{\phi}
+      \hypo{\danda{(\neg\phi)}{1}}
+      \infer2[\nege]{\bot}
+
+      \hypo{(\phi\land\psi)}
+      \infer1[\ce]{\psi}
+      \hypo{\danda{(\neg\psi)}{1}}
+      \infer2[\nege]{\bot}
+      \infer[left label=\cir{1}]3[\de]{\bot}
+      \infer[left label=\cir{2}]1[\negi]{(\neg((\neg\phi)\lor(\neg\psi)))}
+    \end{prooftree}
+  \]
+\end{enumerate}
 
 \newpage 
 \bibliography{refs}
 \bibliographystyle{unsrt}
 
 \end{document}
-
-
