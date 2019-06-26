@@ -138,7 +138,8 @@ calc
 
 
     \draw[reversed, postaction={decorate, decoration={text along path, text align=center, raise=4pt, text={McNaughton-Yamada construction}}}] (enfa) to [bend left] (re);
-    \draw[reversed, postaction={decorate, decoration={text along path, text align=center, raise=4pt, text={Glushkov's construction}}}] (nfa) to (re);
+    \draw[reversed, postaction={decorate, decoration={text along path, text
+    align=center, raise=4pt, text={Glushkov's construction (Position Automaton)}}}] (nfa) to (re);
     \draw[reversed, postaction={decorate, decoration={text along path, text align=center, raise=4pt, text={Brzozowski's algorithm}}}] (dfa) to [bend left] (re);
     \draw[-{Latex}, >=stealth, auto, semithick, postaction={decorate, decoration={text along path, text align=center, raise=-10pt, text={Brzozowski algebraic method}}}] (dfa) to [bend right] (re);
     \draw[-{Latex}, >=stealth, auto, semithick, postaction={decorate, decoration={text along path, text align=center, raise=4pt, text={Rabin-Scott powerset construction}}}] (nfa) to (dfa);
