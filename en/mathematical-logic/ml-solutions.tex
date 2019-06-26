@@ -4,21 +4,32 @@
 \usepackage{caption}
 \usepackage{float}
 
-\usepackage{tikz}
-\usetikzlibrary{automata, positioning, arrows,
-fit, % for the dashed boxes on Thompson's construction
-calc
-}
-
-\newcommand{\emptystr}{\varepsilon}
-
 \usepackage{hyperref}
 \hypersetup{pdfauthor={Cristian Adrián Ontivero}}
-\usepackage{ebproof}
 
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{ebproof}
+\usepackage{booktabs}
+\usepackage{multicol}
 % Set items in enumerate environment to letters.
 \usepackage{enumitem}
 \setenumerate[0]{label=(\alph*)}
+\usepackage{forest}
+\forestset{%
+  % Tree following the style of Chiswell & Hodges' Mathematical Logic
+  chtree/.style={
+    for tree={
+      inner sep=1.4pt,
+      circle,
+      draw,
+      s sep'+=20pt,
+      fit=band,
+    },
+  },
+  c phantom/.style={draw=none, no edge},
+}
 
 \graphicspath{{imgs/}}
 
@@ -26,9 +37,6 @@ calc
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
-
-\renewcommand*{\tableautorefname}{Tabla}
-\renewcommand*{\figureautorefname}{Figura}
 
 %These tell TeX which packages to use.
 \usepackage{array,epsfig}
@@ -46,7 +54,6 @@ calc
 \newtheorem{cor}{Corolario}
 \newtheorem*{rmk}{Remark}
 \newtheorem{lem}{Lema}
-\newtheorem*{joke}{Joke}
 
 \newtheorem{ex}{Ejemplo}
 \newcommand{\exautorefname}{Ejemplo}
@@ -95,17 +102,19 @@ calc
 \newcommand{\wh}{\widehat}
 
 \newcommand{\lra}{\leftrightarrow}
+\newcommand{\true}{\text{T}}
+\newcommand{\false}{\text{F}}
 % Logic rules
-\newcommand{\ii}{\footnotesize ($\rightarrow$I)}
-\newcommand{\ie}{\footnotesize ($\rightarrow$E)}
-\newcommand{\ci}{\footnotesize ($\wedge$I)}
-\newcommand{\ce}{\footnotesize ($\wedge$E)}
-\newcommand{\di}{\footnotesize ($\vee$I)}
-\newcommand{\de}{\footnotesize ($\vee$E)}
-\newcommand{\bi}{\footnotesize ($\leftrightarrow$I)}
-\newcommand{\be}{\footnotesize ($\leftrightarrow$E)}
-\newcommand{\negi}{\footnotesize ($\neg$I)}
-\newcommand{\nege}{\footnotesize ($\neg$E)}
+\newcommand{\ii}{\footnotesize (\(\rightarrow\)I)}
+\newcommand{\ie}{\footnotesize (\(\rightarrow\)E)}
+\newcommand{\ci}{\footnotesize (\(\wedge\)I)}
+\newcommand{\ce}{\footnotesize (\(\wedge\)E)}
+\newcommand{\di}{\footnotesize (\(\vee\)I)}
+\newcommand{\de}{\footnotesize (\(\vee\)E)}
+\newcommand{\bi}{\footnotesize (\(\leftrightarrow\)I)}
+\newcommand{\be}{\footnotesize (\(\leftrightarrow\)E)}
+\newcommand{\negi}{\footnotesize (\(\neg\)I)}
+\newcommand{\nege}{\footnotesize (\(\neg\)E)}
 \newcommand{\raa}{\footnotesize (RAA)}
 \newcommand*\cir[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=1pt] (char) {\footnotesize #1};}}
@@ -130,7 +139,7 @@ calc
 
 2.2.2)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\phi}
@@ -140,7 +149,7 @@ calc
       \infer2[\ci]{(\phi \land (\psi\land\chi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\chi}
@@ -149,7 +158,7 @@ calc
     \end{prooftree}
   \]
 
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\phi}
@@ -159,7 +168,7 @@ calc
       \infer2[\ci]{((\phi\land\phi)\land \phi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\phi}
@@ -202,7 +211,7 @@ calc
       \infer2[\ci]{(\phi\land(\psi\land\chi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{(\psi\land\chi)}
@@ -211,7 +220,7 @@ calc
       \infer2[\ci]{(\chi\land\phi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{(\phi\land(\psi\land\chi))}
@@ -261,7 +270,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
     \end{prooftree}
   \]
 
-2.4.1) 
+2.4.1)
 \begin{enumerate}
   \item \(f\) is differentiable \(\ra\) \(f\) is continuous.
   \item \(x\) is positive \(\ra\) \(x\) has a square root.
@@ -270,7 +279,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
 
 2.4.2) Proof of \(\vdash ((\phi\land\psi)\ra(\psi\land\phi))\)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\phi\land\psi)}{1}}
@@ -305,7 +314,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
 
 2.4.4)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\psi}{1}}
@@ -313,7 +322,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer1[\ii]{(\phi\ra(\psi\ra\psi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -323,7 +332,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer2[\ci]{((\phi\ra\phi)\land(\psi\ra\psi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -336,7 +345,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer[left label=\cir{3}]1[\ii]{((\phi\ra(\theta\ra\psi))\ra(\theta\ra(\phi\ra\psi)))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -350,7 +359,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
     \end{prooftree}
   \]
   \item TODO
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\phi\land\psi)}{1}}
@@ -363,7 +372,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer[left label=\cir{1}]1[\ii]{((\phi\land\psi)\ra\chi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -376,7 +385,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer[left label=\cir{3}]1[\ii]{((\phi\ra\psi)\ra((\psi\ra\theta)\ra(\phi\ra\chi)))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -411,7 +420,7 @@ Suppose \(\{\phi_1\land\phi_2\} \vdash \psi\). Then:
       \infer2[\ie]{\psi}
     \end{prooftree}
   \]
-  
+
 2.4.6) Suppose \(D_1\) is a derivation whose undischarged assumptions are all in \(\Gamma \cup \{\phi\}\). Take \(D*\) to be a copy of \(D_1\) where each ocurrence of \(\phi\) is replaced by \(\danda{\phi}{1}\)~. Then take the derivation \(D'_1\) to be:
   \[
     \begin{prooftree}
@@ -431,9 +440,9 @@ assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
     \end{prooftree}
   \]
 
-2.5.1) 
+2.5.1)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\phi}
@@ -442,7 +451,7 @@ assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
       \infer2[\ii]{\psi}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -452,7 +461,7 @@ assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
       \infer2[\bi]{(\phi\ra\phi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -475,7 +484,7 @@ assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
       \infer2[\bi]{(\phi\lra\chi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\psi}{1}}
@@ -502,7 +511,7 @@ assumptions are all in \(\Gamma\). Take \(D'_2\) to be:
 
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\psi}{1}}
@@ -555,7 +564,7 @@ relation.
     \end{prooftree}
   \]
   where \(D_c\) is all the derivation we did in 2.5.1(c).
-  
+
 \end{itemize}
 
 2.5.3) Suppose we have a derivation \(D\) with no undischarged assumptions. Let \(\phi\) by any statement. Then:
@@ -590,7 +599,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
 
 2.6.1)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\phi\land(\neg \phi))}{1}}
@@ -601,7 +610,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{1}]1[\negi]{(\neg(\phi\land(\neg \phi)))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\neg(\phi\ra\psi))}{2}}
@@ -612,7 +621,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{2}]1[\ii]{((\neg(\phi\ra\psi))\ra(\neg\psi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\phi\land\psi)}{2}}
@@ -627,7 +636,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{2}]1[\ii]{((\phi\land\psi)\ra(\neg(\phi\ra(\neg\psi))))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{((\neg(\phi\land\psi))\land\phi)}
@@ -641,7 +650,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{1}]1[\negi]{(\neg\psi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\neg\psi)}{2}}
@@ -653,7 +662,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{2}]1[\ii]{((\neg\psi)\ra(\neg\phi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{(\phi\land(\neg\psi))}{1}}
@@ -672,7 +681,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
 
 2.6.2)
 \begin{enumerate}
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{2}}
@@ -698,7 +707,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{3}]1[\ii]{((\neg(\phi\ra\psi))\ra\phi)}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{2}}
@@ -709,7 +718,7 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
       \infer[left label=\cir{2}]1[\ii]{(\phi\ra((\neg\phi)\ra\psi))}
     \end{prooftree}
   \]
-  \item 
+  \item
   \[
     \begin{prooftree}
       \hypo{\danda{\phi}{1}}
@@ -871,7 +880,626 @@ correct, then so are \((\Gamma\vdash(\phi\ra\psi))\) and \((\Gamma \vdash
   \]
 \end{enumerate}
 
-\newpage 
+3.1.1)
+
+\begin{enumerate}
+  \item
+
+    \begin{forest}
+      chtree
+      [, label=right:\(\land\)
+        [, label=right:\(p\)]
+        [, label=right:\(q\)]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(p\)]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\ra\)
+        [, label=right:\(p\)]
+        [, label=right:\(\ra\)
+          [, label=right:\(q\)]
+          [, label=right:\(\ra\)
+            [, label=right:\(r\)]
+            [, label=right:\(s\)]
+          ]
+        ]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\lor\)
+        [, label=right:\(\neg\)
+          [, label=right:\(\ra\)
+            [, label=right:\(p_2\)]
+            [, label=right:\(\lra\)
+              [, label=right:\(p_1\)]
+              [, label=right:\(p_0\)]
+            ]
+          ]
+        ]
+        [, label=right:\(\ra\)
+          [, label=right:\(p_2\)]
+          [, label=right:\(\bot\)]
+        ]
+      ]
+    \end{forest}
+\end{enumerate}
+
+3.1.2)
+\begin{enumerate}
+  \item \((\neg\bot)\)
+  \item \((\neg(p_2\lor p_0))\)
+  \item \( (((((p_0 \land p_1)\land p_2)\land p_4) \land p_5) \land p_6) \)
+\end{enumerate}
+
+3.1.3)
+\begin{enumerate}
+  \item \(\{p, q\}\)
+  \item \(\{p\}\)
+  \item \(\{p, q, r, s\}\)
+  \item \(\{p_0, p_1, p_2\}\). Note that \(\bot\) does not go here.
+  \item \(\{p_1, p_2, p_3, p_4, p_5, p_6\}\)
+  \item etc...
+\end{enumerate}
+
+3.2.1) \(p_1, p_0, (p_1 \lra p_0), (p_2\ra(p1\lra p_0)), (\neg(p_2\ra(p_1\lra p_0))), (p_2\ra\bot), ((\neg(p_2\ra(p_1\lra p_0)))\lor(p_2\ra\bot)) \)
+
+3.2.2)
+\begin{multicols}{3}
+\begin{enumerate}[label=\underline{\(\pi_{\arabic*}\):}]
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(p_0\)]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\neg\)
+        [, label=right:\(p_0\)]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\land\)
+        [, label=right:\(p_0\)]
+        [, label=right:\(p_1\)]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\lor\)
+        [, label=right:\(\neg\)
+          [, label=right:\(p_0\)]
+        ]
+        [, label=right:\(p_1\)]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\ra\)
+        [, label=right:\(\neg\)
+          [, label=right:\(p_0\)]
+        ]
+        [, label=right:\(\neg\)
+          [, label=right:\(p_1\)]
+        ]
+      ]
+    \end{forest}
+  \item
+    \begin{forest}
+      chtree
+      [, label=right:\(\land\)
+        [, label=right:\(\ra\)
+          [, label=right:\(p_0\)]
+          [, label=right:\(p_1\)]
+        ]
+        [, label=right:\(\neg\)
+          [, label=right:\(p_2\)]
+        ]
+      ]
+    \end{forest}
+\end{enumerate}
+\end{multicols}
+
+3.2.3)
+\begin{align*}
+  \delta(\pi_1) & = 1 \\
+  \delta(\pi_2) & = 1 + 3 = 4\\
+  \delta(\pi_3) & = 1 + 3 + 1 = 5\\
+  \delta(\pi_4) & = 1 + 3 + 3 + 1 = 8\\
+  \delta(\pi_5) & = 1 + 3 + 3 + 3 + 1 = 11\\
+  \delta(\pi_5) & = 1 + 3 + 1 + 3 + 3 + 1 = 12\\
+  \delta(\pi)   & = \text{\#atoms} + 3\text{\#connectors} \\
+                & = \text{length of associated formula}
+\end{align*}
+
+3.2.4)
+
+\begin{center}
+  \adjustbox{valign=t, minipage=.1\textwidth}{
+    \begin{forest}
+      chtree
+      [, label=left:0, label=right:\(\chi\)]
+    \end{forest}%
+  }
+  \adjustbox{valign=t, minipage=.15\textwidth}{
+    \begin{forest}
+      chtree
+        [, label=left:\(2+m\), label=right:\(\neg\)
+          [, label=left:\(m\)]
+        ]
+    \end{forest}%
+  }
+  \adjustbox{valign=t, minipage=.15\textwidth}{
+    \begin{forest}
+      chtree
+        [, label=left:\(m+n+2\), label=right:\(\square\)
+          [, label=left:\(m\)]
+          [, label=left:\(n\)]
+        ]
+    \end{forest}%
+  }
+\end{center}
+
+3.2.5)
+
+\begin{center}
+    \begin{forest}
+      for tree={
+        inner sep=2pt,
+        circle,
+        draw,
+        s sep'+=50pt,
+        fit=band,
+      },
+      [, label=left:\(2^{2^{2^{15}}} \times 3^{2^{13}} \times 5^3\), label=right:\(\lor\)
+        [, label=left:\(2^{2^{15}}\times 3^9\), label=right:\(\neg\)
+          [, label=left:\(2^{15}\), label=right:\(p_1\)]
+        ]
+        [, label=left:\(2^{13}\), label=right:\(p_0\)]
+      ]
+    \end{forest}
+\end{center}
+
+3.2.6) Left \(f, g\colon (N_1,D_1) \to (N_2, D_2)\) be two isomorphisms. We
+prove by induction on \(k\) that for each \(k\), \(f\) and \(g\) agree on all
+nodes of height \((n-k)\) in \(N_1\), where \(n\) is the height of \((N_1,
+D_1)\).
+\begin{itemize}
+  \item Basis \underline{\(k = 0\)}: The nodes at height \(n-0 = n\) are the leaves. Let \(\ell\) be any leaf. Then \(D_1(\ell) = () = D_2(f~\ell) \land D_1(\ell) = () = D_2(g~\ell)\)
+  \item Inductive step \(k > 0 \land k \leqslant n\): Suppose \(f\) and \(g\) agree on all nodes of height \(n-(k-1)\). Let \(\mu\) be a node with height \((n-k)\). Then since \(f\) is an isomorphism:
+  \[ D_1(\mu) = (\nu_1,\dots,\nu_m) \Longrightarrow D_2(f~\mu) = (f~\nu_1, \dots, f~\nu_m) \]
+  Idem for \(g\):
+  \[ D_1(\mu) = (\nu_1,\dots,\nu_m) \Longrightarrow D_2(g~\mu) = (g~\nu_1, \dots, g~\nu_m) \]
+  By induction hypothesis \(f~\nu_1 = g~\nu_1,\dots,f~\nu_m = g\nu_m\). Then \(D_2(f~\mu) = D_2(g~\mu)\).
+
+  TODO FINISH
+\end{itemize}
+
+3.3.1)
+\[
+  \begin{array}{lc}
+    \text{Initial segments} & \text{Depth} \\
+    (                            & 1 \\
+    (\neg                        & 1 \\
+    (\neg(                       & 2 \\
+    (\neg(p_{22}                 & 2 \\
+    (\neg(p_{22}\lra             & 2 \\
+    (\neg(p_{22}\lra(            & 3 \\
+    (\neg(p_{22}\lra(\neg        & 3 \\
+    (\neg(p_{22}\lra(\neg\bot    & 3 \\
+    (\neg(p_{22}\lra(\neg\bot)   & 2 \\
+    (\neg(p_{22}\lra(\neg\bot))  & 1 \\
+    (\neg(p_{22}\lra(\neg\bot))) & 0 \\
+  \end{array}
+\]
+
+3.3.2) Case 2, \(\overline{\mu} = (\neg \phi)\). \(\mu\) has a single daughter \(\nu_1\), and \(\overline{\nu} = (\neg\overline{\nu}_1)\). By inductive hypothesis \(\nu_1\) satisfies (a) and (b). The initial segments of \(\overline{\mu}\) are:
+\begin{enumerate}
+  \item (, depth 1.
+  \item \((\neg\), depth 1.
+  \item \((\neg s\), where \(s\) is a proper initial segment of
+  \(\overline{\nu}_1\). Since \(\overline{\nu}_1\) satisfies (a), the depth
+  \(d[s]\) is at least 1, so the depth \(d[(\neg s]\) is at least 2.
+  \item \((\neg\overline{\nu}_1\) Since \(\overline{\nu}_1\) satisfies (a), the depth is \(1+0=1\).
+  \item \((\neg\overline{\nu}_1) = \overline{\mu}\) itself. The depth is \(1+0-1=0\) as required.
+\end{enumerate}
+
+3.3.3)
+\begin{enumerate}
+  \item There is no head (function symbol with depth 1).
+  \item
+    \begin{center}
+      \begin{forest}
+        chtree
+        [, label=right:\(\land\)
+          [, label=right:\(\lor\)
+            [, label=right:\(\lra\)
+              [, label=right:\(\neg\)
+                [, label=right:\(p_1\)]
+              ]
+              [, label=right:\(\bot\)]
+            ]
+            [, label=right:\(p_1\)]
+          ]
+          [, label=right:\(p_2\)]
+        ]
+      \end{forest}
+    \end{center}
+  \item Not atomic, nor has a head.
+    \begin{center}
+      \begin{forest}
+        for tree={
+          inner sep=2pt,
+          circle,
+          draw,
+          s sep'+=170pt,
+          l sep'+=50pt,
+          fit=band,
+        },
+        [, label=right:\(\land\)
+          [, label=right:\((((\neg(p_0 \lor p_1))\land(p_2 \ra p_3)))\ra(p_3\)]
+          [, label=right:\(p_4\)]
+        ]
+      \end{forest}
+    \end{center}
+  \item Not atomic, nor has a head.
+    \begin{center}
+      \begin{forest}
+        for tree={
+          inner sep=2pt,
+          circle,
+          draw,
+          s sep'+=40pt,
+          fit=band,
+        },
+        [, label=right:\(\land\)
+          [, label=right:\(p_1\)]
+          [, label=right:\(\lor\)
+            [, label=right:\(\neg\neg(p_2\)]
+            [, label=right:\(p_0\)]
+          ]
+        ]
+      \end{forest}
+    \end{center}
+  \item Not atomic, nor has a head.
+    \begin{center}
+      \begin{forest}
+        for tree={
+          inner sep=2pt,
+          circle,
+          draw,
+          s sep'+=40pt,
+          fit=band,
+        },
+        [, label=right:\(\ra\)
+          [, label=right:\((\neg p_1)\)]
+          [, label=right:\((\neg p_2)\land p_1)\)
+            [, label=right:\(p_2) \land p_1\)]
+          ]
+        ]
+      \end{forest}
+    \end{center}
+  \item \[\]
+    \begin{center}
+      \begin{forest}
+        chtree
+        [, label=right:\(\lra\)
+          [, label=right:\(\land\)
+            [, label=right:\(p_1\)]
+            [, label=right:\(\lor\)
+              [, label=right:\(p_2\)]
+              [, label=right:\(p_3\)]
+            ]
+          ]
+          [, label=right:\(\neg\)
+            [, label=right:\(\neg\)
+              [, label=right:\(p_0\)]
+            ]
+          ]
+        ]
+      \end{forest}
+    \end{center}
+\end{enumerate}
+3.3.6) Let \(\pi\) be a parsing tree of height \(n\).
+TODO
+
+3.3.7)
+\begin{enumerate}
+  \item Let \(S = LP(\sigma)\). \(p_{\sqrt{2}}\) is not an atomic formula of \(LP(\sigma)\), nor is it of the forms in (2). Then \(p_{\sqrt{2}} \not\in LP(\sigma)\).
+  \item TODO
+\end{enumerate}
+
+3.3.8)
+\begin{enumerate}
+  \item
+    \begin{center}
+      \begin{forest}
+        chtree,
+        for tree={s sep'+=40pt},
+        [, label=left:\(CpNNp\), label=right:\(\lra\)
+          [, label=left:\(p\), label=right:\(p\)]
+          [, label=left:\(NNp\), label=right:\(\neg\)
+            [, label=left:\(Np\), label=right:\(\neg\)
+              [, label=right:\(p\), label=right:\(p\)]
+            ]
+          ]
+        ]
+      \end{forest}
+    \end{center}
+  \item
+    \begin{enumerate}[label=(\roman*)]
+      \item Corresponds to \(((\neg p) \lra q)\)
+        \begin{center}
+          \begin{forest}
+            chtree,
+            for tree={s sep'+=30pt},
+            [, label=left:\(ENpq\), label=right:\(\lra\)
+              [, label=left:\(Nq\), label=right:\(\neg\)
+                [, label=left:\(p\), label=right:\(p\)]
+              ]
+              [, label=left:\(q\), label=right:\(q\)]
+            ]
+          \end{forest}
+        \end{center}
+      \item Corresponds to \((((p \ra p) \ra p) \ra p)\)
+        \begin{center}
+          \begin{forest}
+            chtree,
+            [, label=left:\(CCCpppp\), label=right:\(\ra\)
+              [, label=left:\(CCppp\), label=right:\(\ra\)
+                [, label=left:\(Cpp\), label=right:\(\ra\)
+                  [, label=left:\(p\), label=right:\(p\)]
+                  [, label=left:\(p\), label=right:\(p\)]
+                ]
+                [, label=left:\(p\), label=right:\(p\)]
+              ]
+              [, label=left:\(p\), label=right:\(p\)]
+            ]
+          \end{forest}
+        \end{center}
+      \item Corresponds to \(((\neg p) \ra (q \lor (p \land (\neg q))))\)
+        \begin{center}
+          \begin{forest}
+            chtree,
+            for tree={s sep'+=10pt},
+            [, label=left:\(CNpAqKpNq\), label=right:\(\ra\)
+              [, label=left:\(Np\), label=right:\(\neg\)
+                [, label=left:\(p\), label=right:\(p\)]
+              ]
+              [, label=left:\(AqKpNq\), label=right:\(\lor\)
+                [, label=left:\(q\), label=right:\(q\)]
+                [, label=left:\(KpNq\), label=right:\(\land\)
+                  [, label=left:\(p\), label=right:\(p\)]
+                  [, label=left:\(Nq\), label=right:\(\neg\)
+                    [, label=left:\(q\), label=right:\(q\)]
+                  ]
+                ]
+              ]
+            ]
+          \end{forest}
+        \end{center}
+    \end{enumerate}
+    \item (i) \(ApKqNp\), (ii) \(CCCpqpp\)
+    \item
+      \begin{enumerate}[label=(\roman*)]
+        \item \(((p \lor q) \lra (\neg ((\neg p) \land (\neg q))))\)
+        \item \(((q \ra r) \ra ((p \ra q) \ra (p \ra r)))\)
+      \end{enumerate}
+\end{enumerate}
+3.3.9) TODO
+
+3.3.10)
+\begin{enumerate}
+  \item
+    \[\arraycolsep=1.4pt\def\arraystretch{1.2}
+      \begin{array}{rl@{\hspace{1cm}}l}
+        f(\phi) & = 1 & \text{when \(\phi\) is atomic}\\
+        f((\neg \phi)) & = 1 & f(\phi) \\
+        f((\phi \square \psi)) & = 1 + f(\phi) + f(\psi)& \text{with } \square \in \{\land, \lor, \ra, \lra \}
+      \end{array}
+    \]
+    \begin{center}
+      \adjustbox{valign=t, minipage=.1\textwidth}{
+        \begin{forest}
+          chtree
+          [, label=left:1, label=right:\(\chi\)]
+        \end{forest}%
+      }
+      \adjustbox{valign=t, minipage=.15\textwidth}{
+        \begin{forest}
+          chtree
+            [, label=left:\(1+m\), label=right:\(\neg\)
+              [, label=left:\(m\), label=right:\(\chi\)]
+            ]
+        \end{forest}%
+      }
+      \adjustbox{valign=t, minipage=.15\textwidth}{
+        \begin{forest}
+          chtree
+            [, label=left:\(1+m+n\), label=right:\(\square\)
+              [, label=left:\(m\), label=right:\(\phi\)]
+              [, label=left:\(n\), label=right:\(\psi\)]
+            ]
+        \end{forest}%
+      }
+    \end{center}
+  \item
+    \[\arraycolsep=1.4pt\def\arraystretch{1.2}
+      \begin{array}{rl@{\hspace{1cm}}l}
+        Sub(\phi)                & = \{\phi\} & \text{when \(\phi\) is atomic} \\
+        Sub((\neg \phi))         & = \{(\neg \phi)\} \cup Sub(\phi) & \\
+        Sub((\phi \square \psi)) & = \{(\phi \square \psi)\} \cup Sub(\phi) \cup Sub(\psi) & \text{with } \square \in \{\land, \lor, \ra, \lra \}
+      \end{array}
+    \]
+    \begin{center}
+      \adjustbox{valign=t, minipage=.14\textwidth}{
+        \begin{forest}
+          chtree
+          [, label=left:\(\{\chi\}\), label=right:\(\chi\)]
+        \end{forest}%
+      }
+      \adjustbox{valign=t, minipage=.2\textwidth}{
+        \begin{forest}
+          chtree
+            [, label=left:\(\{\chi\} \cup S\), label=right:\(\neg\)
+              [, label=left:\(S\), label=right:\(\chi\)]
+            ]
+        \end{forest}%
+      }
+      \adjustbox{valign=t, minipage=.2\textwidth}{
+        \begin{forest}
+          chtree,
+          for tree={
+            s sep'+=20pt,
+          },
+          [, label=left:\(\{\phi \square \psi\} \cup S_1 \cup S_2\), label=right:\(\square\)
+            [, label=left:\(S_1\), label=right:\(\phi\)]
+            [, label=left:\(S_2\), label=right:\(\psi\)]
+          ]
+        \end{forest}%
+      }
+    \end{center}
+\end{enumerate}
+
+3.4.1)
+\begin{itemize}
+  \item[(d)]
+  \begin{itemize}
+    \item[(iii)] \(\nu\) has right-hand label \((\land \text{E})\), and there
+    are formulas \(\phi\) and \(\psi\) such that \(\nu\) has left label
+    either \(\phi\) or \(\psi\), and its daughter has left label \((\phi
+    \land \psi)\).
+    \item[(iv)] \(\nu\) has right-hand label \((\lor \text{I})\), and there are
+    formulas \(\phi\) and \(\psi\) such that \(\nu\) has left label \((\phi
+    \lor \psi)\), and the left labels on the daughter of \(\nu\) is either
+    \(\phi\) or \(\psi\).
+    \item[(v)] \(\nu\) has right-hand label \((\leftrightarrow \text{E})\), and
+    there are formulas \(\phi\) and \(\psi\) such that \(\nu\) has the left
+    label \((\phi \to \psi)\) or \((\psi \to \phi)\), and the left label on the
+    daughter of \(\nu\) is \((\phi \leftrightarrow \psi)\).
+  \end{itemize}
+  \item[(e)] TODO
+  \begin{itemize}
+    \item[(ii)]
+    \item[(iii)]
+    \item[(iv)]
+  \end{itemize}
+\end{itemize}
+
+3.4.2)
+\begin{itemize}
+  \item Dandahs are missing the number reference. Both \((\to \text{I})\) are
+  wrongly applied. The second \((\to \text{E})\) should be a \((\neg
+  \text{E})\). The (RAA) is also wrongly applied, as you don't deduce \(\bot\).
+  \item TODO
+\end{itemize}
+3.4.3)
+\begin{enumerate}
+  \item Let \(\pi\) be a parsing tree for \(LP(\rho)\). Then by definition,
+  every leaf is labelled with either \(\bot\) or a symbol from \(\rho\). But
+  then since \(\rho \subseteq \sigma\), we have that every leaf is labelled
+  with \(\bot\) or a symbol from \(\sigma\).
+  Thus, \(\pi\) is also a parsing tree for \(LP(\sigma)\).
+  \item Let \(\phi\) be a formula of \(LP(\rho)\). We need to prove that
+  \(\phi\) is a formula of \(LP(\sigma)\). We prove that if a formula is in
+  \(LP(\rho)\), then it is in \(LP(\sigma)\) by induction on the structure of
+  \(\phi\) :
+  \begin{itemize}
+    \item Case \(\bot\): By definition \(\bot \in LP(\sigma)\).
+    \item Case \(a\) (symbol from \(LP(\rho)\)): Since \(\rho \subseteq
+    \sigma\), we have that \(a \in \sigma\), and by definition \(a \in
+    LP(\sigma)\).
+    \item Case \((\neg \psi)\): Since \(\psi\) is a formula of \(LP(\rho)\),
+    is also a formula of \(LP(\sigma)\) by inductive hypothesis. But then
+    \(\neg \psi = \phi\) is a formula of \(LP(\sigma)\) by definition.
+    \item Case \((\psi_1 \square \psi_2)\), where \(\square \in \{\land, \lor, \ra, \lra\}\): Since \(\psi_1\) and \(\psi_2\) are formulas of \(LP(\rho)\),
+    they are also formulas of \(LP(\sigma)\) by inductive hypothesis. Then
+    \((\psi_1 \square \psi_2) = \phi\) is a formula of \(LP(\sigma)\) by
+    definition.
+  \end{itemize}
+  \item TODO
+  \item Suppose that \((\Gamma \vdash_{\rho} \psi)\) is correct. By
+  definition 3.4.4. this means that there is a \(\rho\)-derivation \(D\)
+  whose conclusion is \(\psi\) and whose undischarged assumptions are all in
+  the set \(\Gamma\). But as proved in (c) of this exercise, every
+  \(\rho\)-derivation is also a \(\sigma\)-derivation. Thus, \(D\) is a
+  \(\sigma\)-derivation, and again by definition 3.4.4 \((\Gamma
+  \vdash_{\sigma} \psi)\) is correct too.
+\end{enumerate}
+
+3.4.4) TODO
+
+3.5.1)
+\begin{enumerate}
+  \item
+\[
+  \begin{array}{crcl}
+    p & (p & \lra & p) \\
+    \toprule
+    \true & \true & \true & \true \\
+    \false & \false & \true & \false \\
+  \end{array}
+\]
+  \item
+\[
+  \begin{array}{ccc}
+    p & q & (p \ra (q \ra p)) \\
+    \toprule
+    \true & \true & t\\
+    \false & \false & t\\
+  \end{array}
+\]
+\item TODO
+\end{enumerate}
+3.5.2)
+\begin{enumerate}
+  \item
+\[
+  \begin{array}{crclcrl}
+    p_0 & ((p_0 & \ra & \bot) & \lra & (\neg & p_0)) \\
+    \toprule
+    \true & \true & \false & \false & \true & \false & \true \\
+    \false & \false & \true & \false & \true & \true & \false \\
+  \end{array}
+\]
+Thus, it is satisfiable, and a tautology.
+  \item TODO
+\end{enumerate}
+
+3.5.3)
+\[
+  \begin{array}{ccc}
+    p & q & \phi \\
+    \toprule
+    \true & \true & \true \\
+    \true & \false & \false \\
+    \false & \true & \false \\
+    \false & \false & \true \\
+  \end{array}
+\]
+Thus, \(\phi = (p \lra q)\).
+
+3.5.5) Let \(|\sigma| = k\).
+\begin{enumerate}
+  \item By definition 3.5.3, a \(\sigma\)-structure is a function \(A\colon
+  \sigma \to \{T, F\}\). Then the number of \(\sigma\)-structures is \(2^k\).
+  \item \(2^k(k+n)\).
+  \item
+\end{enumerate}
+
+\newpage
 \bibliography{refs}
 \bibliographystyle{unsrt}
 
