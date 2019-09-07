@@ -43,24 +43,6 @@ calc
 \usepackage{amsthm}
 \usepackage{mathrsfs}
 
-%Here I define some theorem styles and shortcut commands for symbols I use often
-\theoremstyle{definition}
-\newtheorem{defn}{Definición}
-\newtheorem{thm}{Teorema}
-\newtheorem{cor}{Corolario}
-\newtheorem*{rmk}{Remark}
-\newtheorem{lem}{Lema}
-\newtheorem*{joke}{Joke}
-
-\newtheorem{ex}{Ejemplo}
-\newcommand{\exautorefname}{Ejemplo}
-
-\newtheorem{exercise}{Ejercicio}
-\newcommand{\exerciseautorefname}{Ejercicio}
-
-\newtheorem{soln}{Solución}
-\newtheorem{prop}{Proposición}
-
 \newcommand{\lra}{\longrightarrow}
 \newcommand{\ra}{\rightarrow}
 \newcommand{\surj}{\twoheadrightarrow}
@@ -111,12 +93,59 @@ calc
 
 Interesting grammars:
 
+Lambda Calculus:
+
+\[
+  \begin{array}{crl}
+    E & ::= & x \\
+      & \mid& (\lambda x.~E) \\
+      & \mid& (E~E) \\
+  \end{array}
+\]
+
+Non-Deterministic Lambda Calculus \(\Lambda^*\) \cite{AZ13}:
+\[
+  \begin{array}{lrrl}
+   \text{Constants} & \mathtt{c}    & ::= & \mathtt{It^*} \mid \mathtt{if^*} \mid \mathtt{c_0} \mid \mathtt{c_1} \mid \dots \\
+   \text{Terms}     & t, u & ::= & x \mid (\lambda x.~t) \mid (t)~u \mid \langle t, u \rangle \mid [t]\pi_0 \mid [t]\pi_1 \mid \mathtt{c}
+  \end{array}
+\]
+
+CFG grammar for Brainfuck
+
+\newcommand\Prog{\mathtt{Prog}}
+\newcommand\Instr{\mathtt{Instr}}
+\[
+  \begin{array}{crl}
+    \Prog  & \to & \Instr~\Prog \mid \varepsilon \\
+    \Instr & \to & \mathtt{+} \mid \mathtt{-} \mid \mathtt{>} \mid \mathtt{<}
+    \mid \mathtt{,} \mid \mathtt{.} \mid \mathtt{[}~\Prog~\mathtt{]}
+\end{array}
+\]
+
+CFG for the functional SKI combinator calculus:
+
+\[
+  \begin{array}{crl}
+  P & \to & E \\
+  E & \to & \mathbf{S}~E~E~E \mid \mathbf{K}~E~E \mid \mathbf{I} \mid (~E~)
+\end{array}
+\]
+
+% From Mathematical Logic for Computer Science by Ben-Ari
+CFG for Propositional Logic
+
+\begin{align*}
+  F &::= p \mid \neg F \mid F O F \\
+  O &::= \land \mid \lor \mid \to \mid \leftrightarrow \mid \oplus
+\end{align*}
+
 A formula \(F\) is in \textit{conjunctive normal form} (CNF) if it is a
 conjunction of clauses, where each clause \(C\) is a disjunction of literals:
 \begin{align*}
-  L &::= p \mid \neg p \\
+  F &::= C \mid C \land F \\
   C &::= L \mid L \lor C \\
-  F &::= C \mid C \land F
+  L &::= p \mid \neg p
 \end{align*}
 
 Horn Formula
@@ -127,10 +156,85 @@ Horn Formula
   H &::= C \mid C \land H
 \end{align*}
 
-\newpage 
+A propositional logic notation that doesn't require parenthesis is the so
+called \textit{Polish} (or \textit{head-initial}) notation, due to
+the polish mathematician Jan Łukasiewicz\footnote{Most letters used as
+connectives come from their corresponding polish names: \textit{negacja} (\(N\)),
+\textit{koniunkcja} (\(K\)), \textit{alternatywa} (\(A\)),
+\textit{implikacja} (\(C\)), and \textit{ekwiwalencja} (\(E\)).}:
+
+\[
+  \phi ::= p \mid N \phi \mid K \phi \phi \mid A \phi \phi \mid C \phi \phi \mid E \phi \phi
+\]
+
+
+
+
+Bryant, Seger and Beatty~\cite{BS90, BSB91} developed and algorithm based on
+symbolic simulation for model checking in a restricted linear temporal logic.
+Trajectory Formula:
+
+Let \(\mathcal{V}\) be a set of symbolic Boolean variables and
+\(\mathcal{N}\) a set of nodes.
+A \textit{step-level} symbolic trajectory formula is defined recursively:
+\begin{itemize}
+  \item Constants: TRUE is a trajectory formula
+  \item Atomic propositions: for \(n_i \in N\) both \((n_i = 1)\) and \((n_i = 0)\) are trajectory formulas.
+  \item Conjunction: \((F_1 \land F_2)\) is a trajectory formula if \(F_1\) and \(F_2\) are trajectory formulas.
+  \item Domain restriction: \((E \to F)\) is a trajectory formula if \(E\) is
+  a Boolean expression over \(\mathcal{V}\) and \(F\) is a trajectory
+  fomrula.
+  \item Next time: \((X_s F)\) is a trajectory formula if \(F\) is a trajectory formula.
+\end{itemize}
+
+Basic modal logic
+
+\[
+  \phi ::= \bot \mid \top \mid p \mid (\neg \phi) \mid (\phi \land \phi) \mid (\phi \lor \phi) \mid (\phi \to \phi) \mid (\phi \leftrightarrow \phi) \mid (\square \phi) \mid (\lozenge \phi)
+\]
+
+
+% Logic in Computer Science (Huth & Ryan) 2nd ed., page 390.
+Relational \(\mu\)-calculus:
+  \begin{align*}
+    f & ::= 0 \mid 1 \mid v \mid \overline{f} \mid f_1 + f_2 \mid f_1 \cdot f_2 \mid f_1 \oplus f_2 \mid \exists x.~f \mid \forall x.~f \mid \mu Z.~f \mid \nu Z.~f \mid f[\hat{x} := \hat{x}'] \\
+    v & ::= x \mid Z
+  \end{align*}
+where \(x\) and \(Z\) are boolean variables, and \(\hat{x}\) is a tuple of variables.
+
+A formula in the multi-modal logic KT\(45^n\) is defined as:
+\[
+  \phi ::= \bot \mid \top \mid p \mid (\neg \phi) \mid (\phi \land \phi) \mid (\phi \lor \phi) \mid (\phi \to \phi) \mid (\phi \leftrightarrow \phi) \mid (K_i~\phi) \mid (E_G~\phi) \mid (C_G~\phi) \mid (D_G~\phi)
+\]
+Equivalent, optimized grammar % Hecho por mi, no sacado de libro.
+  \begin{align*}
+    F & ::= \bot \mid \top \mid p \mid P \\
+    P & ::= (I) \\
+    I & ::= U F \mid F B F \\
+    U & ::= \neg \mid K_i \mid E_G \mid C_G \mid D_G \\
+    B & ::= \land \mid \lor \mid \:\to \: \mid \:\leftrightarrow
+  \end{align*}
+
+Others:
+
+WHILE programming language (a pedagogical language. TODO Make reference to first definition, by Uwe
+Schöning in his Theoretische Informatik - kurz gefasst)
+
+LTL
+
+CTL
+
+CTL*
+
+FOL
+
+Łukasiewicz logic
+
+Classical linear logic (CLL)
+
+
+\newpage
 \bibliography{refs}
 \bibliographystyle{unsrt}
 
 \end{document}
-
-
