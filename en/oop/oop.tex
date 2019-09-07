@@ -1,0 +1,432 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{graphicx}
+
+% Change language to change quotation style
+\usepackage[english]{babel}
+\usepackage{csquotes}
+
+\usepackage[
+  backend=biber,
+  style=alphabetic,
+  sorting=nyt
+]{biblatex}
+\addbibresource{refs.bib}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+
+\graphicspath{{imgs/}}
+
+\newlength\tindent%
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\begin{document}
+
+To argue about something, we better agree on what that something is. The term
+object-oriented programming has been used for a wide spectrum of programming
+languages. For a purist relying on etymology, OOP means Alan Kay's OOP, where
+message-passing is the central concept. In practice, Java is the highest
+ranking programming language (according to GitHub and the Tiobe index)
+usually touted as OOP, followed by Python and C++. Kay famously said\cite{Kay97}:
+
+\begin{displayquote}
+ \enquote{\textit{I invented the term object-oriented, and I can tell you, I did not
+ have C++ in mind}}
+\end{displayquote}
+
+which gives an idea of how different are some of the conceptions of what OOP is.
+As Moseley \& Marks put it\cite{MM06}, object-oriented has been used for \enquote{everything from Java-style
+class-based to Self-style prototype-based languages, from single-dispatch to
+CLOS-style multiple-dispatch languages, and from traditional passive objects
+to the active/actor styles}.
+
+For starters, we will follow Peter Wegner's proposal that objects, classes
+and inheritance are the essential ingredients of object-oriented
+languages\cite{Weg87}.
+
+%Similar to how Asimov said \enquote{Properly read, the Bible is the most
+%potent force for atheism ever conceived}, Blosch's Effective Java reads as a
+%case against Java.
+
+As such, we will start with Objects, after all, as it's usually said, in OOP
+\enquote{everything is an object}.
+\subsection{Objects}
+Objects are the amalgamation of properties (variables or fields), behavior
+(methods), and identity. Thus, from the get-go we have these three things
+coupled.
+
+% To think: operations don't compose as easily as in FP.
+You now have two types of functions, those associated to a class (methods)
+and those that take an instance and operate on it (static methods, e.g.\
+those usually defined in a \textit{Util} class or similarly named). When we need to mix both, functions don't easily compose:
+
+%You need to name the parameter!
+%fun(Book b) {
+  %List<Book> books = Util.getBooksBy(b.getAuthor())
+%}
+%vs.
+%getBooksBy . getAuthor
+
+
+One upside though, is that it allows IDEs to give suggestions while coding
+(e.g. IntelliJ Idea's intellisense).
+
+\subsection{Classes}
+TODO
+
+\subsection{Implementation Inheritance}
+\textit{Implementation inheritance} refers to when a class extends another, as opposed
+to \textit{interface inheritance}, which refers to when a class implements an
+interface, or an interface extends another.
+
+\begin{itemize}
+  \item Inheritance means that in order to understand the behaviour of one object, I have to understand the behaviour of all its ancestors first.
+  \item \enquote{Implementation inheritance causes the same intertwining and
+brittleness that have been observed when goto statements are overused. As a
+result, OO systems often suffer from complexity and lack of reuse}
+---John Ousterhout\cite{Ous97}
+
+\end{itemize}
+
+I've seen firsthand wasted work because something that wasn't supposed to be
+extended, was; while using Java, a class had not been declared \texttt{final}
+(to disallow extending it), when it should have been. Kotlin properly learnt
+from Java's mistakes, and makes any class \texttt{final} (nonextensible)
+by default, requiring the user to explicitely use the keyword \texttt{open}
+when allowing inheritance is desired. This is in accordance with Item~17
+of~\cite{Blo08} (Design and document for inheritance or else prohibit it).
+
+The mantra ``favor composition over inheritance'' (which seems to have
+originated with \cite{GoF94}) is well-known by now. The whole of Item~16
+in~\cite{Blo08} is worth reading regarding the pitfalls of inheritance, but
+as a rough summary, in it we find mentioned two issues with overriding
+methods:
+
+\begin{itemize}
+  \item Inheritance violates encapsulation\cite{DBLP:conf/oopsla/Snyder86}:
+  the superclass's instance variables are accesible to the subclasses.
+  Subclasses are dependent on the implementation details of its superclass to
+  function, usually requiring the subclass to evolve in tandem with its
+  superclass.
+  \item New methods in the superclass can break conditions on which its
+  subclasses, were Blosch concludes by saying \enquote{This is not a purely
+  theoretical problem. Several security holes of this nature had to be fixed
+  when \texttt{Hashtable} and \texttt{Vector} were retrofitted to participate
+  in the Collections Framework.}
+\end{itemize}
+
+In Java, even if we don't override methods, we still have a (minor, but
+present) issue that if we added a method to the subclass, and in a later
+release the superclass acquires a method with the same signature but
+different return type, our subclass won't compile anymore (I don't know if
+other languages have a solution to this or if they also stop compiling).
+
+%citing examples from the Java libraries. If the Java library writers
+%themselves have problems deciding when it is appropriate to inherit, what can
+%we expect from the average programmer?
+
+
+% Almost verbatim
+  %Unlike method invocation, inheritance violates encapsulation. A subclass
+  %depends on the implementation details of its superclass to function. The
+  %superclass's implementation may change from release to release, and if it
+  %does, the subclass may break, even though its code has not been touched. As
+  %a consequence, a subclass must evolve in tandem with its superclass,
+  %unless the superclass's authors have designed and documented it
+  %specifically for the purpose of being extended.\cite{Blo08}
+% Almost verbatim
+
+
+% Verbatim
+  %A related cause of fragility in subclasses is that their superclass can
+  %acquire new methods in subsequent releases. Suppose a program depends for
+  %its security on the fact that all elements inserted into some collection
+  %satisfy some predicate. This can be guaranteed by subclassing the
+  %collection and overriding each method capable of adding an element to
+  %ensure that the predicate is satisfied before adding the element. This
+  %works fine until a new method capable of inserting an element is added to
+  %the superclass in a subsequent release. Once this happens, it becomes
+  %possible to add an \enquote{illegal} element merely by invoking the new
+  %method, which is not overriden in the subclass. This is not a purely
+  %theoretical problem. Several security holes of this nature had to be fixed
+  %when \texttt{Hashtable} and \texttt{Vector} were retrofitted to participate
+  %in the Collections Framework.\cite{Blo08}
+% Verbatim
+
+If you use inheritance where composition is appropriate, you needlessly
+expose implementation details.
+
+As for when to use inheritance, Blosch gives two main questions to pose
+before inheriting:
+\begin{enumerate}
+  \item Before having class B extend class A, ask yourself: Is every B really
+  an A? If you cannot truthfully answer yes to this question, B should not
+  extend A.
+  \item Does the class that you contemplate extending have any flaws in its
+  API? If so, are you comfortable propagating those flaws into your class's
+  API?
+\end{enumerate}
+The second question poses a further issue: inheritance propagates any flaws
+in the superclass's API the superclass's API; composition, however, lets you
+design a new API that hides these flaws.
+
+The \textit{fragile base-class problem} (FBCP)~\cite{MS98} refers to the
+possibility that changes to a superclass can cause problems in its
+subclasses, thus making the base class `fragile'.
+
+This can be particularly problematic on open systems, but also an issue in
+closed ones~\cite{MS98}. % TODO Check the paper, which references others for this statement.
+
+%This is a negative results or null results paper, i.e. results that fail to
+%show an effect.
+To be fair, there is at least a study\cite{S17} of open source projects were
+the authors didn't find any bugs related to the FBCP, indicating that the
+issue could be more theoretical than practical.
+
+Another known problem in the literature is the so called
+\textit{Circle-ellipse problem}\cite{Cli94, Maj98} (or
+\textit{Square-rectangle problem}), which occurs as a violation of the
+\textit{Liskov Substitution Principle} (the L in the SOLID design principles)
+
+In~\cite{MY93} Matsuoka and Yonezawa coined the term \textit{inheritance
+anomaly} to to refer to the problems that arise when using inheritance with
+concurrency.
+
+\newpage
+
+Functional Programming:
+\begin{itemize}
+  \item no side effects
+  \item persistence (vs. ephimeral data structures)
+  \item nonstrict (lazy) evaluation + higher-order functions = better glue.
+  \item functions as first class citizens. One can make use of higher-order
+  functions in languages such as C or Java, but it is way more cumbersome.
+  \item Haskell can support the missing OO concepts (object identity and
+  state) through (among other things) Monads. Most (all) aspects of SideEffect-based programming
+  can be modelled with Monads, while still retaining ReferentialTransparency,
+  which is one of the claimed AdvantagesOfFunctionalProgramming. (See
+  OnMonads.)
+  \item Higher-kinded types.
+\end{itemize}
+
+Philip Wadler, one of the implementators of Generics in Java said:
+
+\enquote{[The core of Functional Languages] is not arbitrary. Their core is
+something that was written down once by a logician, and once by a computer
+scientist. That is, it was not invented, but discovered. Most of you use
+programming languages that are invented, and you can tell, can't you.}
+
+Difference between parametric and ad-hoc polymorphism.
+
+OO: notion of object identity
+
+Most ObjectOrientedLanguages associate polymorphism with subtyping. Most FP
+languages make use of ParametricPolymorphism.
+
+Some languages make it easier than others, of course. For example, iterators
+always struck me as a needless multiplication of entities; I'd rather be
+mapping a function over the collection.
+
+\newpage
+
+CMU eliminated object-oriented programming from their introductory CS
+curriculum, stating:
+\enquote{it is both anti-modular and anti-parallel by its very nature, and hence
+unsuitable for a modern CS curriculum.}\cite{HL11}
+
+
+As an appeal to authority (consider it merely as an additional curiosity if
+you dislike using \textit{argumentum ad verecundiam}):
+
+% the quote was spoken to Bob Crawford in 1988 or so and appeared in the
+%journal TUG LINES produced by the Turbo user's group, Issue 32 (August
+%September 1989)
+\enquote{Object-oriented programming is an exceptionally bad idea which could only have originated in California.}
+Edsger Dijkstra
+
+\enquote{object-oriented design is the roman numerals of computing.}
+Rob Pike
+
+\enquote{The phrase \enquote{object-oriented} means a lot of things. Half are obvious, and the other half are mistakes.}
+Paul Graham
+
+\enquote{I find OOP technically unsound. It attempts to decompose the world in terms
+of interfaces that vary on a single type. To deal with the real problems you
+need multisorted algebras - families of interfaces that span multiple types.
+I find OOP philosophically unsound. It claims that everything is an object.
+Even if it is true it is not very interesting - saying that everything is an
+object is saying nothing at all. I find OOP methodologically wrong. It starts
+with classes. It is as if mathematicians would start with axioms. You do not
+start with axioms - you start with proofs. Only when you have found a bunch
+of related proofs, can you come up with axioms. You end with axioms. The same
+thing is true in programming: you have to start with interesting algorithms.
+Only when you understand them well, can you come up with an interface that
+will let them work.}
+---Stepanov\cite{Gra}
+
+\enquote{C++ is a horrible language. ... C++ leads to really, really bad
+design choices. ... In other words, the only way to do good, efficient, and
+system-level and portable C++ ends up to limit yourself to all the things
+that are basically available in C. And limiting your project to C means that
+people don't screw that up, and also means that you get a lot of programmers
+that do actually understand low-level issues and don't screw things up with
+any idiotic \enquote{object model} crap.}
+---Linus Torvalds\cite{Tor}
+
+\enquote{Object-oriented programming languages present many challenges for
+program understanding. The extensive use of subtyping and dynamic dispatch
+make understanding the flow of values and control a nontrivial task.
+Moreover, small source code changes can have unexpected and nonlocal
+effects.}\cite{RT01}
+
+In~\cite{Hat98} we find \enquote{an OO case study which details a development project in which project staff tracked in detail corrective-maintenance costs and other maintenance issues}.
+According to the author
+\enquote{The developers found it much harder to trace faults in the OO C++
+design than in the conventional C design. Although this may simply be a
+feature of C++, it appears to be more generally observed in the testing of OO
+systems, largely due to the distorted and frequently nonlocal relationship
+between cause and effect: the manifestation of a failure may be a
+\enquote{long way away} from the fault that led to it.}\cite{Hat98}
+
+\enquote{I think the lack of reusability comes in object-oriented languages,
+not in functional languages. Because the problem with object-oriented
+languages is they've got all this implicit environment that they carry around
+with them. You wanted a banana but what you got was a gorilla holding the
+banana and the entire jungle. If you have referentially transparent code, if
+you have pure functions --- all the data comes in its input arguments and
+everything goes out and leaves no state behind---it's incredibly reusable.
+You can just reuse it here, there, and everywhere. When you want to use it in
+a different project, you just cut and paste this code into your new project.}
+--- Joe Armstrong\cite{Sei09}
+
+\enquote{The central core of functional programming is the idea of nonmutable
+state---that \texttt{x} isn't the name of a location in memory; it's a value.
+So it can't change.}
+--- Joe Armstrong\cite{Sei09}
+
+%\enquote{I characterize functional programming---that is, purely functional
+%programming, where side effects are somehow really relegated to a world of
+%their own---as a radical and elegant attack on the whole enterprise of
+%writing programs.}
+%---Simon Peyton Jones
+
+\enquote{Sometimes, the elegant implementation is just a function. Not a
+method. Not a class. Not a framework. Just a function.}
+– John Carmack
+
+\enquote{The kind of things we capture in javadoc are the kinds of things
+that ought to be told to a compiler. If it's worth telling another
+programmer, it's worth telling the compiler, I think.}
+--- Guy Steele\cite{Sei09}
+
+\enquote{I used to be enamored of object-oriented programming. I’m now
+finding myself leaning toward believing that it is a plot designed to destroy
+joy.}
+– Eric Allman
+
+\enquote{I have apologized profusely over the last 20 years for making up the
+term object-oriented, because as soon as it started to be misapplied I
+realized that I should have used a much more process-oriented term for it.}
+---Alan Kay\cite{Kay97}
+
+Dijkstra wrote a letter to the budget council urging them not to replace
+Haskell by Java in the introductory courses, saying: \blockquote{Haskell,
+though not perfect, is of a quality that is several orders of magnitude
+higher than Java.}\cite{Dij01}
+
+Some hacker news quotes
+
+\enquote{[students beginning in] OOP environments often seem to devolve into
+strange taxonomical, metaphysical questions: \enquote{Is a Car a Vehicle? Or
+does it implement Drivable? Is a Window a Widget itself, or does it only own
+Widgets? If it's a Widget itself, then could a Window contain sub-windows?}}
+
+
+In~\cite{Car96}, Luca Cardelli noted that \enquote{Object-oriented style is
+intrinsically less efficient than procedural style. In pure object-oriented
+style, every routine is supposed to be a (virtual) method. This introduces
+additional indirections [\(\dots\)]}; \enquote{[object-oriented] languages
+have extremely poor modularity properties with respect to class extension and
+modification}; \enquote{In fairness, designers of object-oriented languages
+did not simply \enquote{forget} to include properties such as good type
+systems and good modularity: the issues are intrinsically more complex than
+in procedural languages.}; \enquote{The type systems of most object-oriented languages are not
+expressive enough; programmers must often resort to dynamic checking or to
+unsafe features, damaging the robustness of their programs}
+
+\enquote{Conventional imperative and object-oriented programs suffer greatly
+from both state-derived and control-derived complexity.}\cite{MM06}
+
+%Verbatim from wikipedia
+A study by Potok et al.\ has shown no significant difference in productivity
+between OOP and procedural approaches\cite{Pot99}.
+%Verbatim from wikipedia
+
+Further references:
+
+Joe Armstrong's Why OO sucks\cite{Arm01}.
+
+The object-oriented model has gotten time wrong.
+Are we there yet?\cite{Hic09}
+
+% TODO read:
+% http://lambda-the-ultimate.org/node/489
+% http://lambda-the-ultimate.org/classic/message4857.html
+% http://www.softpanorama.org/SE/anti_oo.shtml
+% http://igw.tuwien.ac.at/fit/fit03/oop.html
+% https://www.westga.edu/~bquest/1997/object.html
+% http://www.oocities.org/tablizer/oopbad.htm
+% https://www.yegor256.com/2016/08/15/what-is-wrong-object-oriented-programming.html
+% http://okmij.org/ftp/Computation/Subtyping/
+% https://crypto.stanford.edu/~blynn/c/object.html
+% http://raganwald.com/2014/03/31/class-hierarchies-dont-do-that.html
+% https://softwareengineering.stackexchange.com/questions/212515/why-is-tight-coupling-between-functions-and-data-bad
+% https://wiki.haskell.org/The_Monad.Reader/Issue3/Functional_Programming_vs_Object_Oriented_Programming
+% http://mergeconflict.com/coupling-in-object-oriented-programming/
+
+% Great comment! http://lambda-the-ultimate.org/node/4235#comment-64975
+
+% Shajan Miah's critique
+% https://web.archive.org/web/20070306123626/http://members.aol.com/shaz7862/critique.htm
+
+To think:
+\begin{center}
+\(>>\) With OO, a person is likely to think "Well, I have a bunch of Books
+that have Authors, which will be purchased by Customers who have
+creditCardNumbers)", whereas what does a normal human begin think when you
+ask them to produce a functional solution?
+
+Depends on what value of "normal" you're using! But probably something fairly
+similar, since these entities can be represented by types. The difference
+(well, a difference) with FP is that operations over these types are often
+easier to compose.
+\end{center}
+
+
+%\bibliography{refs}
+%\bibliographystyle{unsrt}
+\printbibliography
+
+\end{document}
