@@ -1,0 +1,137 @@
+\documentclass[spanish]{article}
+
+\input{../../commands.tex}
+\usepackage[utf8]{inputenc}
+\usepackage[es-tabla]{babel}
+\usepackage{booktabs}
+
+\usepackage{mathtools}
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning,arrows.meta}
+\usetikzlibrary{babel}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.pathreplacing}
+
+\usepackage{xpatch}
+\DeclareMathVersion{ttmath}
+\SetSymbolFont{letters}{ttmath}{OT1}{\ttdefault}{m}{n}
+\xapptocmd{\ttfamily}{\mathversion{ttmath}}{}{}
+
+\newcommand{\emptystr}{\lambda}
+
+\usetikzlibrary{automata, positioning, arrows,
+fit, % for the dashed boxes on Thompson's construction
+calc
+}
+\tikzset{%
+  node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+  every state/.style={thick}, % sets the properties for each ’state’ node
+  double distance=2.5pt,
+  shorten >= 2pt, shorten <= 2pt,
+  initial text=\( \),
+  every edge/.style={%
+    draw,->, >=stealth, auto, semithick
+  }
+}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usetikzlibrary{shapes}
+\graphicspath{{imgs/}}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+\renewcommand*{\tableautorefname}{Tabla}
+\renewcommand*{\figureautorefname}{Figura}
+\newcommand{\smallunderbracket}[1]{\underbracket[0.7pt][2pt]{#1}}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\begin{document}
+\centerline{\LARGE{Autómatas, Teoría de Lenguajes y Compiladores (72.39)}}
+\vspace{6pt}
+\centerline{\Large{Soluciones del 2\textsuperscript{do} Parcial 2018}}
+
+\subsubsection*{Ejercicio 1}
+Dado el alfabeto \(\Sigma = \{{\tt 0, 1}\}\), y el lenguaje \(L = \{\omega {\tt a} \omega^r~/~\omega \in \Sigma^*, {\tt a} \in \Sigma \}\),
+  construir una gramática libre de contexto que genere \(L\), y construir en base a
+  ella un autómata de pila que reconozca \(L\).
+
+\paragraph{Solución}
+\subsubsection*{Ejercicio 2}
+Demostrar que el lenguaje $L=\{{\tt 0^n \# 0^{2n} \# 0^{3n} }~/~{\tt n}
+  \geq 0 \}$ \textbf{no es libre de contexto}.
+
+\paragraph{Solución}
+
+Lo probamos por contradicción. Supongamos que \(L$ es un CFL.\@ Entonces $L\) debe
+cumplir el lema de bombeo para CFLs. Es decir, existe un entero \(p \geq 1\), tal que para todo
+\(w \in L$ de longitud igual o mayor que $p$, $w$ puede ser escrito como $uvxyz\),
+satisfaciendo las siguientes condiciones:
+\begin{enumerate}
+  \item \(|vxy| \geq p\)
+  \item \(|vx| \geq 1\)
+  \item \(\forall i\geq 0~(uv^ixy^iz \in L) \)
+\end{enumerate}
+
+En particular, sea \(w = {\tt 0^{p} \# 0^{2p} \# 0^{3p}}$. Mostramos que $w\) no puede ser
+bombeado. Ni \(v$ ni $y$ pueden contener $\#$, de lo contrario $uv^2xy^2z\) tendría
+más de dos \(\#$. Por lo tanto, si dividimos $w$ en tres segmentos: $\tt 0^p\),
+\(\tt 0^{2p}$ y $\tt 0^{3p}\), al menos uno de los segmentos no está contenido en
+ni en \(v$ ni en $y$. En consecuencia $uv^2xy^z \not\in L\) porque la proporción
+\(1:2:3\) de la longitud de los segmentos no se mantiene.
+
+Supusimos que el lenguaje era libre de contexto y llegamos a una
+contradicción con la tercera condición del lema. Por lo tanto, el lenguaje no
+puede ser libre de contexto.
+
+\[
+\begin{tikzpicture} [node distance=2.4cm, every state/.style={thick, minimum
+  size=31pt}, every edge/.style={draw,->, >=stealth, auto, semithick,font=\tt}]
+  \node[state, initial] (i) {\(Q_0\)};
+  \node[state, right of=i] (q24) {\(Q_{24}\)};
+  \node[state, below of=q24] (q34) {\(Q_{34}\)};
+  \node[state, right of=q24] (q5) {\(Q_5\)};
+  \node[state, above of=q24] (q145) {\(Q_{145}\)};
+
+  \node[state, right of=q5] (q6) {\(Q_6\)};
+  \node[state, right of=q6, accepting] (q7) {\(Q_7\)};
+
+  \draw (i) edge[out=90, in=180] node[sloped] {a} (q145);
+  \draw (i) edge node {b} (q24);
+  \draw (i) edge[out=270, in=180] node[sloped, below] {c} (q34);
+
+  \draw[loop above] (q145) edge node {a} (q145);
+  \draw (q145) edge[out=0, in=90] node[sloped] {a} (q6);
+
+  \draw (q24) edge node {a} (q5);
+  \draw[loop above] (q24) edge node {b} (q24);
+
+  \draw (q34) edge[out=0, in=270] node[sloped, below] {a} (q5);
+  \draw[loop above] (q34) edge node {c} (q34);
+
+  \draw (q5) edge node {a} (q6);
+  \draw (q6) edge node {b} (q7);
+\end{tikzpicture}
+\]
+
+\subsubsection*{Ejercicio 3}
+Describir de forma completa una máquina de Turing que reconozca el lenguaje del ejercicio anterior.
+
+\begin{itemize}
+  \item \textbf{Explicar claramente el funcionamiento de la máquina}.
+  \item Mostrar \textbf{formalmente} que acepta \(\tt 0\#00\#000$  pero no acepta $\tt 0\#000\#0\).
+\end{itemize}
+
+
+\end{document}
