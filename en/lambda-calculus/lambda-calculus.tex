@@ -1,0 +1,311 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{scrextend}
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/, up to date check=md5]
+\usepackage{ebproof}
+\usepackage{booktabs}
+\usepackage{multicol}
+% Set items in enumerate environment to letters.
+\usepackage{enumitem}
+\setenumerate[0]{label=(\alph*)}
+\usepackage{forest}
+\forestset{%
+  % Tree following the style of Chiswell & Hodges' Mathematical Logic
+  chtree/.style={
+    baseline,
+    for tree={
+      inner sep=1.4pt,
+      circle,
+      draw,
+      s sep'+=20pt,
+      fit=band,
+    },
+  },
+  c phantom/.style={draw=none, no edge},
+}
+
+\usepackage{xspace}
+\graphicspath{{imgs/}}
+
+\newlength\tindent%
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%These tell TeX which packages to use.
+\usepackage{array, epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+% Use in the array environment to set a column to text
+\newcolumntype{R}{>\(r<\)}
+\newcolumntype{L}{>\(l<\)}
+\newcolumntype{C}{>\(c<\)}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\true}{\texttt{true}}
+\newcommand{\false}{\texttt{false}}
+% Logic rules
+\newcommand{\ii}{\footnotesize (\(\rightarrow\)I)}
+\newcommand{\ie}{\footnotesize (\(\rightarrow\)E)}
+\newcommand{\ci}{\footnotesize (\(\wedge\)I)}
+\newcommand{\ce}{\footnotesize (\(\wedge\)E)}
+\newcommand{\di}{\footnotesize (\(\vee\)I)}
+\newcommand{\de}{\footnotesize (\(\vee\)E)}
+\newcommand{\bi}{\footnotesize (\(\leftrightarrow\)I)}
+\newcommand{\be}{\footnotesize (\(\leftrightarrow\)E)}
+\newcommand{\negi}{\footnotesize (\(\neg\)I)}
+\newcommand{\nege}{\footnotesize (\(\neg\)E)}
+\newcommand{\raa}{\footnotesize (RAA)}
+\newcommand*\cir[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=1pt] (char) {\footnotesize #1};}}
+
+            \newcommand{\danda}[2]{%
+    \tikz[baseline=(tocancel.base)]{%
+        \node[inner sep=0pt,outer sep=0pt] (tocancel) {\(#1\)};
+        \node[inner sep=0pt,outer sep=1pt,above right=0mm of tocancel] (end)
+        {\cir{#2}};
+        \draw (tocancel.south west) -- (end.260);
+    }\hspace{-1.2em}%
+}%
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\newcommand{\fls}{\texttt{fls}\xspace}
+\newcommand{\tru}{\texttt{tru}\xspace}
+\renewcommand{\and}{\texttt{and}}
+\newcommand{\fst}{\texttt{fst}}
+\newcommand{\snd}{\texttt{snd}}
+\newcommand{\iszero}{\texttt{iszero}\xspace}
+\newcommand{\minus}{\texttt{minus}}
+\renewcommand{\l}[1]{\lambda #1.~}
+\newcommand{\pair}[1]{\langle #1 \rangle}
+\newcommand{\num}[1]{\overline{\texttt{#1}}}
+
+\newcommand{\ttrue}{\small T-True}
+\newcommand{\tfalse}{\small T-False}
+\newcommand{\tapp}{\small T-App}
+\newcommand{\tabs}{\small T-Abs}
+\newcommand{\tif}{\small T-If}
+\newcommand{\tvar}{\small T-Var}
+\newcommand{\Bool}{\texttt{Bool}}
+\newcommand{\If}[3]{\texttt{if}~#1~\texttt{then}~#2~\texttt{else}~#3}
+% Scott numeral
+\newcommand{\snum}[1]{\underline{\texttt{#1}}}
+\begin{document}
+
+Useful site: \url{http://www.cburch.com/lambda/}
+
+Booleans
+\begin{align*}
+  \tru &:= \l{t} \l{f} t \\
+  \fls &:= \l{t} \l{f} f
+\end{align*}
+
+\(\mathtt{test} := \l{c} \l{t} \l{f} c~t~f \)
+\\[.1cm]
+
+Unary boolean functions:
+
+\(\texttt{id} := \l{p} p\)
+
+\(\texttt{constT} := \l{p} \tru\)
+
+\(\texttt{constF} := \l{p} \fls\)
+
+\(\mathtt{not} := \l{p} p~\fls~\tru\)
+\\[.1cm]
+
+Binary boolean functions:
+
+\(\and := \l{p} \l{q} p~q~\fls \)
+
+\(\mathtt{or} := \l{p} \l{q} p~\tru~q \)
+
+\(\texttt{implication} := \l{p} \l{q} p~q~\tru\)
+
+\(\texttt{converse\_implication} := \l{p} \l{q} q~p~\tru\)
+
+\(\texttt{nonimplication} := \l{p} \l{q} q~\fls~p\)
+
+\(\texttt{converse\_nonimplication} := \l{p} \l{q} p~\fls~q\)
+Or simpler, by \(\eta\)-reduction: \(\l{p} p~\fls\)
+
+\(\texttt{equiv} := \l{p} \l{q} p~q~(q~\fls~\tru)\)
+
+\(\texttt{xor} := \l{p} \l{q} p~(q~\fls~\tru)~q\)
+
+\(\texttt{nand} := \l{p} \l{q} p~(q~\fls~\tru)~\tru\)
+
+\(\texttt{nor} := \l{p} \l{q} p~\fls~(q~\fls~\tru)\)
+\\[.1cm]
+
+\newpage
+
+Pairs\\
+
+\(\texttt{pair} := \l{x} \l{y} \l{f} f~x~y\)
+
+\(\texttt{fst} := \l{p} p~\tru\)
+
+\(\texttt{snd} := \l{p} p~\fls\)
+
+For a more concise notation, we will use \(\pair{a, b}\) instead of writing
+\((\texttt{pair}~a~b)\) explicitly.\\
+
+Church numerals
+\begin{align*}
+  \num{0} &:= \l{s} \l{z} z \\
+  \num{n+1} &:= \l{s} \l{z} s~\num{n}
+\end{align*}
+
+%5.2.2
+\(\mathtt{succ} := \l{n} \l{s} \l{z} s~(n~s~z) \)
+
+\(\mathtt{succ} := \l{n} \l{s} \l{z} n~s~(s~z) \)
+
+\(\mathtt{plus} := \l{m} \l{n} \l{s} \l{z} m~s~(n~s~z) \)
+
+\(\mathtt{times} := \l{m} \l{n} m~(\mathtt{plus}~n)~\num{0} \)
+
+\(\mathtt{times} := \l{m} \l{n} \l{s} \l{z} m~(n~s)~z\)
+
+Or \(\eta\)-reducing: \(\mathtt{times} := \l{m} \l{n} \l{s} m~(n~s)\)
+
+\(\mathtt{power} := \l{m} \l{n} m~(\mathtt{times}~n)~\num{1} \)
+
+\(\mathtt{power} := \l{m} \l{n} m~n \)
+
+\(\mathtt{iszero} := \l{n} n~(\l{x} \fls)~\tru\)
+
+\begin{flalign*}
+\mathtt{pr}&\mathtt{ed} := \l{n} \mathtt{fst}~(n~\texttt{ss}~\pair{\num{0}, \num{0}}) \\
+           &\text{where } \texttt{ss} := (\l{p} \pair{\snd~p, \texttt{succ}~(\snd~p)})
+\end{flalign*}
+
+\(\mathtt{leq} := \l{m} \l{n} \mathtt{iszero}~(\minus~m~n)\)
+
+\(\mathtt{geq} := \l{m} \l{n} \mathtt{leq}~n~m\)
+
+\(\mathtt{lt} := \l{m} \l{n} \mathtt{leq}~(\mathtt{succ}~m)~n\)
+
+\(\mathtt{gt} := \l{m} \l{n} \mathtt{lt}~n~m\)
+
+% 5.2.5
+\(\minus := \l{n} \l{m} m~\texttt{pred}~n\)
+
+% 5.2.7
+\(\mathtt{equals} := \l{m} \l{n} \and~(\mathtt{lt}~m~n))~(\mathtt{lt}~n~m)) \)
+
+\newpage
+Lists:
+Lets start with \texttt{cons}, which is a function that receives a head
+element, the list to be the tail, and appends the first to the second, i.e.\
+something of the form \(\l{h} \l{t} \texttt{new\_list}\). We know the lists
+fold function takes two arguments (intuitively, the constructor and nil
+functions), so \(\texttt{new\_list}\) will take the form \(\l{c} \l{n}
+\texttt{something}\). Lastly, based on the example, we need to apply \(c\)
+to an element, and a list, so it makes sense to apply
+it to \(h\) (the head element), and to \(t\) (the tail function, which needs
+to be a list). The tail function \(t\) needs to be applied to \(c\)
+and \(n\) to get back the list we require as second argument to the first
+\(c\). We thus reach
+\[
+  \mathtt{cons} := \l{h} \l{t} \l{c} \l{n} c~h~(t~c~n)
+\]
+Now, \texttt{nil} is a list, which (like always) we represent
+with the list's fold function which takes two arguments. Since we need not
+apply the constructor function to anything:
+\[
+  \texttt{nil} := \l{c} \l{n} n
+\]
+(note that it coincides with \(\num{0}\) or \fls).
+For \texttt{isnil}, we follow the reasoning of \iszero: we need a function
+that takes a list, and feeds it two arguments. If the list is \texttt{nil},
+we know that it will just return the second argument, so we make that
+argument \tru. If the list is a \texttt{cons}, it will apply its first
+argument to two others, so we make the first argument \(\l{y} \l{z} \fls\),
+to get back \fls after applying the function; hence:
+\[
+  \texttt{isnil} := \l{l} l~(\l{h} \l{t} \fls)~\tru
+\]
+For \texttt{head}, if it's a \texttt{cons}, it will apply its first argument
+to the head and to the tail, so we use as first argument \(\l{h} \l{t} h\).
+If it's a \texttt{nil}, \texttt{head} makes no sense (an empty list has no
+head), so we can return whatever we want. We can use \fls as a placeholder,
+but just using the list itself is easier:
+\[
+  \texttt{head} := \l{l} l~(\l{h} \l{t} h)~l
+\]
+Lastly, \texttt{tail} follows a similar reasoning as the \texttt{pred}
+function for church numerals. We need to iterate a pair which has the list
+itself as second element of the pair, and its tail as first element. We thus
+apply the list function to a function \texttt{ff} which works as the
+``constructor'' (it must take two arguments), and the pair
+\(\pair{\texttt{nil}, \texttt{nil}}\) as second argument (the ``base case'').
+\begin{flalign*}
+  \texttt{ta}&\texttt{il} := \l{l} \fst~(l~\texttt{ff}~\pair{\texttt{nil}, \texttt{nil}}) \\
+           &\text{where } \texttt{ff} := (\l{h} \l{p} \pair{\snd~p, \texttt{cons}~h~(\snd~p)})
+\end{flalign*}
+Note that anything works as first element of the pair, as long as the second
+element is \texttt{nil}.
+
+\newpage
+Scott numerals
+\begin{align*}
+  \snum{0} &:= \l{z} \l{s} z \\
+  \snum{n+1} &:= \l{z} \l{s} s~\snum{n}
+\end{align*}
+When compared to the Church numerals, Scott numerals are distinguished by
+their ``linearity'': the bound variables of \(\snum{0}\), \texttt{succ}, and
+\texttt{case} occur at most once in the bodies of these functions,
+and the predecessor function \(\texttt{pred} := \l{n} n~\snum{0}~(\l{x} x)\)
+can be computed trivially\cite{ACP93}.
+\\
+
+\(\mathtt{succ} := \l{n} \l{z} \l{s} s~(n~z~s)\)
+
+\(\mathtt{pred} := \l{n} n~\snum{0}~(\l{x} x)\)
+
+\(\mathtt{iszero} := \l{n} n~\tru~(\l{x} \fls)\)
+
+\(\mathtt{add} := \l{n} \l{m} (\l{x} n~m~x)~(\l{y} (\mathtt{add}~y~m) + 1) \)
+
+\(\mathtt{case} := \l{n} \l{a} \l{f} n~a~f\), where \(\mathtt{case}~n~a~f\)
+returns \(a\) if \(n\) is 0, and \(f~x\) if \(n\) is the successor of \(x\).
+
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}
