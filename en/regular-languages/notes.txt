@@ -1,0 +1,5 @@
+* Regular events closed under union, concatenation, and Kleene closure by
+  definition.
+* Landweber (63) type 1 closed under intersection.
+* DFCL closed under complementation (Schutzenberger, ...)
+

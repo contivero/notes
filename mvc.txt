@@ -1,0 +1,7 @@
+* Originally an idea from Trygve Reenskaug
+* First published in "A Cookbook for Using the Model-View-Controller User
+  Interface Paradigm in Smalltalk-80", by Glenn Grasner and Stephen Pope.
+
+http://wiki.c2.com/?ModelViewControllerHistory
+Nice paper for MVC vs. MVP: Twisting the Triad, by Andy Bower and Blair
+McGlashan. http://object-arts.com/downloads/papers/TwistingTheTriad.PDF

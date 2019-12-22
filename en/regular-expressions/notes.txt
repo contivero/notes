@@ -1,0 +1,21 @@
+* Partial derivatives of an extended regular expression. Caron et al
+* Algorithms for computing small NFAs. Ilie and Yu
+* Constructing NFAs by Optimal use of positions in regular expressions. Ilie and Yu
+* Computing Small nondeterministic finite automata
+* on the mother of all automata: The position automaton
+* The abstract theory of automata. Glushkov
+* Partial derivatives of regular expressions and finite automaton constructions.  Antimirov
+* Derivatives of regular expressions. Brzozowski
+* Derivatives of regular expressions. Chen
+* Regular expression derivatives reexamined. Owens et al
+* Regular expression and state graphs for automata. Mcnaughton & Yamada
+* From C-Continuations to new quadratic algorithms for automaton synthesis.Champarnaud & Ziadi
+* A new algorithm to obtain small nfas from regular expressions. García et al
+* A concurrent specification of Brzozowski's DFA construction algorithm
+* On the average number of states of partial derivative automata. Broda et al
+* A play on regular expressions. Fischer et al (functional pearl)
+* Rewriting extended regular expressions. Antimirov & Mosses
+* Normalized expressions and finite automata. Champarnaud & Ziadi
+* Fast equation automaton computation. Khorsi, Ouardi, Ziadi
+
+

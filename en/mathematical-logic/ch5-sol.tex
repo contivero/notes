@@ -1,1 +1,25 @@
-5.
+5.1.1 See solutions
+
+5.1.2 See solutions
+
+5.2.2 \((2,1,3), (3,2,4)\).
+
+5.2.3
+\begin{enumerate}
+  \item Take \(R(2,4,3)\). Then we don't know if it is \(4 = 2 + 2\) or \(3 =
+  2 + 2\).
+  \item Take any triple, say \((0,0,0)\). For it to be in the relation, \(0 +
+  0 = 0 + w\) must hold, but nothing tells us what \(w\) is, so we can't
+  know.
+\end{enumerate}
+
+5.2.4
+To form a single element \((a_1, \dots, a_n)\), we must choose from \(k\)
+elements one for \(a_1\), again from \(k\) elements one for \(a_2\), and so
+on. Thus, we have \(k^n\) possible tuples. Now, for the number of \(n\)-ary
+relations, the relation could have \(0, 1, \dots, k^n\) elements. In general,
+for it to have \(i \leq k^n\) elements, there are \(\binom{k^n}{i}\) ways. If
+we add them all up:
+\[
+  \sum_{i = 0}^{k^n} \binom{k^n}{i} = 1 + \sum_{i = 1}^{k^n} \binom{k^n}{i} = 1 + (2^{k^n} - 1) = 2^{k^n}
+\]

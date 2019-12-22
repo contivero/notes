@@ -1,0 +1,16 @@
+From Programming Pearls, p.14:
+To shift an ordered collection i places to the left:
+
+shift' i xs = reverse (reverse a ++ reverse b)
+  where (a, b) = splitAt i xs
+
+
+An example of a PSPACE-complete problem is the universality problem: does the
+language described by a regular expression over the alphabet \(\Sigma\) equal
+\(\Sigma^*\)?
+
+Ver paper:
+* Coudert, Berthet, Madre - Verification of synchronous sequential machines
+  based on symbolic execution
+Habla sobre una forma de usar OBDDs para checkear equivalencias de DFAs (en vez
+de minimizarlos)

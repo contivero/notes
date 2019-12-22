@@ -1,0 +1,132 @@
+\documentclass[]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[yyyymmdd,hhmmss]{datetime}
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{color}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem*{rmk}{Remark}
+\newtheorem{lem}{Lemma}
+\newtheorem*{joke}{Joke}
+\newtheorem{ex}{Example}
+\newtheorem*{soln}{Solution}
+\newtheorem{prop}{Proposition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\img}{\mathrm{img}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+
+
+\begin{document}
+
+
+\begin{center}
+  {\Large Criptografía y Seguridad \the\year~(72.44)\\[.2cm]
+Entropía}\\
+%\textbf{NAME}\\ %You should put your name here
+%Due: DATE %You should write the date here.
+\end{center}
+
+\vspace{0.2 cm}
+
+
+En 1948, Claude Elwood Shannon publicó el artículo \textit{A Mathematical
+Theory of Communication}, dando comienzo a la teoría de la información. En
+este, introdujo el concepto de entropía (también llamado entropía de la
+información, o entropía de Shannon, \textit{information entropy} en
+inglés), como una medida de la incertidumbre de una fuente de información, o
+equivalentemente, de la cantidad de información promedio contenida en los
+símbolos usados.
+
+Dado un conjunto de posibles eventos, cuyas probabilidades de ocurrencia son $\{p_1,\dots,p_n\}$, la entropía se define como:
+\[ H = -\sum_i p(x_i)\log_2(p(x_i))\]
+
+La entropía de un espacio con función de probabilidad $P$ es una medida del
+contenido de información del lenguaje. Formalmente:
+\[ H(X) = -\sum_{x \in X} P(x)\log_2(P(x)) \]
+
+
+My greatest concern was what to call it. I thought of calling it `information,'
+but the word was overly used, so I decided to call it `uncertainty.' When I
+discussed it with John von Neumann, he had a better idea. Von Neumann told me,
+`You should call it entropy, for two reasons. In the first place your
+uncertainty function has been used in statistical mechanics under that name, so
+it already has a name. In the second place, and more important, no one really
+knows what entropy really is, so in a debate you will always have the
+advantage.' 
+
+cuanta ``elección'' esta involucrada en la
+selección de un evento, o inseguros estamos de un resultado.
+
+Ejercicios:
+\begin{enumerate}
+  \item Ya que $\log(0)$ es indefinido, cabe preguntarse qué hacer durante el
+    cálculo de la entropía cuando la probabilidad de un evento es 0. En este
+    caso, se define el producto $p\log(p)$ en 0 en concordancia con su límite
+    cuando $p$ tiene a $0$ por derecha. Calcular este límite.  \begin{align*}
+      \lim_{p\to0^+} p \log(p) &= \lim_{p\to0^+} \frac{\log(p)}{1/p} =
+      -\lim_{p\to0^+} \frac{\frac{d}{dp}\log(p)}{\frac{d}{dp}\frac{1}{p}} \\ &=
+      \lim_{p\to0^+} \frac{\frac{1}{p}}{-\frac{1}{p^2}} = \lim_{p\to0^+} -p =
+      -\lim_{p\to0^+} p\\ &= 0 \end{align*}
+
+\end{enumerate}
+
+
+\end{document}
+
+
