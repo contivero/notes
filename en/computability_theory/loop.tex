@@ -1,0 +1,171 @@
+\documentclass [10pt]{article}
+
+\usepackage{diagbox}
+\usepackage{csquotes}
+\usepackage{scrextend}
+\usepackage{mdframed}
+\usepackage{cancel}
+
+\usepackage{ebproof}
+\newcommand{\im}{\supset}
+\newcommand{\andr}{($\land$r)}
+\newcommand{\andl}{($\land$l)}
+\newcommand{\orr}{($\lor$r)}
+\newcommand{\orl}{($\lor$l)}
+\newcommand{\impr}{($\im$r)}
+\newcommand{\impl}{($\im$l)}
+\newcommand{\negr}{($\neg$r)}
+\newcommand{\negl}{($\neg$l)}
+\newcommand{\fal}{($\forall$l)}
+\newcommand{\far}{($\forall$r)}
+\newcommand{\exl}{($\exists$l)}
+\newcommand{\exr}{($\exists$r)}
+\newcommand{\contr}{(contr)}
+
+\newcommand{\ang}[1]{\left\langle #1 \right\rangle}
+\newcommand{\kw}[1]{\textbf{\underline{#1}}}
+
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[amsmath, amsthm]{ntheorem}
+\usepackage{mathtools}
+\usepackage{mathdots}
+\usepackage{epsfig}
+\usepackage{fullpage}
+\usepackage{enumitem}
+\usepackage{xspace}
+\usepackage{stmaryrd}
+
+\usepackage{hyperref}
+
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{ebproof}
+\usepackage{tikz}
+\usetikzlibrary{positioning, calc, decorations.pathmorphing}
+
+\pagestyle{plain}
+\bibliographystyle{alpha}
+
+\newcommand{\equisat}{\stackrel{\mathclap{\mbox{\scriptsize sat}}}{\raisebox{-2pt}{$\equiv$}}}
+\newcommand{\inter}{(\mathcal{A}, \xi^{\mathcal{A}})}
+\newcommand{\iterm}[1]{\llbracket #1 \rrbracket_{\xi}^{\mathcal{A}}}
+\newcommand{\dbra}[1]{\llbracket #1 \rrbracket}
+\newcommand*\cir[1]{%
+  \tikzexternaldisable%
+  \tikz[baseline=(char.base)]{%
+    \node[shape=circle,draw,inner sep=1pt] (char) {\footnotesize #1};
+  }
+}
+
+\title{Nonclassical Logic exercises}
+\author{Cristian Ontivero 11846177}
+\date{SS 2020}
+
+\theoremstyle{definition}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{definition}{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{ex}[theorem]{Exercise}
+\newenvironment{soln}{\textbf{Solution:}\begin{addmargin}[1em]{0em}}{\end{addmargin}}
+\newenvironment{exercise}{\begin{mdframed}\begin{ex}}{\end{ex}\end{mdframed}}
+
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Ra}{\Rightarrow}
+\newcommand{\La}{\Leftarrow}
+\newcommand{\la}{\leftarrow}
+\newcommand{\LR}{\Leftrightarrow}
+
+\newcommand{\ccfont}[1]{\protect\mathsf{#1}}
+
+%\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\newcommand{\T}{\mathtt{True}}
+\newcommand{\F}{\mathtt{False}}
+\newcommand{\n}[1]{\underline{\mathtt{#1}}}
+
+% == Start Gödel number command definition ==
+\makeatletter
+\DeclareFontFamily{OMX}{MnSymbolE}{}
+\DeclareSymbolFont{MnLargeSymbols}{OMX}{MnSymbolE}{m}{n}
+\SetSymbolFont{MnLargeSymbols}{bold}{OMX}{MnSymbolE}{b}{n}
+\DeclareFontShape{OMX}{MnSymbolE}{m}{n}{
+    <-6>  MnSymbolE5
+   <6-7>  MnSymbolE6
+   <7-8>  MnSymbolE7
+   <8-9>  MnSymbolE8
+   <9-10> MnSymbolE9
+  <10-12> MnSymbolE10
+  <12->   MnSymbolE12
+}{}
+\DeclareFontShape{OMX}{MnSymbolE}{b}{n}{
+    <-6>  MnSymbolE-Bold5
+   <6-7>  MnSymbolE-Bold6
+   <7-8>  MnSymbolE-Bold7
+   <8-9>  MnSymbolE-Bold8
+   <9-10> MnSymbolE-Bold9
+  <10-12> MnSymbolE-Bold10
+  <12->   MnSymbolE-Bold12
+}{}
+\DeclareMathDelimiter{\ulcorner}
+    {\mathopen}{MnLargeSymbols}{'036}{MnLargeSymbols}{'036}
+\DeclareMathDelimiter{\urcorner}
+    {\mathclose}{MnLargeSymbols}{'043}{MnLargeSymbols}{'043}
+\newcommand*{\godel}[1]{\left\ulcorner #1 \right\urcorner}
+\makeatother
+% == End Gödel number command definition ==
+
+\newcolumntype{C}{>{$}c<{$}}
+\newcolumntype{L}{>{$}l<{$}}
+
+\theoremheaderfont{\bfseries}
+\theorembodyfont{\normalfont}
+\theoremseparator{:}
+\theoremsymbol{\(\blacksquare\)}
+\newtheorem{task}{Task}
+
+\begin{document}
+\maketitle
+
+Can one look at a program and determine an upper bound on its running time?
+In general, the answer is no. However, we can answer in the positive that
+question when restricting ourselves to certain subsets of programs.
+LOOP was introduced by Meyer and Ritchie~\cite{MR67} as a simple programming
+language on which an upper bound on the run time can be determined from the program's structure.
+LOOP programs correspond precisely to primitive recursive functions.
+
+Syntax
+
+Variables are
+uppercase letters followed by one or more decimal digits, i.e.
+\(X1,X2,\dots\). LOOP has three types of \textit{basic statements}:
+\begin{itemize}
+  \item \(X = 0\)
+  \item \(X = Y\)
+  \item \(X = X + 1\)
+\end{itemize}
+A \textit{code segment} consists of
+\begin{itemize}
+  \item a basic statement, or
+  \item a sequence of code segments, or
+  \item a \texttt{LOOP-END} construct of the form:
+\end{itemize}
+
+\(L_0\) no loops
+\(L_n\) loops nested to depth \(n\).
+
+\(Loop = \bigcup_{n=0}^{\infty} L_n\)
+
+\begin{theorem}[Bounding theorem]
+  If \(P \in L_n\), then we can find \(p>0\) such that \(f^{(p)}_n\) bounds
+  the running time of \(P\).
+\end{theorem}
+%\bibliography{refs}
+\end{document}

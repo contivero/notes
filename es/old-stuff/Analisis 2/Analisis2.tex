@@ -1,0 +1,195 @@
+\documentclass[a4paper, 12pt]{article}
+\usepackage{amsmath,amssymb,amsfonts,latexsym}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[pdftex,usenames,dvipsnames]{color}
+\begin{document}
+Análisis Matemático II \\
+
+
+\begin{itemize}
+\item Normas en $R^n$:\\
+Sea $\underline{x}$ un n-vector tal que $\underline{x}=(x_1 ,\dots , x_n)=\displaystyle \sum_{i=1}^n x_{i} \vec{e_i}$ , se tiene:  \\
+\begin{itemize}
+\item Norma-$L^1$  : \\[6pt]
+$\|\underline{x}\|_1 := \displaystyle \sum_{i=1}^n |x_i|$\\
+\item Norma-$L^2$ (euclidiana):\\[6pt]
+$\|\underline{x}\|_2 := \sqrt{\displaystyle \sum_{i=1}^n x_i^2}$\\
+\item Norma del supremo:\\[6pt]
+$\|\underline{x}\|_{\infty} = \max{ \{ |x_1|, \dots , |x_n| \} }$\\[6pt]
+(también se la suele llamar norma infinito)
+\end{itemize}
+\item Funciones de $\mathbb{R}^n$ en $\mathbb{R}^m$. Campos escalares y vectoriales: \\
+Una función $f$ de la forma $f: \mathbb{R} \to \mathbb{R}$ se llama función real de variable real \\
+Se llama  función vectorial de variable real a las funciones del tipo $f: \mathbb{R} \to \mathbb{R}^m$ ; con $m>1$ .\\
+Se denomina \emph{campo escalar} a una función real de variable vectorial, es decir, $f: \mathbb{R}^n \to \mathbb{R}$ ; con $n>1$ \\
+Se denomina \emph{campo vectorial} a una función vectorial de variable vectorial, es decir, $f: \mathbb{R}^n \to \mathbb{R}^m$ ; con $n,m>1$ \\
+
+\item Bolas: \\
+Sea $\mathbf{x_0}$ un punto dado en $\mathbb{R}^n$ y $\varepsilon$ un número positivo dado. El conjunto de todos los puntos $\mathbf{x}$ de $\mathbb{R}^n$ tales que $\| \mathbf{x - x_0}\| < \varepsilon$ se llama \emph{n-bola abierta} de radio $\varepsilon$ y centro $\mathbf{x_0}$. \\
+B($\mathbf{x_0}$;$\varepsilon$): Bola con centro en $x_0$ y radio $\varepsilon = \{ x \in \mathbb{R}^n / \| x-x_0 \| < \varepsilon \}$\\
+
+\item Límite y continuidad de una función vectorial:\\
+$f: I\subseteq \mathbb{R} \to \mathbb{R}^n ; \displaystyle \lim_{t \to t_0} f(t) = (\ell_1, \dots, \ell_n)$\\
+$\forall \varepsilon > 0 / 0 < |t - t_0|<\delta \Rightarrow ||f(t) - (\ell_1, \dots, \ell_n)|| < \varepsilon$\\
+%Observación: $f(t)=(x_1(t),\dots,x_n(t)) \\
+%||f(t) - (\ell_1, \dots, \ell_n)||=\sqrt{\displaystyle \sum_{i=1}^n (x_i'
+$\displaystyle \lim_{t \to t_0} f(t)=(\ell_1,\dots,\ell_n) \Longleftrightarrow \lim_{t \to t_0} x_i = \ell_i$ \\
+\item Continuidad: \\
+$f: I\subseteq \mathbb{R} \to \mathbb{R}^n$ es continua en $t_0$ si:\\
+1) $\exists f(t_0)$\\
+2) $\displaystyle \lim_{t \to t_0} f(t)=f(t_0)$\\
+\item Derivabilidad:\\
+$f: I \subseteq \mathbb{R} \to \mathbb{R}^n$ \\
+$f$ es derivable en $t_0$ si $\displaystyle \exists \lim_{h \to 0} \frac{f(t_0 + h) - f(t_0)}{h}$
+\item Curva: \\
+Sea $f: I\subseteq \mathbb{R} \to \mathbb{R}^n$ una función continua, entonces $f$ es una curva.\\
+\item Curva rectificable:\\
+Sea $f: I\subseteq \mathbb{R} \to \mathbb{R}^n$ una función derivable (por ende, también continua), entonces $f$ es una curva rectificable.\\
+\newpage
+Área
+
+\item Área: A$[f[a,b]] = \displaystyle \int_a^b |f|dx$\\
+Área encerrada por $f$ y el eje x en el intervalo $[a,b]$\\
+
+\item Área encerrada por dos curvas A[$f,g[a,b]]=$ el área encerrada por $f,g$ en $[a,b]: \displaystyle \int_a^b |f(x) - g(x)|dx$
+
+\item Propiedad: \\
+Si $f$ es par e integrable, entonces $\displaystyle \int_{-a}^a f(x) dx = 2.\int_0^a f(x) dx$ \\
+A su vez, si $f$ es impar e integrable, entonces $\displaystyle \int_{-a}^a f(x) dx = 0 $\\
+
+\item Volumen de un solido de revolución:
+$Vol(f)=\int_a^b \pi.(f(x))^2 dx$ \\
+
+\newpage
+
+\item Gráfica de $f$:
+Gr($f)=\{(x,y) \in \mathbb{R}^{n+1} ; x_{n+1}= f(x_1, \dots, x_n)\}$\\
+Caso de una variable: \\
+$f:\mathbb{R} \to \mathbb{R}$ \\
+Gr$(f)=\{(x,y) \in \mathbb{R}^2 / y = f(x)\}$\\
+Caso de dos variables: \\
+$f:\mathbb{R}^2 \to \mathbb{R}$ \\
+Gr$(f)=\{(x,y,z) \in \mathbb{R}^3 / z = f(x,y)\}$\\
+\item Curvas de nivel: \\
+Una curva de nivel $\zeta$ es un conjunto de nivel en $\mathbb{R}^2$. \\
+Si $f: A\subseteq \mathbb{R}^2 \to \mathbb{R}$ y $a \in \mathbb{R}$, entonces $\zeta(a) = \{(x,y) \in \mathbb{R}^2 / f(x,y)= a\}$\\
+
+%ACA VA LA PARTE DE TRAZAS, BUSCAR ESO.
+\item Límite en campos escalares: \\
+ $f: A\subseteq \mathbb{R}^n \to \mathbb{R}$\\
+$\underline{x_0}=(a_1,\dots,a_n)$\\
+$\underline{x}=(\alpha_1,\dots,\alpha_n)$\\
+$\forall \varepsilon > 0, \exists \delta > 0 / 0<||\underline{x} -\underline{x_0}|| < \delta \Longrightarrow |f(x) - \ell |< \varepsilon$
+
+\item Propiedad: \\
+$\displaystyle \lim_{\underline{x} \to \underline{x_0}} f(x)=\ell \Longrightarrow \exists \delta >0 / 0<||\underline{x} - \underline{x_0}||< \delta \Longrightarrow |f(\underline{x})|<M$ para algún $M>0$. \\
+
+\item Propiedad: \\
+Sea $f: A\subseteq \mathbb{R}^n \to \mathbb{R}$ y $\displaystyle \lim_{\underline{x} \to \underline{x_0}} f(x)=1$.\\
+Sea $g:I\subseteq \mathbb{R} \to A$ una curva tal que $\displaystyle \lim_{\underline{t} \to \underline{t_0}} g(t) = x_0$.\\
+Si $\displaystyle \exists \lim_{\underline{t} \to \underline{t_0}} f(g(t))=\ell' \Rightarrow \ell=\ell'$\\
+Con $g(t)=(x_1(t),\dots,x_n(t))$, y $f(g(t))=f(x_1(t),\dots,x_n(t))$.\\ 
+
+\item Factorización: \\
+Si $f: A\subseteq \mathbb{R}^n \to \mathbb{R}$ y $f$ se puede escribir como:
+\begin{itemize}
+\item[a)] $f(x_1,\dots,x_n) = f_1(x_1) + \dots +f_n(x_n)$
+\item[b)] $f(x_1,\dots,x_n) = f_1(x_1).f_2(x_2) \dots f_n(x_n)$
+\end{itemize}
+Y el $\displaystyle \lim_{x_i \to x_{i}^0} f(x_i) = \ell_i \Longrightarrow \exists \lim_{\underline{x} \to \underline{a}} f(x) =$
+
+%\item Continuidad: \\
+%$f:A\subseteq \mathbb{R}^n \to \mathbb{R}$ ; $f$ continua en $\mathbb{R}\in A$ ESTO DE R PERTENECIENTE a A ESTA RE MAL D; \\
+%Si $\lim_{\underline{x} \to \underline{a}} f(x)=f(\underline{a})
+%Continuidad en A : "Toda funcion continua en un conjunto cerrado y acotado (compacto) alcanza su valor maximo y minimo en el conjunto".
+\item Derivadas direccionales: \\
+Si $\underline{y}$ es un vector unitario ( $||\underline{y}||=1$), la derivada $f'(\underline{a},\underline{y})$ se llama derivada direccional de $f$ en la dirección de $\underline{y}$. Es decir: \\
+$$ f'(\underline{a},\underline{y})=\lim_{t \to t_0} \frac{f(\underline{a} + t\underline{y}) - f(\underline{a})}{t}$$
+
+\item Derivada parcial: \\
+En particular, si $\underline{y}=\mathbf{e}_k$ (el $k$-ésimo vector coordenado unitario), la derivada direccional $f'(\underline{a};\mathbf{e}_k)$ se denomina derivada parcial respecto de $\mathbf{e}_k$ y se representa mediante $D_kf(\underline{a})$. Por ende:
+$$f'(\underline{a};\mathbf{e}_k) = D_kf(\underline{a})= D_kf(a_1,\dots,a_n) = \dfrac{\partial f}{\partial x}(a_1,\dots, a_n) = f'_{x_k}(a_1,\dots,a_n)$$ \\[-8pt]
+(Algunas de las posibles notaciones usualmente utilizadas). \\
+Casos particuales:
+\begin{itemize}
+\item[En $\mathbb{R}^2$:] Si $\underline{a}=(a,b)$, y siendo los vectores coordenados unidad $\mathbf{i}$ y $\mathbf{j}$, las derivadas parciales $f'(\underline{a};\mathbf{i})$ y $f'(\underline{a};\mathbf{j})$ también se escriben: \\
+$$\dfrac{\partial f}{\partial x} (a,b) \text{ y }\dfrac{\partial f}{\partial y} (a,b)$$
+\item[En $\mathbb{R}^3$:] Si $\underline{a}=(a,b,c)$, las derivadas parciales $D_1f(\underline{a})$, $D_2f(\underline{a})$, y $D_3f(\underline{a})$ se expresan poniendo: \\     
+$$\dfrac{\partial f}{\partial x} (a,b,c) \text{ , }\dfrac{\partial f}{\partial y} (a,b,c) \text{ y }\dfrac{\partial f}{\partial z} (a,b,c)$$
+\end{itemize}
+
+\item Derivadas parciales de orden superior:\\
+
+\item Teorema (o fórmula de cálculo): \\
+Sea $f: A\subseteq \mathbb{R}^n \to \mathbb{R}$ y $g(t)=f(\underline{a}+t\underline{y})$. Si una de las derivadas $g'(t)$ o $f'(\underline{a}+t\underline{y})$ existe, entonces también existe la otra y coinciden, \\
+$$g'(t)=f'(\underline{a}+t\underline{y})$$
+
+\item Nota sobre derivadas direccionales y continuidad: \\
+En la teoría uni-dimensional, la existencia de la derivada de una función $f$ en un punto implica la continuidad en aquel punto. Por el contrario, la existencia de todas las derivadas direccionales de un campo escalar en un punto no implican la continuidad en él. La generalización más conveniente que implica la continuidad y permite extender los principales teoremas de la teoría de derivación al caso de mayor número de dimensiones es la llamada diferencial.
+
+\item Campo escalar diferenciable: \\ %pagina 315 Apostol II
+Sea $f:S\subseteq\mathbb{R}^n \to \mathbb{R}$, sea $\underline{a}$ un punto interior a $S$ y $B(\underline{a};r)$ una $n$-bola contenida en S. \\
+Sea $\underline{v}$ un vector tal que $||v||<r$, de modo que $\underline{a}+\underline{v} \in B(\underline{a};r)$. \\
+$f$ es diferenciable en $\underline{a}$ si existe una transformación lineal $T_a:\mathbb{R}^n \to \mathbb{R}$, y una función escalar $E(\underline{a},\underline{v})$ tal que:
+$$f(\underline{a}+\underline{v})=f(\underline{a})+T_{\underline{a}}(\underline{v})+||v|| E(\underline{a},\underline{v})$$
+para $||v||<r$ de manera que $E(\underline{a},\underline{v}) \to 0$ cuando $||v|| \to 0$. La transformación lineal $T_a$ se llama diferencial de $f$ en $\underline{a}$.
+
+\item Gradiente:\\
+El gradiente $\nabla f$ de un campo escalar $f$ es un campo vectorial definido en cada punto $\underline{a}$ en el que existen las derivadas parciales $D_1f(\underline{a}),\dots,D_nf(\underline{a})$. Este campo vectorial contiene como componentes a las derivadas parciales de $f$ en $\underline{a}$. Es decir: $$\nabla f(\underline{a})=(D_1f(\underline{a}),\dots,D_nf(\underline{a}))=\left(\frac{\partial f}{\partial x_1},\dots,\frac{\partial f}{\partial x_n}\right) $$
+
+\item Propiedad: \\
+Sea $f:A\subseteq \mathbb{R}^n \to \mathbb{R}$. Si $f$ es diferenciable en $\underline{a} \in A$, entonces $f$ es continua en $\underline{a}$
+\item Propiedad: \\
+Si $f$ es diferenciable en $\underline{a} \in A$, entonces $\exists f'(\underline{a},\underline{y})$
+
+\item Equivalencias: \\
+$f$ es diferenciable en $\displaystyle \underline{a} \Longleftrightarrow f(\underline{a}+\underline{v})-f(\underline{a})=\sum_{i=1}^n v_i \frac{\partial f}{\partial x_i}(\underline{a}) + \dots +||\underline{v}||E$ \\
+$\Longleftrightarrow E = \dfrac{f(\underline{a} + \underline{v})-f(\underline{a})-\displaystyle \sum_{i=1}^n v_i \frac{\partial f}{\partial x_i}(\underline{a})}{||\underline{v}||}$ \\
+$\Longleftrightarrow$
+
+\item Teorema. Condición suficiente de diferenciabilidad: \\
+Si existen las derivadas parciales $D_1f, \dots, D_nf$ en una cierta $n$-bola B$(\underline{a})$ y son \emph{continuas} en $\underline{a}$, entonces $f$ es diferenciable en $\underline{a}$
+
+\item Teorema. Condición suficiente para la igualdad de derivadas parciales mixtas: \\
+Si $f$ es un campo escalar tal que sus derivadas parciales existen en un conjunto abierto S, y si (a,b) es un punto de S en el cual $\frac{\partial f}{\partial x \partial y}$ y $\frac{\partial f}{\partial y \partial x}$ son continuas, entonces $$\displaystyle \frac{\partial f}{\partial x \partial y} = \frac{\partial f}{\partial y \partial x}$$
+
+\item Matriz Jacobiana: \\
+Dado un campo escalar o vectorial $f:\mathbb{R}^n \to \mathbb{R}^m$, la matriz jacobiana es una matriz formada por las derivadas parciales de primer orden de este.
+
+\[J= \left[ \begin{array}{cccc}
+\dfrac{\partial f_1}{\partial x_1} & \dfrac{\partial f_1}{\partial x_2} & \dots & \dfrac{\partial f_1}{\partial x_n} \\
+\vdots & \vdots  & \ddots & \vdots \\
+\dfrac{\partial f_m}{\partial x_1} & \dfrac{\partial f_m}{\partial x_2} & \dots & \dfrac{\partial f_m}{\partial x_n} \\ \end{array} \right]\] 
+
+\item Matriz Hessiana: \\
+Dado un campo escalar $f$ de $n$ variables, $f: \mathbb{R}^n \to \mathbb{R}$, si todas sus derivadas segundas parciales existen, la matriz hessiana, denotada por $H(f)$, es la matriz cuadrada de $n\times n$, de las segundas derivadas parciales. Es decir: \\
+
+\[H(f)= \left[ \begin{array}{cccc}
+\dfrac{\partial^2 f}{\partial x_1^2} & \dfrac{\partial^2 f}{\partial x_1 \partial x_2} & \dots & \dfrac{\partial^2 f}{\partial x_1 \partial x_n} \\
+\vdots & \vdots  & \ddots & \vdots \\
+\dfrac{\partial^2 f}{\partial x_n \partial x_1} & \dfrac{\partial^2 f}{\partial x_n \partial x_2} & \dots & \dfrac{\partial^2 f}{\partial x_n^2} \\ \end{array} \right]\] 
+
+
+
+\item Integrales de linea: \\
+Sea $\alpha$ un camino regular a trozos en el $n$-espacio definido en un intervalo $[a,b]$, y sea $f$ un campo vectorial definido y acotado sobre la grafica de $\alpha$. La integral de línea de $f$ a lo largo de $\alpha$ se representa con el símbolo $\int f \dot d\alpha$ y se define por \\
+$$\int f . d\alpha = \int_a^b f[\alpha(t)] . \alpha'(t) dt$$
+siempre que la integral del segundo miembro exista, bien como integral propia o integral impropia.
+
+
+
+
+
+\newpage
+
+%\item Límite (libro de apostol):
+%Consideremos una función $f: S\subseteq \mathbb{R}^n \to \mathbb{R}^m$. Si $\mathbf{a} \in \mathbb{R}^n$ y $\mathbf{b} \in \mathbb{R}^m$ escribimos: \\
+%$\displaystyle \lim_{\mathbf{x\to a}} f(\mathbf{x}) = \mathbf{b}$ para significar que $\displaystyle \lim_{\mathbf{\| x - a \| \to 0}} \| f \mathbf{(x) - b} \| = 0$ \\
+
+%\item Teorema del valor medio para derivadas de campos escalares: \\
+%Supongamos que existe la derivada f'
+
+
+\end{itemize}
+\end{document}

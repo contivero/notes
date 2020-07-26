@@ -1,0 +1,192 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage{amsmath,amssymb,amsfonts,latexsym}
+\usepackage{pstricks,pst-node,multido,ifthen,calc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{cancel} 
+\begin{document}
+\begin{center}
+Resumenes de matemática discreta \\
+\end{center}
+Vertices adyacentes: Dos vértices de un grafo se dicen adyacentes si estan unidos por una arista.\\
+Aristas adyacentes: Dos aristas se dicen adyacentes si ambas tienen un punto extremo en común. \\
+Incidencia: Si un vértice $v$ es un extremo de una arista $e$, entonces se dice que $v$ incide (o es incidente) en $e$f, y que $e$ incide en $v$.\\
+{\bf Teorema de la suma de los grados de Euler}: \\
+Dado $G$ con \#$V_G=n$ : \\
+$$\displaystyle \sum_{i=1}^{n} g(v_i) =2\#E_G$$\\
+Es decir, la suma de los grados de los vértices de un grafo equivale al doble de la cantidad de aristas.\\
+{\bf Corolario}:\\
+La cantidad de vértices con grado impar en un grafo es par.
+
+\newpage
+Familias comunes de grafos: \\
+{\bf Grafo completo}: \\
+Un grafo completo es un grafo simple tal que todo par de vértices esta unido por una arista. Los grafos completos de $n$ vértices se denotan por $K_n$ (del alemán komplett). \\
+{\bf Grafo bipartito}: \\
+{\bf Grafo bipartito completo}: \\
+{\bf Grafo regular}: \\
+Un grafo regular es aquel cuyos vértices poseen todos el mismo grado. Un grafo k-regular es un grafo regular cuyos vértices tienen grado k. \\
+{\bf Grafo de Petersen}:\\
+Grafo 3-regular de 15 aristas y 10 vértices, muy utilizado como ejemplo y contraejemplo en la teoría de grafos. \\
+{\bf Bouquet}: \\
+Un grafo que consiste en un solo vértice y $n$ lazos se llama bouquet, y se denota por $B_n$.\\
+{\bf Dipolo}: \\
+Grafo que consiste de 2 vértices y $n$ aristas conectandolos. Se representa por $D_n$.\\
+{\bf Grafo camino} (path): \\
+Un grafo camino es aquel que posee \#$V_G = \#E_G +1$, que puede ser dibujado de tal manera que todos sus vértices y aristas se encuentren sobre una sola linea recta. El grafo camino con $n$ vértices y $n-1$ aristas se representa por $P_n$.\\
+Nota: Todo grafo camino es bipartito.\\
+{\bf Grafo ciclo} (cycle):\\
+El grafo ciclo de $n$ vértices se denota por $C_n$. Para el caso \#$V_{C_n}=1$, el grafo posee un solo vértice y un lazo. Para \#$V_{C_n}>1$, es un grafo simple con  \#$V_{C_n}=\#E_{C_n}$, que puede ser dibujado de tal manera que todos sus vertices y aristas caigan sobre un circulo. \\
+Nota: $C_n$ es bipartito $\forall n$ par. \\
+{\bf Grafo escalera} (circular ladder):\\
+Grafo que consta de dos $n$-ciclos concentricos en el cual cada uno de los $n$ pares de vértices correspondientes se unen por una arista. \\
+{\bf Grafo Rueda} (wheel):\\
+El grafo n-rueda $W_n$ es la unión $K_1$ + $C_n$ de un vértice y un $n$-ciclo. Si $n$ es par, $W_n$ es llamado rueda par, y si $n$ es impar, $W_n$ es llamado rueda impar.\\
+{\bf Grafo Cubo}:
+Grafo $n$-regular cuyo conjunto de vértices es un conjunto de bits de longitud $n$, y tal que hay una arista entre dos vértices si y solo si difieren en exactamente un bit.
+Nota: El $Q_n$ es $n$-regular y $n$-conexo.
+
+ \newpage
+Grafo de Harary: \\
+El grafo $H_{k,n}$ de Harary es un grafo $k$-conexo, de $n$ vértices y mínima cantidad de aristas $\lceil \frac{kn}{2}\rceil$, con $n > k \geqslant 2$. \\
+Su construcción comienza con un grafo ciclo $C_n$, cuyos vértices se numeran $0,1,2,\dots,n-1$ consecutivamente, en sentido del reloj al rededor de su perímetro. \\
+La adyacencia entre dos vértices $i$ y $j$ se determina por la distancia entre estos, es decir, el camino más corto entre $|j-i|$ y $n-|j-i|$.\\
+Se define entonces {\bf distancia mod} $n$ entre $i$ y $j$, y se denota por $|j-i|_n$, al mínimo de los dos valores $|j-i|$ y $n-|j-i|$, es decir: \\
+ $|j-i|_n = \min{\{|j-i|,n-|j-i|\}}$ \\
+Como la construcción del grafo de Harary depende de la paridad de $k$ y $n$, se tiene 3 casos: \\
+\begin{enumerate}
+\item Caso 1: $k$ par \\
+Sea $k=2r$. Los vértices $i$ y $j$ se encuentran unidos por una arista si $|j-i|_n \leqslant r$.\\
+\item Caso 2: $k$ impar, $n$ par \\
+Sea $k=2r+1$. Se empieza por un grafo $H_{2r,n}$, y se agrega los $\frac{n}{2}$ diámetros del $n$-ciclo original. Es decir, los vértices $i$ y $j=i+\frac{n}{2}$ se conectan por aristas, para $i=0,\dots,\frac{n}{2}-1$.
+\item Caso 3: $k$ impar, $n$ impar \\
+Sea $k=2r+1$. Se empieza por un grafo $H_{2r,n}$, y se agrega los $\frac{n+1}{2}$ cuasi-diámetros de la siguiente manera. Primero se agrega dos aristas, una desde el vértice 0 al $\frac{n-1}{2}$, y la otra desde el vértice 0 al $\frac{n+1}{2}$  (formando un $C_3$). Luego, se agregan las aristas ${i,j}$ para $i=1,\dots,\frac{n-3}{2}$ y $j=i+\frac{n+1}{2}$
+\end{enumerate}
+
+ \newpage
+{\bf Conetividad por vértices}: \\
+Mínimo número de vértices que es necesario quitarle a G para que este deje de ser conexo, o se reduzca a un grafo de un vértice.\\
+Por lo tanto, si $G$ tiene por lo menos un par de vértices no adyacentes, entonces $k_v(G)$ es el tamaño del menor vértice de corte. \\
+Este número se denota por $k_v(G)$.\\[15pt]
+{\bf Conectividad por aristas}: \\
+Mínimo número de aristas que es necesario quitarle a G para que este deje de ser conexo, denotado por $k_e(G)$.\\
+Si G es un grafo conexo, la conectividad por aristas $k_e(G)$ el tamaño de la menor arista de corte.\\
+{\bf $k$-aristas conexo}:\\
+Un grafo G es $k$-aristas conexo si G es conexo y toda arista de corte tiene al menos $k$ aristas (es decir, $k_e(G) \geqslant k$).\\
+{\bf Grafo $k$-conexo}: \\
+Un grafo G es $k$-conexo si G es conexo y $k_v(G)\geqslant k$. Si G tiene vértices no adyacentes\\
+
+\newpage
+Coloreo \\
+
+{\bf Coloreo de vértices}:\\
+Asignamiento $f: V_G \to C$, desde el conjunto de vértices a un conjunto $C=\{1,\dots,k\} / k \in \mathbb{N}$, cuyos elementos se llaman \emph{colores}.\\
+$k$-coloreo de vértices: Es un coloreo que usa exactamente $k$ colores ($k \in \mathbb{N}$).\\
+{\bf Coloreo propio de vértices}:\\
+Es un coloreo de vértices tal que se asigna distinto color a los puntos extremos de cada arista (los vértices adyacentes tiene colores distintos). \\
+{\bf Clase de color}:\\
+Es un subconjunto de $V_G$ que contiene todos los vértices de un mismo color. \\
+{\bf $k$-coloreable}: Un grafo se dice $k$-coloreable si tiene un $k$-coloreo propio de vértices. \\
+{\bf Número cromático}: El número cromático $\chi(G)$ de un grafo $G$ es el número mínimo de colores diferentes que se requiere para un coloreo propio de vértices de G. G se dice $k$-cromático si $\chi(G)=k$. Por ende:\\
+\begin{itemize}
+\item Si $\chi(G)=k$, $G$ es$k$-coloreable pero no (k-1)-coloreable.
+\item $\chi(G)=1$ sii $G$ no tiene aristas.
+\item Las aristas múltiples no afectan el coloreo, pero los lazos lo impiden.
+\end{itemize}
+
+Notas sobre el algoritmo sequencial de colore:\\
+Este algoritmo produce de manera rápida un coloreo propio de un grafo, pero es improbable que sea la mínima. \\
+
+{\bf Principios básicos para calcular $\chi(G)$}:\\
+Se buscan cotas para poder asegurar el número cromático.\\
+Cota superior: Se muestra que $\chi(G) \leqslant k$, generalmente exhibiendo un $k$-coloreo propio de G.\\
+Cota inferior: Se muestra que $\chi(G) \geqslant k$ usando alguna propiedad del grafo, o encontrando algún subgrafo que requiera $k$-colores.\\
+Combinando ambos, se sabe entonces que $\chi(G)=k$\\
+
+{\bf Clique}:\\
+Un clique en $G$ es un subconjunto maximal de $V_G$, con vértices mutuamente adyacentes.\\
+El {\bf número de clique} $\omega(G)$ de un grafo $G$ es el número de vértices del clique más grande de $G$.\\
+Proposiciones sobre el $\chi(G)$:\\
+
+Número de independencia: \\
+El número $\alpha(G)$ (o $ind(G)$) de un grafo G es el máximo cardinal entre los conjuntos independientes
+
+\begin{itemize}
+\item Sea G cualquier grafo. Entonces $$\chi(G) \geqslant \lceil \frac{|V_G|}{\alpha(G)} \rceil$$
+\item Sea $H$ un subgrafo de $G$. Entonces $\chi(G) \geqslant \chi(H)$
+\item La suma de dos grafos G y H tiene número cromático $$\chi(G+H)=\chi(G)+\chi(H)$$
+\item Sea G un grafo simple. Entonces $\chi(G) \leqslant \delta_{max}(G)+1$
+\item Sea G un grafo que posee $k$ vértices mutuamente adyacentes. Entonces $\chi(G) \geqslant k$
+\item Sea G un grafo. Entonces $\chi(G) \geqslant \omega(G)$ (corolario de la proposición anterior). \\
+\end{itemize}
+\begin{tabular}{l c}
+Grafo $G$ & $\chi(G)$ \\
+trivial & 1 \\
+bipartito & 2 \\
+no trivial camino $P_n$ & 2 \\
+Arbol $T$ & 2 \\
+cubo $Q_n$ & 2 \\
+ciclo par $C_{2n}$ & 2\\
+ciclo impar $C_{2n+1}$ & 3 \\
+rueda par $W_{2n}$ & 3 \\
+rueda impar $W_{2n+1}$ & 4 \\
+completo $K_n$ & $n$ \\
+\end{tabular} \\
+
+{\bf Grafo $k$-crítico}: \\
+Un grafo conexo es (cromáticamente) $k$-crítico si $\chi(G)=k$ y el subgrafo $G–e$ es $(k-1)$-coloreable $\forall e \in E_G$. \\
+{\bf Proposición}: Sea $G$ un grafo cromáticamente $k$-crítico, y sea $v$ un vértice cualquiera de $G$. Entonces el subgrafo $G-v$ es $(k-1)$-coloreable.\\
+{\bf Proposición}: Sea $G$ un grafo cromáticamente $k$-crítico. Entonces ningún vértice tiene grado menor que $k-1$, es decir, $\forall v_i$, $g(v_i) \geqslant k-1$.\\
+{\bf Obstrucción $k$-cromática}: \\
+Una obstrucción $k$-cromática (o $k$-obstrucción) es un subgrafo $H$ / $\chi(H)>k$, que fuerza a todo grafo $G$ que lo contenga a tener $\chi(G)>k$.\\
+Sea $G$ un grafo $(k+1)$-crítico, entonces $\chi(G-e) \leqslant k$, por ende $G-e$ no es una obstrucción $k$-cromática, entonces G es una obstrucción k-cromática con mínima cantidad de aristas.\\
+{\bf Conjunto completo de obstrucciones}:\\
+Un conjunto \{$G_j$\} de grafos $(k+1)$-críticos se dice conjunto completo de obstrucciones $k$-cromáticas con mínima cantidad de aristas, si todo grafo (k+1)-cromático contiene al menos un miembro de \{$G_j\}$ como subgrafo. \\
+{\bf Conjunto de vértices independientes}: \\
+Conjunto $A$ de vértices tales que si dos vértices $x \wedge y \in A$, en el grafo no hay arista con dichos vértices como extremos.\\
+{\bf Lema}:\\
+$G$ no completo, k-regular, 2-conexo con $k \geqslant 3$. Entonces $G$ tiene un vértice con dos vecinos no adyacentes entre ellos tal que $G-\{x,y\}$ es un grafo conexo.\\
+{\bf Teorema de Brooks}:\\
+Sea $G$ un grafo simple, conexo, no completo con el grado máximo de los vértices $\delta_{max}(G) \geqslant 3$. Entoncess $\chi(G) \leqslant \delta_{max}(G)$.\\
+
+
+
+
+
+
+
+
+
+
+{\bf Algoritmo sequencial de coloreo.}\\
+Entrada: Grafo $G$ con vértices $v_1, v_2, \dots, v_p$.\\
+Salida: Un coloreo propio de vértices $f: V_G \to \{1,2\dots\}$ \\
+FOR $i=1,\dots,p$ \\
+Sea $f(v_i):=$ menor número de color no usado en ninguno de los vecinos suscriptos menores de $v_i$.\\
+RETURN coloreo de vértices $f$.
+\newpage
+\noindent
+Sea $f: \mathbb{N} \to \mathbb{N}$. $f(n)$ es de orden $O(g(n))$ significa que:
+$$\exists c \in \mathbb{R}\text{ / }\forall n>n_0, |f(n)| \leqslant c.|g(n)|$$
+De manera similar, $f(n)$ es de orden $\Omega(g(n))$ significa que:
+$$\exists c \in \mathbb{R}\text{ / }\forall n>n_0, |f(n)| \geqslant c.|g(n)|$$
+Por último, que $f(n)$ sea de orden $\Theta(g(n))$ significa que $f(n)$ es simultaneamente de orden $O(g(n))$ y $\Omega(g(n))$.
+
+
+
+\newpage
+PAGINA 297 \\
+Inmersión plana:\\
+
+
+{\bf Lema}: Todo camino $x-y$ es simple o tiene un subcamino cerrado \\
+{\bf Proposición}: Todo camino es simple o puede transformarse en un camino simple \\
+{\bf Teorema}: Un grafo G es bipartito $\Leftrightarrow$ no contiene ciclos de longitud impar \\
+{\bf Proposición}: Todo circuito contiene un ciclo \\
+{\bf Teorema}: Sea G un grafo o multigrafo no dirigido, sin vértices aislados, entonces:\\
+G es euleriano $\Leftrightarrow$ G es conexo y todo vértice de G tiene grado par \\
+{\bf Teorema}: Todo circuito T tiene un subcamino que es un ciclo
+{\bf Teorema}: Un circuito se puede descomponer en unión de ciclos de aristas disjuntas
+
+
+\end{document}

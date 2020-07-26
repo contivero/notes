@@ -1,0 +1,548 @@
+\documentclass[a4paper,11pt]{report}
+\usepackage{amsmath,amssymb,amsfonts,latexsym}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\begin{document}
+\flushleft
+\centerline{Notas de ‘Análisis matemático I’ }
+{\large Parte I} \\[5pt]
+{\huge Números reales}
+\begin{itemize}
+\renewcommand{\labelitemi}{$\bullet$}
+\item Conjunto inductivo: \\
+Un subconjunto $\mathbf{A}$ de los números reales se dice \emph{inductivo} si tiene a las dos siguientes propiedades:
+\begin{enumerate}
+\item El número 1 pertenece a $\mathbf{A}$ (escribimos ésto de la forma $1 \in \mathbf{A}$).
+\item Si algún número real n pertenece a $\mathbf{A}$, entonces el número real n+1 también pertenece a $\mathbf{A}$.
+\end{enumerate}
+\item Números naturales ($\mathbb{N}$): \\
+Se llama \emph{conjunto de los números naturales} y se indica por $\mathbb{N}$, al subconjunto de los números reales caracterizado por las siguientes propiedades:
+\begin{enumerate}
+\item $\mathbb{N}$ es inductivo.
+\item Si $\mathbf{A}$ es cualquier subconjunto inductivo de números reales, entonces $\mathbb{N} \subset \mathbf{A}$.
+\end{enumerate}
+\item Números enteros ($\mathbb{Z}$): \\
+Un número real m se dice que es un número \emph{entero} si satisface una, y solo una de las siguientes condiciones:
+\begin{itemize}
+\item[i)] $\mathbf{m \in \mathbb{N}}$
+\item[ii)] $\mathbf{m} = 0$
+\item[iii)] $\mathbf{m} =\mathbf{-n}$ , para algún $\mathbf{n} \in \mathbb{N}$.
+\end{itemize}
+El conjunto de los números enteros se indica por $\mathbb{Z}$, y es tal que \\
+$\mathbb{Z}$ = { $ -\mathbb{N} \cup \{0\} \cup \mathbb{N}$ }, (donde $ -\mathbb{N} = \{-n$ / $n\in\mathbb{N}\}$)
+\item Números racionales ($\mathbb{Q}$): \\
+Un número real $\mathbf{a}$ se dice que es un número \emph{racional} si existen números enteros $\mathbf{p}$ y $\mathbf{q}$ tales que: \\
+$\mathbf{a} = \dfrac{\mathbf{p}}{\mathbf{q}}$ \\
+(o sea, $\mathbf{a} = \mathbf{p.q^{-1}}$; naturalmente, $\mathbf{q} \neq 0$) \\
+El conjunto de los números racionales se indica con $\mathbb{Q}$. \\
+De otra forma, un número es racional cuando se puede expresar como un cociente de enteros.\\
+\item Axioma de tricotomía:
+Si $\mathbf{a}$ y $\mathbf{b}$ son dos numeros reales, vale una, y solo una, de las siguientes posibilidades:
+\begin{enumerate}
+\item $\mathbf{a} > \mathbf{b}$
+\item $\mathbf{a} < \mathbf{b}$
+\item $\mathbf{a} = \mathbf{b}$
+\end{enumerate}
+\item Principio de buena ordenación (en $\mathbb{N}$ y  $\mathbb{Z}_{n_0}$): \\
+Si $\mathbf{A}$ es un subconjunto de $\mathbb{N}$ y $\mathbf{A}$ no es el conjunto vacío, entonces $\mathbf{A}$ tiene mínimo.Además, si se fija un $n_0 \in \mathbb{Z}$, este principio también vale para $\mathbb{Z}_{n_0}$ :=\{$ m \in \mathbb{Z}: m \geqslant n_0$\}.\\
+ (es decir, un subconjunto de $\mathbb{Z}$ acotado inferiormente)
+\item Cota inferior: \\
+Sea $\mathbf{A} \subset \mathbb{R}$; un número real d se dice \emph{cota inferior} de $\mathbf{A}$, si tiene la siguiente propiedad:
+\begin{description}
+\item{} $\forall a \in \mathbf{A}$  , d $\leqslant a$ .
+\end{description}
+O sea, un número real es cota inferior de un conjunto cuando es
+menor o igual que \emph{todos} los elementos del conjunto. \\
+Si $\mathbf{A}$ tiene una cota inferior, $\mathbf{A}$ se dice \emph{acotado inferiormente}.
+\item Ínfimo: \\
+Sea $\mathbf{A} \subset \mathbb{R}$; un número real d se dice ínfimo de A, y se denota como \\ 
+d = $\mathbf{inf\ A}$, si tiene las dos siguientes propiedades:
+\begin{enumerate}
+\item d es cota inferior de A.
+\item Si k es cota inferior de A, k $\leqslant$ d \\
+(esto expresa que d sea la \emph{mayor} de las cotas inferiores).
+\end{enumerate}
+Analogamente, la segunda propiedade se puede enunciar de la siguiente manera:
+\begin{itemize}
+\item[2'.] Si $\epsilon$ es un número real arbitrario mayor que cero, entonces existe $a \in \mathbf{A}$ tal que $ a < d + \epsilon $
+\end{itemize}
+\item Cota superior: \\
+Sea $\mathbf{A}$ un conjunto cualquiera de números rales (es decir $\mathbf{A} \subset \mathbb{R}$), un número real c se dice \emph{cota superior} de $\mathbf{A}$ si tiene la siguiente propiedad: 
+\begin{description}
+\item{} $\forall a \in \mathbf{A}  , a \leqslant $ c .
+\end{description}
+O sea, un número real es cota superior de un conjunto cuando es mayor o igual que \emph{todos} los elementos del conjunto.\\ 
+Si $\mathbf{A}$ tiene una cota superior, $\mathbf{A}$ se dice \emph{acotado superiormente}.
+\item Supremo: \\
+Sea $\mathbf{A} \subset \mathbb{R}$; un número real c se dice supremo de $\mathbf{A}$ y se denota como c = $\mathbf{sup\ A}$ si tiene las dos siguientes propiedades:
+\begin{enumerate}
+\item c es cota superior de A.
+\item Si d es cota superior de A, entonces $ c \leqslant d $ \\
+(esto expresa que c sea la \emph{menor} de las cotas superiores).
+\end{enumerate}
+Analogamente, la segunda propiedad se puede enunciar de la siguiente manera:
+\begin{itemize}
+\item[2'.] Si $\epsilon$ es un número real arbitrario mayor que cero, entonces existe $a \in \mathbf{A}$ tal que c$ - \epsilon < a$
+\end{itemize}
+\item Conjunto acotado: \\
+Se llama \emph{conjunto acotado} a todo conjunto que posee una cota inferior y una cota superior, es decir, a todo conjunto que se encuentra acotado superior e inferiormente.
+\item Máximo y Mínimo: \\
+Sea $\mathbf{A} \subset \mathbb{R}$; si $\mathbf{A}$ tiene un supremo c, y este pertenece a $\mathbf{A}$, c es el máximo de $\mathbf{A}$, y se denota por d =  $\mathbf{max\ A}$. \\
+De modo similar, si $\mathbf{A}$  tiene un ínfimo d, y este pertenece a $\mathbf{A}$, d es el mínimo de $\mathbf{A}$, y se denota por c = $\mathbf{min\ A}$.
+\item Axioma de completitud: \\
+Si $\mathbf{A}$ es un conjunto de números reales, $\mathbf{A} \subset \mathbb{R}$, \emph {no vacío} y $\mathbf{A}$ es acotado superiormente, entonces existe c = $\mathbf{sup\ A}$. \\
+Aunque el axioma se limita a lo dicho, se puede, basandose en lo enunciado, probar que si $\mathbf{A}$ es un subconjunto de $\mathbb{R}$ , acotado inferiormente (y no vacío), entonces existe d = $\mathbf{inf\ A}$.
+
+\newpage
+
+
+\item Principio de Arquimedes: \\
+Si $\mathbf{a}$ es un número real cualquiera, entonces existe un número natural $\mathbf{n}$ tal que $\mathbf{n} >$ $\mathbf{a}$ . De esto surgen los siguientes corolarios: \\
+\begin{enumerate}
+\item Sean $\mathbf{a}$ y $\mathbf{b}$ números reales tales que $0 < \mathbf{a} < \mathbf{b}$. Entonces existe un número natural $\mathbf{n}$ tal que $\mathbf{n.a} > \mathbf{b}$
+\item Si $\epsilon$ es un número real mayor que cero, entonces existe un número natural $\mathbf{n}$ tal que $\frac{1}{n} < \epsilon $
+\end{enumerate}
+Además, sean $\mathbf{a}$ y $\mathbf{b}$ números reales tales que $\mathbf{a} < \mathbf{b}$. Existe entonces un número racional $\mathbf{t}$ tal que $\mathbf{a} < \mathbf{t} < \mathbf{b}$
+\item Desigualdad de Bernoulli: \\
+Si $\mathbf{h}$ es un número real mayor que $\mathbf{-1}$, entonces para todo número natural $\mathbf{n}$ vale: \\
+\begin{equation*}
+(1+h)^n \geqslant 1+nh
+\end{equation*}
+\item Módulo: \\
+El módulo o valor absoluto de un número $\mathbf{a}$ se denota por $\mathbf{|a|}$ y es:
+\begin{equation*}
+\mathbf{|a|} = \left\{
+\begin{array}{rl}
+\mathbf{a}, & \text{si } \mathbf{a} \geqslant 0  \\
+\mathbf{-a}, & \text{si } \mathbf{a} <1
+\end{array} \right.
+\end{equation*}
+Además, para todo real $\mathbf{a}$ se cumple $\mathbf{|a| = \sqrt{a^2}}$
+\item Desigualdad triangular: \\
+Sean $\mathbf{a}$ y $\mathbf{b}$ números reales cualesquiera se cumple: \\
+\begin{equation*}
+\mathbf{|a+b| \leqslant |a|+|b|}
+\end{equation*}
+
+\newpage
+
+
+{\large Parte II} \\[5pt]
+{\huge Sucesiones y límite}
+\item Sucesión: \\
+Una sucesión (de números reales) es una función a: $\mathbb{N} \longrightarrow \mathbb{R}$. \\
+Estas se suelen denotar por: $\mathbf{a_n}$ = $\mathbf{a(n)}$. \\
+También es común utilizar $\mathbf{(a_n)_{n \geqslant 1}}$ o $\mathbf{(a_n)_{n \in \mathbb{N}}}$
+\item Monotonía de una sucesión: \\
+Sea $\mathbf{(a_n)_{n \geqslant 1}}$ una sucesión, esta se dice monótona si conserva el orden dado. Si es monótona, entonces es de una de las siguientes formas: \\
+\begin{itemize}
+\item[-] Si $\mathbf{a_{n+1}} \geqslant \mathbf{a_n}$, $\forall$ $\mathbf{n} \in \mathbb{N}$, es \emph{creciente}
+\item[-] Si $\mathbf{a_{n+1}} \leqslant \mathbf{a_n}$, $\forall$ $\mathbf{n} \in \mathbb{N}$, es \emph{decreciente}
+\item[-] Si $\mathbf{a_{n+1}} > \mathbf{a_n}$, $\forall$ $\mathbf{n} \in \mathbb{N}$, es \emph{estrictamente creciente}
+\item[-] Si $\mathbf{a_{n+1}} < \mathbf{a_n}$, $\forall$ $\mathbf{n} \in \mathbb{N}$, es \emph{estrictamente decreciente}
+\end{itemize} 
+\item Límite de una sucesión: \\
+Se dice que una sucesión $\mathbf{(a_n)_{n \geqslant 1}}$ tiene \emph{límite} $\ell$, o \emph{converge} a $\ell$, o se acerca a $\ell$ si tiene la siguiente propiedad: \\
+\begin{description}
+\item{}$\forall \epsilon > 0, \exists \mathbf{n_0} \in \mathbb{N}$ / $\forall n \geqslant \mathbf{n_0} \Longrightarrow \mid  \mathbf{a_n} - \ell \mid < \epsilon$
+\end{description}
+Y se indica (mediante símbolos): $\displaystyle \lim_{n\to\infty} \mathbf{a_n} = \ell $
+\item Límites infinitos de sucesiones: \\
+Se dice que una sucesión  $\mathbf{(a_n)_{n \geqslant 1}}$ tiende a:
+\begin{itemize}
+\item[i)] $+\infty$, y se escribe: \\
+$\displaystyle \lim_{n\to\infty}  \mathbf{a_n} = +\infty$ \\[5pt]
+ si, cualquiera sea el número real $\mathbf{M > 0}$, existe un $\mathbf{n_0} \in \mathbb{N}$ tal que, para $\mathbf{n \geqslant n_0}$, es $\mathbf{a_n > M}$.
+\item[ii)] $-\infty$, y se escribe: \\
+$\displaystyle \lim_{n\to\infty}  \mathbf{a_n} = -\infty$ \\[5pt]
+si la sucesión $\mathbf{(-a_n)_{n \geqslant 1}}$ tiende a $+\infty$
+\item[iii)] $\infty$, y se escribe: \\
+$\displaystyle \lim_{n\to\infty}  \mathbf{a_n} = \infty$ \\[5pt]
+si la sucesión  $\mathbf{(|-a_n|)_{n \geqslant 1}}$ tiende a $+\infty$
+\end{itemize}
+\item Propiedades y proposiciones de límite:
+\begin{enumerate}
+\item Las sucesiones convergentes (es decir, que se acercan a un valor determinado) poseen un \emph{único} límite.
+\item Toda sucesión convergente es acotada. \\
+ (y por ende, si no es acotada, es divergente).
+\item Toda sucesión sucesión monótona (creciente o decreciente) acotada es convergente. De esto surge lo siguiente: \\
+\begin{itemize}
+\item[-] Si la sucesión es acotada y creciente, entonces su limite es el supremo de la sucesión.
+\item[-] Si la sucesión es acotada y decreciente, entonces su limite es el ínfimo de la sucesión.
+\end{itemize}
+\item Sea $\mathbf{(a_n)_{n \geqslant 1}}$ una sucesión convergente con limite $\ell$:
+\begin{itemize}
+\item[a)] Si $\ell > \mathbf{b}$ para un cierto $\mathbf{b} \in \mathbb{R}$, entonces existe $\mathbf{n_0} \in \mathbb{N}$ tal que, $\forall$ $\mathbf{n} \geqslant \mathbf{n_0}$, es $\mathbf{a_n} > b$
+\item[b)] Si $\ell < \mathbf{b}$ para un cierto $\mathbf{b} \in \mathbb{R}$, entonces existe $\mathbf{n_0} \in \mathbb{N}$ tal que, $\forall$ $\mathbf{n} \geqslant \mathbf{n_0}$, es $\mathbf{a_n} < b$
+\end{itemize}
+\item[4'.] Corolario del (4): \\
+\begin{itemize}
+\item[a)] Si $\mathbf{a_n} > b$, $\forall \mathbf{n} \geqslant \mathbf{n_0}$, es $\ell \geqslant \mathbf{b}$
+\item[b)] Si $\mathbf{a_n} < b$, $\forall \mathbf{n} \geqslant \mathbf{n_0}$, es $\ell \leqslant \mathbf{b}$
+\end{itemize}
+\item Límite de una constante: \\
+$\displaystyle \lim_{n\to\infty} \mathbf{k} = \mathbf{k}$
+\item[Nota:] Las siguientes propiedades se aplican a sucesiones  $\mathbf{(a_n)_{n \geqslant 1}}$ y $\mathbf{(b_n)_{n \geqslant 1}}$ \underline{convergentes}, siendo $\mathbf{a}$ y $\mathbf{b}$ sus respectivos límites.
+\item Límite de la suma: \\[5pt]
+$\displaystyle \lim_{n\to\infty} (\mathbf{a_n} + \mathbf{b_n}) = \mathbf{a} + \mathbf{b} = \lim_{n\to\infty} \mathbf{a_n} + \lim_{n\to\infty} \mathbf{b_n}$
+\item Límite del producto: \\[5pt]
+$\displaystyle \lim_{n\to\infty}$ $(\mathbf{a_n} .  \mathbf{b_n})  = \mathbf{a}.\mathbf{b} = \displaystyle \lim_{n\to\infty} \mathbf{a_n}$ . $\displaystyle \lim_{n\to\infty} \mathbf{b_n}$ \\[4pt]
+Además: $\displaystyle \lim_{n\to\infty}$ $(\mathbf{a_n} .  \alpha)  = \mathbf{a}.\alpha = \alpha. \displaystyle \lim_{n\to\infty} \mathbf{a_n}$
+\item Límite del cociente: \\[5pt]
+$\displaystyle \lim_{n\to\infty}$ $\dfrac{\mathbf{a_n}}{\mathbf{b_n}}$ = $\dfrac{\mathbf{a}}{\mathbf{b}}$ = $ \dfrac{\displaystyle \lim_{n\to\infty} \mathbf{a_n}}{\displaystyle \lim_{n\to\infty} \mathbf{b_n}}$ \\
+(con la condición de que $\mathbf{b_n} \neq 0$ y $ \displaystyle \lim_{n\to\infty} \mathbf{b_n} \neq 0$ )
+\item Límite de un logaritmo: \\[5pt]
+$\displaystyle \lim_{n\to\infty} (\ln \mathbf{a_n}) = \ln \mathbf{a} = \ln (\lim_{n\to\infty} \mathbf{a_n})$ \\[4pt]
+(siendo $\mathbf{(a_n)_{n \geqslant 1}}$ de términos positivos con límite $\mathbf{a} > 0$. \\
+Valido también para logaritmos con otras bases)
+\item Límite de una sucesión con sucesión como exponente: \\[5pt]
+$\displaystyle \lim_{n\to\infty} (\mathbf{{a_n}^{b_n}}) = \mathbf{a^b} = \lim_{n\to\infty} \mathbf{a_n}^{ \lim_{n\to\infty} \mathbf{b_n}}$  \\[4pt]
+(siendo $\mathbf{(a_n)_{n \geqslant 1}}$ de términos positivos con límite $\mathbf{a} > 0$)
+\end{enumerate}
+\item Límites importantes:
+\begin{enumerate}
+\item Raíz n-ésima de una constante: \\
+$\displaystyle \lim_{n\to\infty} \sqrt[n]{a} = 1$
+\item Raíz n-ésima de n: \\
+$\displaystyle \lim_{n\to\infty} \sqrt[n]{n} = 1$ \\[5pt]
+Y más general: $\displaystyle \lim_{n\to\infty} \sqrt[n]{f(n)} = 1$ \\
+(Para todo $f(n)$ polinomial con coeficiente de mayor grado positivo.)
+\item Número real con exponente infinitesimal:
+\begin{equation*}
+\lim_{n\to\infty} r^n = \left\{
+\begin{array}{cl}
+1 & \text{si } r=1 \\
+0 & \text{si } r=0 \\
+0 & \text{si } |r| < 1,  \\
++ \infty & \text{si } r >1, \\
+\infty & \text{si } r < -1,  \\
+\text{no existe} & \text{si } r=-1. \text{ (es oscilante)}
+\end{array} \right.
+\end{equation*}
+\end{enumerate}
+\item Sea $\mathbf{(a_n)_{n \geqslant 1}}$ una sucesión acotada con límite $\mathbf{a}$ y sea $\mathbf{(b_n)_{n \geqslant 1}}$ una sucesión tal que $\displaystyle \lim_{n\to\infty} \mathbf{b_n} = \infty$. Entonces:
+\begin{itemize}
+\item[i)] $\displaystyle \lim_{n\to\infty} \mathbf{{a_n} + {b_n}} = \infty$ 
+\item[ii)] $\displaystyle \lim_{n\to\infty} \frac{\mathbf{a_n}}{\mathbf{b_n}} = 0$
+\item[iii)] $\displaystyle \lim_{n\to\infty} (\mathbf{{a_n}.{b_n}}) = \infty$ (si $\mathbf{a} \neq 0$)
+\end{itemize}
+\item El número $e$ (de Euler): \\
+$\displaystyle \lim_{n\to\infty} (1 + \dfrac{1}{n})^n = e$ ; con $2 < e \leqslant 3$ \\[5pt]
+$\displaystyle \lim_{n\to\infty} (1 + \dfrac{1}{\mathbf{a_n}})^{\mathbf{a_n}} = e$ (si $\displaystyle \lim_{n\to\infty} \mathbf{a_n}=\infty$)
+\item Encaje de intervalos: \\
+Un \emph{encaje de intervalos} es una sucesión de intervalos cerrados $\mathbf{I_n} = \mathbf{[a_n,b_n]} \text{ con } \mathbf{a_n} \leqslant \mathbf{b_n}$ tal que: \\
+\begin{description}
+\item{} $\mathbf{I_1} \supset \mathbf{I_2} \supset ... \supset \mathbf{I_n} \supset ...$ \\
+\end{description}
+o sea tal que se verifican las siguientes condiciones: \\
+\begin{itemize}
+\item[i)]$ \mathbf{a_1} \leqslant \mathbf{a_2} \leqslant ... \leqslant \mathbf{a_n} \leqslant ...$
+\item[ii)] $\mathbf{b_1} \geqslant \mathbf{b_2} \geqslant ... \geqslant \mathbf{b_n} \geqslant ...$
+\end{itemize}
+Se denomina \emph{longitud} del intervalo $\mathbf{[a_n,b_n]}$ al número $\mathbf{b_n} - \mathbf{a_n}$
+\item Teorema de encaje de intervalos: \\
+Sea$\mathbf{(I_n)_{n \geqslant 1}}$ un encaje de intervalos tal que la longitud de $\mathbf{I_n}$ tiende a cero cuando $\mathbf{n}\to\infty$.
+Existe entonces un \emph{único} $\mathbf{x} \in \mathbb{R}$ que pertenece a todos esos intervalos: 
+\begin{equation*}
+\mbox{  \Large $ \exists ! $} \text{ } x \text{ } / \text{ }\{x\} = \displaystyle \bigcap_{n=1}^\infty \mathbf{I_n}
+\end{equation*}
+\item Subsucesion: \\
+Sea  $\mathbf{a}: \mathbb{N} \longrightarrow \mathbb{R}$ una sucesión indicada por $\mathbf{a_n}$ = $\mathbf{a(n)}$. Una \emph{subsucesión} de $\mathbf{a}$ es la composición
+\begin{equation*}
+\mathbf{a} \circ \mathbf{n} : \mathbb{N} \to \mathbb{R}
+\end{equation*}
+de $\mathbf{a}$ con una función \emph{estrictamente creciente}. Se indica $\mathbf{n_k} = \mathbf{n(k)}$, y entonces $\mathbf{a_{n_{k}}} = \mathbf{a_{n(k)}}= \mathbf{a} \circ \mathbf{n(k)}$.
+\item Límite de una sucesión y sus subsucesiones: \\
+Una sucesión $\mathbf{(a_n)_{n \geqslant 1}}$ es convergente con límite $\mathbf{a}$ si y sólo si toda subsucesión de $\mathbf{(a_n)_{n \geqslant 1}}$ es convergente con límite $\mathbf{a}$. \\
+(Cabe acotar que esto es valido para probar la no existencia del límite de una sucesion, es decir, si se encuentran dos subsucesiones de una misma sucesión que tengan límites distintos, entonces la sucesión no tiene límite, pero no se puede probar el límite de una sucesi ).
+\item Teorema de Bolzano-Weierstrass: \\
+Toda sucesión acotada contiene una subsucesión convergente.
+\item Sucesión de Cauchy: \\
+Una sucesión $\mathbf{(a_n)_{n \geqslant 1}}$ se dice que es de \emph{Cauchy} si tiene la siguiente propiedad:
+\begin{description}
+\item[ ] Dado $\epsilon > 0$, $\exists$ $\mathbf{n_0} \in \mathbb{N}$ / $\mathbf{n \geqslant n_0}$ y $\mathbf{m \geqslant n_0}$ $\Longrightarrow \mathbf{|a_n -a_m| < \epsilon}$
+\end{description}
+Además de esto, se puede afirmar que:
+\begin{itemize}
+\item[-] Toda sucesión de Cauchy es acotada
+\item[-] Una sucesión es convergente si y sólo si es de Cauchy.
+\end{itemize}
+\item Teorema del sandwich (o de intercalación): \\
+ Sean $\mathbf{(a_n)_{n \geqslant 1}}$ y $\mathbf{(b_n)_{n \geqslant 1}}$ dos sucesiones convergentes con el mismo límite $\ell$, y sea $\mathbf{(c_n)_{n \geqslant 1}}$ una sucesión tal que: \\
+\begin{description}
+\item{} $\mathbf{a_n} \leqslant \mathbf{c_n} \leqslant \mathbf{b_n}$ , para todo $\mathbf{n} \in \mathbb{N}$
+\end{description}
+Entonces  $\mathbf{(c_n)_{n \geqslant 1}}$ es convergente, y su límite también es $\ell$.
+\item Criterio de D'Alembert (o criterio del cociente): \\
+Sea $\mathbf{(a_n)_{n \geqslant 1}}$ una sucesión de términos positivo tal que: \\[5pt]
+$\displaystyle \lim_{n\to\infty} \mathbf{\frac{a_{n+1}}{a_n}} = \ell$ ; entonces:
+\begin{itemize}
+\item[-] si $\ell < 1$, $\displaystyle \lim_{n\to\infty} \mathbf{a_n} = 0$ \\
+\item[-] si $\ell > 1$, $\displaystyle \lim_{n\to\infty} \mathbf{a_n} = +\infty$. (si $\ell = +\infty$ también es aplicable).\\
+\item[-] si $\ell = 1$, el criterio no permite determinar que sucedera con $\mathbf{a_n}$.
+\end{itemize}
+\item Criterio de Cauchy (o de la raíz): \\
+Sea $\mathbf{(a_n)_{n \geqslant 1}}$ una sucesión de términos positivo tal que: \\[5pt]
+$\displaystyle \lim_{n\to\infty} \sqrt[n]{\mathbf{a_n}} = \ell$  ; entonces:
+\begin{itemize}
+\item[-] si $\ell < 1$, $\displaystyle \lim_{n\to\infty} \mathbf{a_n} = 0$ \\
+\item[-] si $\ell > 1$, $\displaystyle \lim_{n\to\infty} \mathbf{a_n} = +\infty$. \\
+\item[-] si $\ell = 1$, el criterio no permite determinar que sucedera con $\mathbf{a_n}$.
+\end{itemize}
+\item Teorema: \\[5pt]
+Si $\exists \displaystyle \lim_{n\to\infty} \mathbf{\frac{a_{n+1}}{a_n}} = \ell \Longrightarrow \displaystyle \lim_{n\to\infty} \sqrt[n]{\mathbf{a_n}} =  \lim_{n\to\infty} \mathbf{\frac{a_{n+1}}{a_n}} = \ell$ \\[5pt]
+(Nota: es una implicación no un bicondicional, la existencia del$\displaystyle \lim_{n\to\infty} \sqrt[n]{\mathbf{a_n}}$ no implica que exista el$\displaystyle \lim_{n\to\infty} \mathbf{\frac{a_{n+1}}{a_n}}$, o que sean iguales)
+\newpage 
+{\large Parte III} \\[5pt]
+{\huge Límite de funciones} \\
+Al ser las sucesiones simplemente un clase específica de funciones, muchas de las propiedades enumeradas antes seran similares a las enunciadas en esta sección. \\
+\item Entorno: \\
+$v(a,\delta)$ = \{ $x$ / $|x-a|< \delta$ \} ($\delta > 0$)
+\item Entorno reducido: \\
+$\overline{v}(a,\delta)$ =  \{ $x$ / $0<|x-a|< \delta$ \} ($\delta > 0\text{, }x \neq a$) \\
+\item Intersección de entornos: \\
+$v(a,\delta_1) \cap v(a,\delta_2)$ = $v(a,min(\delta_1,\delta_2)$
+\item Límite: \\
+Sea $a \in \mathbb{R}$ y sea $f$ una función definida en todos los puntos de un intervalo abierto (c,d) que contiene a $a$, salvo quizas en el mismo $a$.
+Se dice que $f(x)$ tiende a $\ell$ cuando $x$ tiende a $a$, o que $f(x)$ tiene límite $\ell$ cuando $x$ tiende a $a$, si $f(x)$ tiene la siguiente propiedad: \\
+$$ \forall\text{ }\epsilon>0\text{, } \exists\text{ }\delta>0\text{ / }0<|x-a|<\delta \Longrightarrow |f(x) - \ell| < \epsilon$$ \\
+\item Propiedades de límite: \\
+\begin{enumerate}
+\item El límite de una función es \emph{único} \\
+\item Sea $\displaystyle \lim_{x\to a} f(x) = \ell$ (finito). Entonces:
+\begin{itemize}
+\item[i)] Si $\ell < \mathbf{b}$, existe $\delta > 0$ tal que, para $0 < |x-a| < \delta$, es $f(x) < \mathbf{b}$
+\item[ii)] Si $\ell > \mathbf{b}$, existe $\delta > 0$ tal que, para $0 < |x-a| < \delta$, es $f(x) < \mathbf{b}$
+\end{itemize}
+\item Álgebra de límites: \\
+Sean $f$ y $g$ dos funciones tales que $\displaystyle \lim_{x\to a} f(x) = \ell_1 \wedge \lim_{x\to a} g(x) = \ell_2$:
+\begin{itemize}
+\item[-] Límite de la suma: \\[5pt]
+$\displaystyle \lim_{x\to a} (f(x)+g(x)) = \ell_1 + \ell_2$ \\[5pt]
+\item[-] Límite del producto: \\[5pt]
+$\displaystyle \lim_{x\to a} (f(x).g(x)) = \ell_1.\ell_2$ \\[5pt]
+Además: $\displaystyle \lim_{x\to a} (\alpha\text{.}f(x)) = \alpha \text{.}\ell$ (Para todo $\alpha$ constante) \\[5pt]
+\item[-] Límite del cociente: \\[5pt]
+$\displaystyle \lim_{x\to a} g(x) = \ell_2 \neq 0 \Longrightarrow  \dfrac{\displaystyle \lim_{x\to\ a} f(x)}{\displaystyle \lim_{x\to a} g(x)} = \dfrac{\ell_1}{\ell_2}$
+\end{itemize}
+\end{enumerate}
+\item Teorema del Sandwich: \\
+Sean $\mathbf{f}$, $\mathbf{g}$, $\mathbf{h}$ tres funciones definidas en un intervalo $\mathbf{(c,d)}$, salvo quizás en $a \in (c,d)$, tales que:
+$$\displaystyle \lim_{x\to a} g(x) = \lim_{x\to a} h(x) = \ell \wedge g(x) \leqslant f(x) \leqslant h(x), \forall x \in \mathbf{(c,d)}.\text{ } (x\neq a)$$
+Entonces, $\displaystyle \lim_{x\to a} f(x) = \ell$
+\item Límites laterales: \\
+Acercarse por derecha ($0<x-a<\delta$): \\
+Se dice que $f$ tiene límite $\ell$ cuando x se acerca a $a$ por la derecha, y se escribe $\displaystyle \lim_{x\to a^{+}}  f(x) = \ell$ si:
+$$\forall \epsilon > 0,\text{ } \exists \text{ }\delta > 0\text{ } /\text{ } 0<x-a<\delta \Longrightarrow |f(x) - \ell|<\epsilon$$
+Acercarse por izquierda ($0<a-x<\delta$): \\
+Se dice que $f$ tiene límite $\ell$ cuando x se acerca a $a$ por la izquierda, y se escribe $\displaystyle \lim_{x\to a^{-}}  f(x) = \ell$ si:
+$$\forall \epsilon > 0,\text{ } \exists \text{ }\delta > 0\text{ } /\text{ } 0<a-x<\delta \Longrightarrow |f(x) - \ell|<\epsilon$$
+\item Teorema: \\
+ $$\displaystyle \lim_{x\to a} f(x) = \ell \Longleftrightarrow \lim_{x\to a^{+}} f(x) = \lim_{x\to a^{-}} f(x) = \ell$$ \\
+En palabras, el límite de $f(x)$ cuando $x$ tiende a $a$ es $\ell$ si y sólo sus límites laterales (cuando uno se acerca por derecho o por izquierda) también son $\ell$.
+\item Límites infinitos: \\
+\begin{itemize}
+\item[-] Se dice que $f(x)$ tiende a $+\infty$ cuando $x$ tiende a $a$, y se escribe $\displaystyle \lim_{x\to a} f(x) = +\infty$, si: 
+$$\forall\text{ } \mathbf{M} > 0,\text{ }\exists\text{ } \delta > 0\text{ } /\text{ } 0 < |x-a|<\delta \Longrightarrow f(x) > \mathbf{M}$$
+\item[-] Se dice que $f(x)$ tiende a $-\infty$ cuando $x$ tiende a $a$, y se escribe $\displaystyle \lim_{x\to a} f(x) = -\infty$, si
+$$\forall\text{ } \mathbf{M} > 0,\text{ }\exists\text{ } \delta > 0\text{ } /\text{ } 0 < |x-a|<\delta \Longrightarrow f(x) < -\mathbf{M}$$\\
+\item Teorema: \\
+$\displaystyle \lim_{x\to \infty} f(x) = \ell \Longleftrightarrow \forall x_n \to +\infty$ ; $\displaystyle \lim_{x\to \infty} f(x_n) = \ell$ \\
+\item Definiciones extra:
+\begin{enumerate}
+\item se dice que $\displaystyle \lim_{x\to +\infty} f(x) = \ell$ si: \\[5pt]
+$\forall \epsilon > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } x> \mathbf{M} \Longrightarrow |f(x) - \ell| < \epsilon$
+\item se dice que $\displaystyle \lim_{x\to +\infty} f(x) = +\infty$ si:  \\[5pt]
+$\forall \mathbf{K} > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } x> \mathbf{M} \Longrightarrow f(x) > \mathbf{K}$
+\item se dice que $\displaystyle \lim_{x\to -\infty} f(x) = \ell$ si: \\[5pt]
+$\forall \epsilon > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } x < -\mathbf{M} \Longrightarrow |f(x) - \ell| < \epsilon$
+\item se dice que $\displaystyle \lim_{x\to -\infty} f(x) = +\infty$ si: \\[5pt]
+$\forall \mathbf{K} > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } x < -\mathbf{M} \Longrightarrow f(x) > \mathbf{K}$
+\item se dice que $\displaystyle \lim_{x\to \infty} f(x) = \ell$ si:  \\[5pt]
+$\forall \epsilon > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ }|x|> \mathbf{M} \Longrightarrow |f(x) - \ell| < \epsilon$
+\item se dice que $\displaystyle \lim_{x\to \infty} f(x) = +\infty$ si:  \\[5pt]
+$\forall \mathbf{K} > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } |x| > \mathbf{M} \Longrightarrow f(x) >\mathbf{K}$
+\end{enumerate}
+\item Funciones continuas: \\
+Una función $f: \mathbf{A} \subset \mathbb{R} \to \mathbb{R}$ es continua en $a \in \mathbf{A}$ si: \\
+$$\displaystyle \lim_{x\to a} f(x) = f(a)$$
+Alternativamente, se puede definir la continuidad de una función de la siguiente manera:
+$$\forall \epsilon > 0,\text{ } \exists \text{ }\delta > 0 \text{ }/ \text{ }|x-a|<\delta \Longrightarrow |f(x) - f(a)| < \epsilon$$ 
+\item Proposiciones:
+\begin{itemize}
+\item[-] Sea $f$ continua en $x_0$. Si $\mathbf{a} < f(x_0) < \mathbf{b}$, \\
+$\exists \delta > 0 / |x-x_0| < \delta \Longrightarrow \mathbf{a}<f(x)<\mathbf{b}$
+\item[-] Si $f$ y $g$ son continuas en $x_0$, entonces $f+g$ y $f.g$ son continuas en $x_0$. \\
+Si además $g(x_0)\neq 0$, entonces $\dfrac{f}{g}$ es continua en $x_0$.
+\item[-] Si $g$ es continua en $x_0$ y $f$ es continua en $g(x_0)$ entonces $f o g$ es continua en $x_0$.
+\item[-] Toda función polinómica es continua. \\
+Un cociente de funciones polinómicas es continuo en todos los puntos en los que el denominador es distinto de cero.
+\item[-] La función logaritmo es continua.
+\item[-] La función exponencial es continua.
+\end{itemize}
+\item Funciones continuas en intervalos cerrados:
+\item Teorema: \\
+Una función continua en un intervalo cerrado $\mathbf{[a,b]}$ es acotada en $\mathbf{[a,b]}$.
+\item Teorema: \\
+Toda función continua en un intervalo cerrado $\mathbf{[a,b]}$ alcanza un máximo y un mínimo en $\mathbf{[a,b]}$.
+\item Teorema de Bolzano: \\
+Sea $f$ una función continua en intervalo cerrado $\mathbf{[a,b]}$ tal que $f(a) < 0$ y $f(b) >0$. Entonces existe $c \in \mathbf{(a,b)}$ tal que: \\
+$$f(c)=0$$
+(es decir, existe un cero o raíz dentro de $\mathbf{(a,b)}$). \\
+La condición inicial también se suele escribir como: \\
+$f(a).f(b)<0 \text{ ó } Sg(f(a).f(b))=-1$
+\item Teorema de continuidad de la función inversa: \\
+Si f es una función continua en  $\mathbf{[a,b]}$ y estrictamente monótona (estrictamente creciente o decreciente) en  $\mathbf{[a,b]}$, entonces:
+\begin{itemize}
+\item[i)] $f: \mathbf{[a,b]} \to  \mathbf{[f(a),f(b)]}$ es biyectiva
+\item[ii)] $f^{-1}: \mathbf{[f(a),f(b)]} \to \mathbf{(a,b)}$ es continua
+\end{itemize}
+\item Continuidad uniforme: \\
+Una función f definida en un intervalo A se dice uniformemente continua en A si: \\[5pt]
+$\forall \epsilon > 0,\text{ }\exists \text{ }\mathbf{M} > 0\text{ } /\text{ } |x - x'|<\delta \Longrightarrow |f(x) - f(x')| < \epsilon$ \\[5pt]
+A simple vista puede parecer igual a la definición de continuidad, pero la diferencia esta en que si es continua, el $\delta$ que le corresponde al $\epsilon$ dado puede variar de acuerdo al valor $a$ al que tiende la variable $x$, mientras que si es uniformemente continua, se pide que halla un delta que sirva para todos los valores de $a \in \mathbf{A}$
+\item Teorema de Heine-Cantor: \\
+Si $f$ es continua en el intervalo \emph{cerrado} $\mathbf{[a,b]}$, entonces $f$ es uniformemente continua en $\mathbf{[a,b]}$. \\
+
+\newpage
+
+
+{\large Parte IV} \\[5pt]
+{\huge Derivadas} \\
+Definición: \\
+Sea $f$ una función definida en un intervalo abierto $\mathbf{(a,b)}$ y sea $x_0 \in \mathbf{(a,b)}$. Decimos que $f$ es derivable en $x_0$ si existe el límite: \\
+$$\displaystyle \lim_{h\to 0} \frac{f(x_0+h) - f(x_0)}{h}$$
+De existir, se lo indica $f'(x_0)$ y se lo llama derivada de $f$ en $x_0$. \\[4pt]
+Además, $f'(x_0)$ es igual a la pendiente de la recta tangente a la representación gráfica de $f$ en el punto $\mathbf{(x_0, f(x_0))}$. \\
+Es decir, la ecuación de la recta tangente a $f(x)$ es \\
+$\mathbf{y = mx + b}$, con $\mathbf{m = f'(x)}$  \\[4pt]
+Al cociente $\frac{f(x_0+h) - f(x_0)}{h}$ se lo denomina cociente incremental.\\
+La noción de derivada es \emph{puntual}. Se definió la derivabilidad \emph{en un punto $x_0$}.\\
+\item Proposición: \\
+Si una función es derivable en $x_0$, entonces es continua en $x_0$.\\
+Notese que su recíproca no es cierta (continua $\nRightarrow$ derivable). Hay funciones continuas en un punto, y no derivables en dicho punto (un ejemplo simple sería la función módulo en el punto 0).
+
+\item Álgebra de derivadas: \\
+Sean $f$ y $g$ dos funciones derivables en $x_0$:
+\begin{itemize}
+\item[-] Derivada de la suma:\\
+$(f+g)'(x_0) = f'(x_0)+g'(x_0)$ \\[5pt]
+\item[-] Derivada del producto: \\
+$(f.g)'(x_0) = f'(x_0).g(x_0) + f(x_0).g'(x_0)$ \\[5pt]
+\item[-] Derivada del cociente: \\
+$(\dfrac{f}{g})'(x_0) = \dfrac{f'(x_0).g(x_0) - f(x_0).g'(x_0)}{(g(x_0))^2}$; con $g(x_0) \neq 0$ \\[5pt] 
+\end{itemize}
+\item Extremo relativo (máximo y mínimo relativo): \\
+Sea $f:S\subseteq \mathbb{R} \to \mathbb{R}$. $f$ alcanza un máximo (ó mínimo) relativo en $x_0 \in S$, si existe algún intervalo abierto I, con $x_0 \in I$ / $\forall x \in I\cap S$, $f(x)\leqslant f(x_0)$ (ó $f(x)\geqslant f(x_0)$) 
+\item Regla de la cadena: \\
+Si $g$ es derivable en $x_0$ y $f$ es derivable en $g(x_0)$, entonces $f \circ g$ es derivable en $x_0$, y además es:
+$$(f \circ g)'(x_0) = f'(g(x_0)).g'(x_0)$$
+\item Teorema de Fermat: \\
+Si $f$ esta definida en un intervalo abierto $\mathbf{(a,b)}$, y si $x_0 \in \mathbf{(a,b)}$ es un máximo o mínimo de $f$, siendo $f$ derivable en $x_0$, entonces: \\
+$$f'(x_0) = 0$$
+En otras palabras, la pendiente de la recta tangente en los máximos y mínimos es nula.  
+\item Teorema de Rolle: \\
+Si $f$ es continua en $\mathbf{[a,b]}$, derivable en $\mathbf{(a,b)}$, y $f(a)=f(b)$, entonces existe $c \in \mathbf{(a,b)}$ / $f'(c) =  0$
+\item Teorema de Lagrange (o del valor medio):\\
+Si $f$ es continua en $\mathbf{[a,b]}$, derivable en $\mathbf{(a,b)}$, entonces existe $c \in \mathbf{(a,b)}$ / \\
+$$\frac{f(b)-f(a)}{b-a}=f'(c)$$
+\item Teorema de Cauchy (o del valor medio extendido):\\
+Si $f$ es continua en $\mathbf{[a,b]}$, derivable en $\mathbf{(a,b)}$, entonces existe $c \in \mathbf{(a,b)}$ / \\
+$$(f(b)-f(a)).g'(c)=(g(b)-g(a)).f'(c)$$
+Si, además, $g'(x) \neq 0$ para todo $x \in \mathbf{(a,b)}$, entonces: \\
+$$\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$$
+\item Puntos Críticos: \\
+Sea $f:I \subseteq \mathbb{R} \to \mathbb{R}$ ; $x_0 \in I (\exists f(x_0))$ ; $x_0$ es un punto crítico para $f$ si:
+\begin{itemize}
+\item[i)] $f'(x_0) = 0$
+\item[ii)] $\nexists f'(x_0)$
+\end{itemize}
+\item Criterio de la primera derivada: \\
+Si $x_0$ es un punto crítico para $f$ y $f$ es derivable en los intervalos $(x_0, x_0+h)$ y $(x_0-h', x_0)$ con $h$ y $h'$ positivos, entonces:
+\begin{itemize}
+\item[(1)] Si $f'>0$ en $I_1$ y $f'<0$ en $I_2 \Longrightarrow$ en $x_0$  $f$ alcanza un mínimo relativo.
+\item[(2)] Si $f'<0$ en $I_1$ y $f'>0$ en $I_2 \Longrightarrow$ en $x_0$  $f$ alcanza un máximo relativo.
+\end{itemize}
+\item Criterio de la segunda derivada: \\
+Sea $x_0$ / $f'(x_0)=0$. Si $f$ tiene derivada segunda en $x_0$ y se verifica:
+\begin{itemize}
+\item[(1)] $f''(x_0)>0 \Longrightarrow f$ alcanza en $x_0$ un mínimo relativo.
+\item[(2)] $f''(x_0)<0 \Longrightarrow f$ alcanza en $x_0$ un máximo relativo.
+\end{itemize}
+\item Teorema: \\
+Si $f$ es continua en $\mathbf{[a,b]}$ y es derivable en $\mathbf{(a,b)}$, entonces:
+\begin{itemize}
+\item[a)] Si $f'(x)>0$ para todo $x \in \mathbf{(a,b)} \Longrightarrow f$ es estrictamente creciente en $\mathbf{[a,b]}$. (es decir, si $x_1,x_2 \in \mathbf{[a,b]}$, y $x_1<x_2$, entonces $f(x_1)<f(x_2)$)
+\item[b)] Si $f'(x)<0$ para todo $x \in \mathbf{(a,b)} \Longrightarrow f$ es estrictamente decreciente en $\mathbf{[a,b]}$. (es decir, si $x_1,x_2 \in \mathbf{[a,b]}$, y $x_1<x_2$, entonces $f(x_1)>f(x_2)$)
+\item[c)] Si $f'(x)$ para todo $x \in \mathbf{(a,b)} \Longrightarrow f$ es constante en $\mathbf{[a,b]}$.
+\end{itemize}
+\item Concavidad y convexidad: \\
+asdadsadad
+adssadadsada
+\item Punto de inflexión: \\
+Un punto $x_0$ se denomina punto de inflexión si: \\
+$\exists I_1 = (x_0 - \delta, x_0), I_2 = (x_0, x_0 + \delta) / sg(f''(x).f''(x'))<0$ 
+\item Propiedad: \\
+Si $f$ es una función par, y $f'$ (su derivada) existe, entonces $f'$ es impar. \\
+De forma análoga, si $g$ es una función impar, y existe su derivada $g'$, esta es par.
+
+
+\newpage
+
+
+{\large Parte V} \\[5pt]
+{\huge Primitivas} \\
+Definición: Si existe una función $\mathcal{F}$ tal que  $\mathcal{F'}(x) =f(x)$ para todo $x$ en el dominio de $f$, entonces  $\mathcal{F}$ se llama primitiva de $f$.\\
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+$f$ & $\mathcal{F}$ \\
+\hline
+$f(x)$ & $\int f(x)dx$ \\ \hline
+$x^a (a\neq -1)$ & $\dfrac{x^{a+1}}{a+1} + C$  \\ \hline
+$e^x$ & $e^x + C$ \\ \hline
+$\sin(x)$ & $-\cos(x) + C$ \\ \hline
+$\cos(x)$ & $\sin(x) + C$ \\ \hline
+$\dfrac{1}{\cos^2 x}$ & $\tan x + C$ \\ \hline
+$\dfrac{1}{x}$ & $\ln|x|+C$ \\ \hline
+$\dfrac{1}{\sqrt{1-x^2}}$ & $\arcsin(x)+C$\\ \hline
+$\dfrac{1}{1+x^2}$ & $\arctan(x)+C$ \\ \hline
+$\cosh(x)$ & $\sinh(x)+C$ \\ \hline
+$\sinh(x)$ & $\cosh(x)+C$ \\ \hline
+$\dfrac{1}{\sqrt{1+x^2}}$ & $\arg \cosh x + C$ \\ \hline
+$\dfrac{1}{1-x^2}$ & $\arg \tanh x + C$ \\ \hline
+$\dfrac{1}{\sin^2 x}$ & $-\cot x + C$ \\[5pt] \hline
+\end{tabular}
+\end{center}
+\item Metodo de sustitución: \\
+\begin{enumerate}
+\item Llamar $u=g(x)$ y sustituir todas las $g(x)$ por $u$ en la integral.\\
+\item Sustituir $u'$d$x$ (o sea, $g'(x)$d$x$) por d$u$.\\
+\item Calcular la integral indefinida que resulte (quedará como función de $u$).\\
+\item En el calculo hecho en 3), escribir $g(x)$ donde aparezca $u$.\\
+\end{enumerate}
+\item Método de integración por partes: \\
+$\int u'v dx = uv - \int uv' dx$ \\
+\item Método de integración por fracciones simples: \\
+Se utiliza para encontrar primitivas de funciones racionales (funciones que sean cocientes de funciones polinómicas). \\
+Si el numerador $p(x)$ tiene grado estrictamente mayor que el denominador, simplemente se lo divide, y se separa la fracción en el cociente $c(x)$ más la división del resto $r(x)$ por el denominador $q(x)$:
+$$ \int \dfrac{p(x)}{q(x)} dx = \int \left[c(x) + \dfrac{r(x)}{q(x)}\right] dx$$
+Si el grado del numerador es menor que el grado del denominador, se tiene los siguientes procedimientos a seguir, dependiendo de la multiplicidad de raíces y si estas son reales o complejas:
+\begin{itemize}
+\item[1er] Caso: \\
+El denominador tiene todas sus raices reales y simples.\\
+\item[2do] Caso:\\
+El denominador tiene todas sus raíces reales y algunas múltiples.\\
+\item[3er] Caso: \\
+El denominador tiene raíces complejas simples.\\
+\item[4to] Caso: \\
+El denominador tiene raíces complejas múltiples\\
+\end{itemize}
+Sustituación útil para funciones racionales del seno y coseno: \\
+$z=\tan \dfrac{x}{2}$ \\
+$\sin (x) = \dfrac{2z}{1+z^2}$ \\
+$\cos (x) = \dfrac{1-z^2}{1+z^2}$ \\
+$dx = \dfrac{2}{1+z^2}dz$ 
+\end{itemize}
+\end{itemize}
+\end{document}
