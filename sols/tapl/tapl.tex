@@ -1,0 +1,135 @@
+2.2.6 Suppose it isn't. Then there is some \(R''\) such that \(R''\) is the
+reflexive closure of \(R\) and \(\overbrace{R'' \subseteq R'}^{\text{TODO: should I justify this?}}\), but \(R' \not\subseteq
+R''\) (otherwise \(R' = R''\)). Then there is some \((x,y) \in R'\) s.t.
+\((x, y) \notin R''\). We have two cases:
+\begin{itemize}
+  \item \(x = y\): then \(R''\) wouldn't be reflexive, and contradiction with
+  \(R''\) being a reflexive closure.
+  \item \(x \neq y\): then \((x, y)\) is a pair from \(R\), and thus \(R \not
+  \subseteq R''\), and contradiction with \(R''\) being the reflexive closure
+  of \(R\).
+\end{itemize}
+Thus, \(R'\) is the reflexive closure of \(R\).
+
+2.2.7
+
+We must show that (1) \(R\) is contained in \(R^+\), (2) \(R^+\) is
+transitive, and (3) it is minimal.
+{% Define commands locally
+\newcommand{\Rt}{\mathbin{R^+}}
+\newcommand{\Rn}{\mathbin{R_n}}
+\begin{enumerate}
+  \item \(R \subseteq R^+\), since \(R = R_0\)
+  \item If \(x, y\), and \(z\) are such that \(x\Rt y\) and \(y\Rt z\),
+  then there is some \(n\) such that \(x\Rn y\) and \(y\Rn z\). Thus, in
+  \(R_{n+1}\) we add the pair \((x, z)\), and \(x\mathbin{R_{n+1}}z\), hence
+  \(x\Rt z\).
+  \item Let \(R'\) be a transitive relation containing \(R\). We must show
+  that \(R^+ \subseteq R'\). We do so by induction on \(i\).
+
+  Base case \(i = 0\): \(R_0 \subseteq R'\), since \(R_0 = R\).
+  Inductive step: \(R_{i+1} = R_i \cup \{(s, u) \mid \exists t~(s,t) \in R_i,
+  (t,u) \in R_i\}\). By inductive hypothesis \(R_i \subseteq R'\), and if
+  some pair \((s, u) \in R_{i+1}\), then \((s,t) \in R_i\) and \((t, u) \in
+  R_i\). These pairs are in \(R'\) because \(R_i \subseteq R'\), and since
+  \(R'\) is transitive, \((t, u) \in R'\). Thus, by construction \(R_{i+1}
+  \subseteq R'\).
+\end{enumerate}
+}
+
+{% Define commands locally
+\renewcommand{\R}{\mathbin{R}}
+\newcommand{\Rs}{\mathbin{R^*}}
+2.2.8 We must show that if \(s\Rs s'\) and \(P(s)\), then \(P(s')\). Suppose \(s\Rs s'\) and \(P(s)\). We know that \(R \subseteq R^*\), and \(P\) is preserved by \(R\).
+If \(s\R s'\) and \(P(s)\), then
+
+TODO
+}
+
+3.2.4 \(|S_0| = 0, |S_1| = 3, |S_2| = 3 + 3\cdot 3 + 3^3 = 59, |S_3| = 3 + 3 \cdot 39 + 39^3\)
+
+3.2.5 By induction on \(i\).
+
+Base case \(i = 0\): \(S_0 = \emptyset \subseteq S_1\)
+
+{% Define commands locally
+\renewcommand{\t}{\mathtt{t}}
+Inductive step: Suppose \(i = j+1\) for some \(j \geq 0\), and \(S_j
+\subseteq S_i\). We must show that \(S_i \subseteq S_{i+1}\), i.e.\ for any
+term \(\t \in S_i\), we must show that \(\t \in S_{i+1}\).
+Suppose \(\t \in S_i\). By the definition of \(S_i\) as the union of three
+sets, \texttt{t} must have one of three forms:
+\begin{enumerate}
+  \item \(\t \in \{\true, \false, \mathtt{0}\}\), in which case also \(\t \in S_{i+1}\).
+  \item \(\t \in \{{\tt succ~t_1, pred~t_1, iszero~t_1 } \mid \mathtt{t_1} \in S_j\}\).
+  By inductive hypothesis \(S_j \subseteq S_i\), then \(\mathtt{t_1} \in
+  S_i\), so \(t \in S_{i+1}\) by definition of \(S_{i+1}\).
+  \item \(\t \in \{\If{\tt t_1}{\tt t_2}{\tt t_3} \mid \mathtt{t_1},
+  \mathtt{t_2}, \mathtt{t_3} \in S_j\}\). By inductive hypothesis \(S_j
+  \subseteq S_i\), then \(\t \in S_{i+1}\) by definition of \(S_{i+1}\).
+\end{enumerate}
+}
+
+%TODO explain more like in the solutions.
+3.3.4 Define a new predicate \(Q\) on natural numbers as follows:
+\[
+  Q(n) = \forall \mathtt{s}~\text{with}~depth(\mathtt{s}) = n.~P(\mathtt{s})
+\]
+We can now ``fall back'' to induction on natural numbers to prove.
+
+Similarly:
+\[
+  Q'(n) = \forall \mathtt{s}~\text{with}~size(\mathtt{s}) = n.~P(\mathtt{s})
+\]
+
+3.3.5 Suppose \(P\) is a predicate on derivations of evaluation statements.
+
+\begin{addmargin}[12pt]{0pt}
+If, for each derivation \(\mathcal{D}\)
+
+\-\hspace{6mm}given \(P(\mathcal{C})\) for all immediate subderivations \(\mathcal{C}\)
+
+\-\hspace{6mm}we can show \(P(\mathcal{D})\),
+
+then \(P(\mathcal{D})\) holds for all \(\mathcal{D}\).
+\end{addmargin}
+
+3.5.10 Done (TODO copy)
+
+3.5.13 Done (TODO copy)
+
+3.5.14 Done (TODO copy)
+
+To prevent the derivation tree from taking too much space, let \(\tt \Gamma
+:= f : \Bool \to \Bool\).
+\begin{center}
+{%
+\newcommand{\rel}[1]{\tt \Gamma \vdash #1}
+\begin{prooftree}
+  \hypo{f : \Bool \to \Bool \in \Gamma}
+  \infer1[\tvar]{\rel{f : \Bool \to \Bool}}
+  \infer0[\tfalse]{\rel{\false : \Bool}}
+  \infer0[\ttrue]{\rel{\true : \Bool}}
+  \infer0[\tfalse]{\rel{\false : \Bool}}
+  \infer3[\tif]{\rel{\If{\false}{\true}{\false}} : \Bool}
+  \infer2[\tapp]{\rel{f~(\If{\false}{\true}{\false})} : \Bool}
+\end{prooftree}}
+\end{center}
+
+To save space, let \(\Gamma = f : \Bool \to \Bool, x : \Bool\).
+\begin{center}
+\begin{prooftree}
+  \hypo{f : \Bool \to \Bool \in \Gamma}
+  \infer1[\tvar]{\Gamma \vdash f : \Bool \to \Bool}
+  \hypo{x : \Bool \in \Gamma}
+  \infer1[\tvar]{\Gamma \vdash x : \Bool}
+  \infer0[\ttrue]{\Gamma \vdash \true : \Bool}
+  \hypo{x : \Bool \in \Gamma}
+  \infer1[\tvar]{\Gamma \vdash x : \Bool}
+  \infer3[\tif]{\Gamma \vdash \If{x}{\true}{x} : \Bool}
+  \infer2[\tapp]{f : \Bool \to \Bool, x : \Bool \vdash f~(\If{x}{\true}{x}) : \Bool }
+  \infer1[\tabs]{f : \Bool \to \Bool \vdash \lambda x : \Bool.~f~(\If{x}{\true}{x}) : \Bool \to \Bool}
+\end{prooftree}
+\end{center}
+
+\newpage

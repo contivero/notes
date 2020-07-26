@@ -1,0 +1,87 @@
+
+English Freqs | Ciphertext Freqs
+e   12.7      | F  37   e
+t   9.1       | Q  26   t
+a   8.2       | W  21   s
+o   7.5       | G  19   r
+i   7.0       | L  17   n
+n   6.7       | O  16   o
+s   6.3       | V  15   h
+h   6.1       | H  14   a
+r   6.0       | B  12
+d   4.3       | P  10
+l   4.0       | J  9
+u   2.8       | I  9
+c   2.8       | Z  7
+w   2.4       | R  7
+m   2.4       | M  4
+f   2.2       | E  4
+y   2.0       | Y  3
+g   2.0       | K  3
+p   1.9       | C  3
+b   1.5       | A  3
+v   1.0       | S  2
+k   0.8       | D  2
+x   0.2       | X  1
+j   0.2
+z   0.1
+q   0.1
+
+Ordenamos. De entrada es muy probable que F = e, y asumimos también que Q = t.
+Para el resto de los caracteres, es menos claro. Resolverlo solo con la
+frecuencia de letras requiere mucha prueba y error. Nos ayudamos con la
+frecuencia de digrafos \footnote{Cortesía de Norvig:
+http://norvig.com/mayzner.html}:
+
+TH  (3.56%)  ("QV",9) -- th
+HE  (3.07%)  ("FP",8) -- 
+IN  (2.43%)  ("VF",7) -- he
+ER  (2.05%)  ("GF",7) -- re
+AN  (1.99%)  ("QO",6) -- to
+RE  (1.85%)  ("PF",5)
+ON  (1.76%)  ("OL",5) 
+AT  (1.49%)  ("FW",5) -- es
+EN  (1.45%)  ("FG",5) -- er
+ND  (1.35%)  ("WQ",4) -- st
+TI  (1.34%)  ("LF",4)
+ES  (1.34%)  ("JV",4)
+OR  (1.28%)  ("GQ",4)
+TE  (1.20%)  ("WJ",3)
+OF  (1.17%)  ("WB",3)
+ED  (1.17%)  ("VH",3) 
+IS  (1.13%)  ("QW",3)
+IT  (1.12%)  ("QG",3)
+AL  (1.09%)  ("OG",3) -- or
+AR  (1.07%)  ("OC",3) -- of
+ST  (1.05%)  ("HQ",3) -- at
+TO  (1.04%)  ("HL",3) -- an
+NT  (1.04%)  ("HG",3) -- ar
+
+Partiendo del supuesto que Q = t, y F = e, es lógico asumir que V = h (TH y HE
+son muy frequentes, al igual que QV y VF). También vemos que ER y RE son
+frecuentes en inglés, y tenemos GF y FG con frecuencia en el texto cifrado, con
+lo que sumamos G = r a nuesta lista de supuestos (también sería posible usar ese
+razonamiento con FP y PF, pero en este caso resulta que P no es r, y para
+simplificar el camino... etc.).
+
+Si con estas cuatro equivalencias probamos decifrar, vemos algunas ocurrencias
+de "the", lo cual parecería indicar que vamos en buen camino. También vemos
+"Other", con lo que parecería que O = o, y "thHt", lo cual asumimos que es
+"that", es decir H = a. Agregamos estas nuevas equivalencias y probamos denuevo.
+
+Vemos que "eAer" se repite, suponemos que A = v, y repetimos.
+Vemos "hoSever", suponemos S = w, y repetimos.
+Volvemos a la tabla de digrafos, y sabiendo que O = o, asumimos L = n, ya que
+"ON" es el digrama más frecuente que empieza con O.
+Vemos "thananRother", asumimos R = y.
+Vemos "nevertheZeWW", pareciera ser "nevertheless", asumimos Z = l, W = s.
+Vemos "systeP", "seeP", "theP", asumimos P = m.
+Vemos "eDtremely", D = x.
+Vemos "neverthelessEorsomereason", E = f.
+Vemos "manynonexMerts", M = p.
+Vemos "JryptoYraph", asumimos J = c, Y = g.
+Vemos "cryptographBc", asumimos B = i.
+Vemos "KifficIlt", asumimos K = d, I = u.
+Vemos "toCuild", asumimos C = b.
+Vemos "trivialtobreaX", X = k
+

@@ -1,0 +1,95 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{caption}
+\usepackage{float}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+
+\usepackage{adjustbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/, up to date check=md5]
+\usepackage{ebproof}
+\usepackage{booktabs}
+\usepackage{multicol}
+% Set items in enumerate environment to letters.
+\usepackage{enumitem}
+\setenumerate[0]{label=(\alph*)}
+\usepackage{forest}
+\forestset{%
+  % Tree following the style of Chiswell & Hodges' Mathematical Logic
+  chtree/.style={
+    baseline,
+    for tree={
+      inner sep=1.4pt,
+      circle,
+      draw,
+      s sep'+=20pt,
+      fit=band,
+    },
+  },
+  c phantom/.style={draw=none, no edge},
+}
+
+\graphicspath{{imgs/}}
+
+\newlength\tindent%
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%These tell TeX which packages to use.
+\usepackage{array, epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+% Use in the array environment to set a column to text
+\newcolumntype{R}{>\(r<\)}
+\newcolumntype{L}{>\(l<\)}
+\newcolumntype{C}{>\(c<\)}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+\newtheorem{sol}{}
+
+\begin{document}
+\begin{sol}
+  Yes, neither F nor \(P(\mathbb{N})\) are bounded.
+\end{sol}
+\begin{sol}
+  Let \(L = \{a_1, \dots, a_n\}\) be a finite lattice.
+  \[
+    0 = \bigwedge^n_i a_i, \qquad 1 = \bigvee^n_i a_i
+  \]
+  A lattice without 0 and 1 elements is \((\mathbb{Z}, \leqslant)\).
+\end{sol}
+\begin{sol}
+\begin{table}[htp]
+  \centering
+  \begin{tabular}{c|CCCCccccc}
+  \end{tabular}
+\end{table}
+
+\end{soln}
+
+\newpage
+\bibliography{refs}
+\bibliographystyle{unsrt}
+
+\end{document}

@@ -1,0 +1,27 @@
+English Freqs | Ciphertext Freqs
+e   12.7      | F  37
+t   9.1       | Q  26
+a   8.2       | W  21
+o   7.5       | G  19
+i   7.0       | L  17
+n   6.7       | O  16
+s   6.3       | V  15
+h   6.1       | H  14
+r   6.0       | B  12
+d   4.3       | P  10
+l   4.0       | J  9
+u   2.8       | I  9
+c   2.8       | Z  7
+w   2.4       | R  7
+m   2.4       | M  4
+f   2.2       | E  4
+y   2.0       | Y  3
+g   2.0       | K  3
+p   1.9       | C  3
+b   1.5       | A  3
+v   1.0       | S  2
+k   0.8       | D  2
+x   0.2       | X  1
+j   0.2
+z   0.1
+q   0.1
