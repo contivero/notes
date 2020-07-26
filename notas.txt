@@ -1,0 +1,47 @@
+Leslie lamptort
+“If you succeed in attaining a position that allows you to do something great, if you do something that really is great, and if you realize that it’s great, there’s still one more hurdle: You have to convince others that it’s great,” he told the graduates. “This will require writing.”
+
+
+On goto:
+- Dijkstra said "harmful", not "forbidden". He was also talking about encouraging structured procedural programming rather than a game of Who's Clever Enough to Follow the Spaghetti.
+http://eli.thegreenplace.net/2009/04/27/using-goto-for-error-handling-in-c
+
+From modern C
+---
+For both cases the function uses goto, to jump to the cleanup code that then calls free.
+With C, this is a well established technique that ensures that the cleanup effectively takes place and that, on the other hand, avoids hard to read nested if-else conditions. The rules for goto are relatively simple
+Rule 2.15.0.1 Labels for goto are visible in the whole function that contains them. Rule 2.15.0.2 goto can only jump to a label inside the same function.
+Rule 2.15.0.3 goto should not jump over variable initializations. The use of goto and similar jumps in programming languages has been subject to
+intensive debate, starting from an article by Dijkstra [1968]. Still today you will find people that seriously object code as it is given here, but let us try to be pragmatic about that: code with or without goto can be ugly and hard to follow. The main idea here is to have the “normal” control flow of the function mainly undisturbed and to clearly mark exceptional changes to the control flow with a goto or return.
+
+On VLAs:
+- VLAs are a fundamentally broken feature because they do not allow any error checking. alloca() is the same.
+
+On automake:
+gnu automake sucks because it adds another layer over make
+  -- Alex (https://lists.suckless.org/dev/1707/31962.html)
+
+mk and our just-Makefile based build systems aren't perfect, but they are
+extremely suckless in comparison to generated GNUmakefiles and GNU authell
+ -- Anselm
+
+Generating Makefiles obscures the simple cognitive task of adjusting a
+correct path by some weird shell script logic that one needs to
+understand as well. It is the whole argument against GNU autohell,
+that generating build files is insane. You need to learn and
+understand 2-3 languages (shell, m4, weird GNU make, log output) to
+track down issues with it, whereas you only need to learn and
+understand make in a decent world.
+  -- Anselm (https://lists.suckless.org/dev/1707/31955.html)
+
+
+Number of possible double precision NaNs = 2^53 - 2
+Number of possible single precision NaNs = 2^24 - 2
+
+
+OOP:
+https://www.javaworld.com/article/2073649/core-java/why-extends-is-evil.html
+
+Every language teaches you something, so learning a language is never wasted,
+especially if it's different in more than just syntactic trivia.
+  -- Brian Kernighan

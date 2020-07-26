@@ -1,0 +1,3 @@
+So to read and right binary data easier -> So to read and write ...
+
+p.165: Dynamical allocation should be done with calloc instead of malloc where ever that is suitable. -> wherever
