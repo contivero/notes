@@ -1,0 +1,247 @@
+\documentclass{article}
+
+\usepackage{hyperref}
+\hypersetup{pdfauthor={Cristian Adrián Ontivero}}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{gensymb} % for the degree symbol
+\usepackage{caption}
+\usepackage{float}
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage[hang,flushmargin]{footmisc}
+
+% For the commutative diagrams.
+\usepackage{tikz-cd}
+
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows,
+shapes,
+fit, % for the dashed boxes on Thompson's construction
+calc
+}
+\tikzset{%
+  node distance=3cm, % specifies the minimum distance between two nodes. Change if necessary.
+  every state/.style={thick}, % sets the properties for each ’state’ node
+  double distance=2.5pt,
+  shorten >= 2pt, shorten <= 2pt,
+  initial text=$ $,
+  every edge/.style={%
+    draw,->, >=stealth, auto, semithick
+  }
+}
+\graphicspath{{imgs/}}
+
+\definecolor{darkblue}{RGB}{49,130,189}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+
+%These tell TeX which packages to use.
+\usepackage{array,epsfig}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsxtra}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+%Here I define some theorem styles and shortcut commands for symbols I use often
+\theoremstyle{definition}
+
+\newcommand{\lra}{\longrightarrow}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\surj}{\twoheadrightarrow}
+\newcommand{\graph}{\mathrm{graph}}
+\newcommand{\bb}[1]{\mathbb{#1}}
+\newcommand{\Z}{\bb{Z}}
+\newcommand{\Q}{\bb{Q}}
+\newcommand{\R}{\bb{R}}
+\newcommand{\C}{\bb{C}}
+\newcommand{\N}{\bb{N}}
+\newcommand{\M}{\mathbf{M}}
+\newcommand{\m}{\mathbf{m}}
+\newcommand{\MM}{\mathscr{M}}
+\newcommand{\HH}{\mathscr{H}}
+\newcommand{\Om}{\Omega}
+\newcommand{\Ho}{\in\HH(\Om)}
+\newcommand{\bd}{\partial}
+\newcommand{\del}{\partial}
+\newcommand{\bardel}{\overline\partial}
+\newcommand{\textdf}[1]{\textbf{\textsf{#1}}\index{#1}}
+\newcommand{\ip}[2]{\left\langle{#1},{#2}\right\rangle}
+\newcommand{\inter}[1]{\mathrm{int}{#1}}
+\newcommand{\exter}[1]{\mathrm{ext}{#1}}
+\newcommand{\cl}[1]{\mathrm{cl}{#1}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\vol}{\mathrm{vol}}
+\newcommand{\cnt}{\mathrm{ct}}
+\newcommand{\osc}{\mathrm{osc}}
+\newcommand{\LL}{\mathbf{L}}
+\newcommand{\UU}{\mathbf{U}}
+\newcommand{\support}{\mathrm{support}}
+\newcommand{\AND}{\;\wedge\;}
+\newcommand{\OR}{\;\vee\;}
+\newcommand{\Oset}{\varnothing}
+\newcommand{\st}{\ni}
+\newcommand{\wh}{\widehat}
+
+\newcommand{\PS}{\mathcal{P}}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\bra}[1]{\left[#1\right]}
+\newcommand{\abs}[1]{\left|#1\right|}
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\ec}[1]{{\left[#1\right]}_{\sim}}
+\newcommand{\en}{\mathbin{\rotatebox[origin=c]{90}{\scriptsize $\circlearrowright$}}}
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\cod}{\mathrm{cod~}}
+\newcommand{\dom}{\mathrm{dom~}}
+\newcommand{\im}{\mathrm{im~}}
+\newcommand{\thra}{\twoheadrightarrow}
+\newcommand{\emptystr}{\varepsilon}
+\newcommand{\emptylan}{\emptyset}
+\newcommand{\pdv}[2]{\partial_{#1} \bigl(#2\bigr)}
+
+% Crypto commands
+\newcommand{\Gen}{\mathsf{Gen}}
+\newcommand{\Enc}{\mathsf{Enc}}
+\newcommand{\Dec}{\mathsf{Dec}}
+
+\newcommand{\Ms}{\mathcal{M}} % Message space
+\newcommand{\Ks}{\mathcal{K}} % Key space
+\newcommand{\Cs}{\mathcal{C}} % Ciphertext space
+\newcommand{\Adv}{\mathcal{A}} % Adversary
+\newcommand{\negl}{\mathrm{negl}} % Adversary
+\newcommand{\priveav}{\text{PrivK}_{\mathcal{A},\Pi}^\text{eav}}
+
+%Pagination stuff.
+\setlength{\topmargin}{-.3 in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{9.in}
+\setlength{\textwidth}{6.5in}
+\pagestyle{empty}
+
+% The problem environment is a regular ams theorem environment with "Problem"
+% text and some leading space to give some separation between the problems.
+\theoremstyle{definition}
+\newtheorem{problem-internal}{Problem}[subsection]
+\newenvironment{problem}{
+  \medskip
+  \begin{problem-internal}
+}{
+  \end{problem-internal}
+}
+
+% The solution environment is a proof environment with the "solution" text as
+% well as the following adjustments:
+% - No indent on paragraphs;
+% - A small amount of space between paragraphs.
+%
+% Note: The negative space at the beginning is to remove the space before the
+% first paragraph in the solution.
+%\newenvironment{solution}{%
+  %\begin{proof}[Solution]
+  %\vspace{-8px}
+  %\setlength{\parskip}{4px}
+  %\setlength{\parindent}{0px}
+%}{
+  %\end{proof}
+%}
+\theoremstyle{definition}
+\newtheorem{solution-internal}{}[subsection]
+\newenvironment{solution}{
+  \begin{solution-internal}
+}{
+  \end{solution-internal}
+}
+
+% The chngcntr ("change counter") package is used here so that subsection
+% numbers are written without the leading section number. This takes place in
+% the subsection headings as well as the theorem environment numbering.
+%
+% Before:
+% 1. Section
+% 1.1. Subsection
+% Problem 1.1.1. What is 1 + 1?
+% Problem 1.1.2. What is 1 + 2?
+%
+% After:
+% 1. Section
+% 1. Subsection
+% Problem 1.1. What is 1 + 1?
+% Problem 1.2. What is 1 + 2?
+\usepackage{chngcntr}
+\counterwithout{subsection}{section}
+
+% Renewing the \thesection command changes the section numbers to roman
+% numerals. This matches the style of the Aluffi textbook.
+%
+% Before:
+% 1. Section
+% 1.1. Subsection
+%
+% After:
+% I. Section
+% I.1. Subsection
+%\renewcommand{\thesection}{\Roman{section}}
+%\renewcommand{\thesubsection}{\Roman{subsection}}
+
+\newcommand\PROP{\mathrm{PROP}}
+\begin{document}
+
+\section*{Chapter 1}
+\setcounter{section}{1}
+\setcounter{subsection}{1}
+
+% Problem 1.1
+\begin{solution}
+  p.9 (iii) Suppose $\varphi$ has a formation sequence
+  $\varphi_0,\dots,\varphi_n$. Then $\varphi_0,\dots,\varphi_n, (\neg
+  \varphi_n)$ is a formation sequence of $(\neg \varphi_n)$.
+\end{solution}
+\begin{solution}
+  p.10 Theorem 2.1.6.
+  Proof: TODO
+\end{solution}
+\begin{solution}
+  p.14
+  \begin{enumerate}
+    \item $p_2, \neg p_2, p_3, p_1, p_1 \leftrightarrow p_2, p_3 \OR (p_1
+      \leftrightarrow p_2), \neg p_3, \neg p_2 \rightarrow (p_3 \OR (p_1
+      \leftrightarrow p_2)), (\neg p_2 \rightarrow (p_3 \OR (p_1 \leftrightarrow
+      p_2))) \AND \neg p_3$
+    \item $p_1, p_2, p_7, p_4, \bot, \neg \bot, \neg p_2, p_7 \rightarrow \neg
+      \bot, p_4 \AND \neg p_2, (p_4 \AND \neg p_2) \rightarrow p_1, (p_7
+      \rightarrow \neg \bot) \leftrightarrow ((p_4 \AND \neg p_2) \rightarrow
+      p_1)$
+    \item $p_1, p_2, p_1 \rightarrow p_2, (p_1 \rightarrow p_2) \rightarrow p_1,
+      ((p_1 \rightarrow p_2) \rightarrow p_1) \rightarrow p_2, (((p_1
+      \rightarrow p_2) \rightarrow p_1) \rightarrow p_2) \rightarrow p_1$
+  \end{enumerate}
+\end{solution}
+\begin{solution}
+
+  2. The basic idea s to show that there is some smaller set than the one
+  containing the expression, that also satisfies (i), (ii), and (iii), so
+  containing the invalid expression implies that it is not $\PROP$.
+
+  Suppose $((\rightarrow \in X$ and $X$ satisfies (i), (ii), and (iii) of
+  Definition 2.1.2. We claim that $Y = X - \set{((\rightarrow}$ also satisfies
+  (i), (ii), and (iii). Since $\bot, p_i \in X$, also $\bot, p_i \in Y$. If
+  $\varphi, \psi \in Y$, then $\varphi, \psi \in X$. Since $X$ satisfies (ii),
+  $(\varphi \square \psi) \in X$. From the form of the expression, it is clear
+  that $(\varphi \square \psi) \neq ((\rightarrow$ (look at the right
+  parenthesis, or the second formula missing to the right of the connective
+  $\rightarrow$), so $(\varphi \square \psi) \in X - \set{((\rightarrow} = Y$.
+  Lastly, if $\varphi \in Y$, then $\varphi \in X$. Since $X$ satisfies (iii),
+  $(\neg \varphi) \in X$. From the form of the expression we see that $(\neg
+  \varphi) \neq ((\rightarrow$, thus $(\neg \varphi) \in X - \set{((\rightarrow}
+  = Y$. Hence $X$ is not the smallest set satisfying (i), (ii), (iii) (at least
+  $Y$ is smaller), so $((\rightarrow \;\notin \PROP$.
+\end{solution}
+\end{document}

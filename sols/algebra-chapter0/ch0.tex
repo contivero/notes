@@ -9,7 +9,7 @@
 \usepackage{float}
 \usepackage{color}
 \usepackage{epigraph}
-\usepackage[hang,flushmargin]{footmisc} 
+\usepackage[hang,flushmargin]{footmisc}
 
 % For the commutative diagrams.
 \usepackage{tikz-cd}
@@ -172,7 +172,7 @@ calc
 % After:
 % I. Section
 % I.1. Subsection
-\renewcommand{\thesection}{\Roman{section}} 
+\renewcommand{\thesection}{\Roman{section}}
 
 \begin{document}
 
@@ -283,7 +283,7 @@ Therefore $(b_1, b_2) \approx (a_1, a_2)$.
 
 Check from \S 2.5.
 Let $f \colon A \to B$ be a bijection, and define $g \colon B \to A$ by $g(b)=a$ whenever $f(a)=b$. We need to show that $g$, the flip of $\Gamma_f$ is a
-function according to the definition given, which is: 
+function according to the definition given, which is:
 \[ (\forall b \in B)(\exists! a \in A) (b,a) \in \Gamma_g \]
 We prove it by contradiction. Suppose $\neg (\forall b \in B)(\exists! a \in A)
 (b,a) \in \Gamma_g$. This is equivalent to:
@@ -331,7 +331,7 @@ right-inverse of $f$.
 
 % Problem 2.3
 \begin{solution}
-Suppose $f$ is a bijection, and $f^{-1}$ its inverse. Then $f^{-1}$ is a bijection too, since it has $f$ as its inverse: 
+Suppose $f$ is a bijection, and $f^{-1}$ its inverse. Then $f^{-1}$ is a bijection too, since it has $f$ as its inverse:
 \[f \circ f^{-1} = id_B \AND f^{-1} \circ f = id_A \]
 where $f \colon A \to B$ and $f^{-1} \colon B \to A$.
 \end{solution}
@@ -422,7 +422,7 @@ relation $a \sim b$ on $\R$ means that $a-b$ is an integer (as in exercise
 \item A bijection $\tilde f$ defined by $\tilde f(\ec{r}) = f(r)$. $im f$ is
 the unit circle $\set{z \in \C : \abs{z} = 1}$. $\tilde f$ takes the equivalene
 class to which $r$ belongs, to the point $e^{2\pi i r}$. For instance, if $r = \frac{1}{12}$, then:
-\[ 
+\[
 \textstyle
 \tilde f(\ec{\frac{1}{12}}) = e^{2\pi i (\frac{1}{12})} = \cos(\frac{\pi}{6}) + i\sin(\frac{\pi}{6}) = \frac{\sqrt{3}}{2} + i\frac{1}{2}
 \]
@@ -438,7 +438,7 @@ class.
 % Problem 2.9
 \begin{solution}
 Let $A', A'', B', B''$ be as stated. Then we have two bijections $f\colon A' \to A''$ and $g\colon B' \to B''$. Define a function $h\colon A' \cup B' \to A'' \cup B''$ as:
-\[ h(x) = 
+\[ h(x) =
 \left\{
   \begin{array}{ll}
     f(x), & \text{if $x \in A'$} \\
@@ -459,8 +459,54 @@ Thus $h$ is surjective. Now let $d_1, d_2 \in A' \cup B'$ be such that $d_1 \neq
 \end{itemize}
 Thus $h$ is injective. So $h$ is bijective.
 Since $A', A''$ correspond to ``copies'' of $A$, and $B', B''$ correspond to copies of $B$ for use in the disjoint set operation, the disjoint union is well-defined \textit{up to isomorphism}.
-
 \end{solution}
 
+\begin{solution}
+  TODO
+\end{solution}
+
+\begin{solution}
+  The function \(h:\mathcal{P}(A) \to 2^{A}\) which assigns to each set \(S
+  \subseteq \mathcal{P}(A)\) its characteristic function \(\chi_{S}\) is an
+  isomorphism.
+\end{solution}
+
+\setcounter{subsection}{3}
+\setcounter{solution-internal}{0}
+\newcommand{\Hom}{\text{Hom}}
+\begin{solution}
+  TODO: review. See how to define composition.
+  \begin{enumerate}
+    \item \(\Hom_{\texttt{C}^{op}}(A,A) := \Hom_{\texttt{C}}(A,A)\), so there
+    exists at least 1 morphism \(1_A \in \Hom_{\texttt{C}^{op}}\) by virtue
+    of \(\texttt{C}\) being a category.
+    \item Let
+    \(f \in \Hom_{\texttt{C}^{op}}(A,B)\) and
+    \(g \in \Hom_{\texttt{C}^{op}}(B,C)\). Then there are
+    \(f' \in \Hom_{\texttt{C}}(B,A)\) and
+    \(g' \in \Hom_{\texttt{C}}(C,B)\) such that \(f' \circ g' \in
+    \Hom_{\texttt{C}}(C,A)\) because \(\texttt{C}\) is a category. Therefore
+    \(f \circ g \in \Hom_{\texttt{C}^{op}}(A,C)\).
+
+    \item Let
+    \(f \in \Hom_{\texttt{C}^{op}}(A,B)\),
+    \(g \in \Hom_{\texttt{C}^{op}}(B,C)\), and
+    \(h \in \Hom_{\texttt{C}^{op}}(C,D)\).
+    Then
+    \(f' \in \Hom_{\texttt{C}}(B,A)\),
+    \(g' \in \Hom_{\texttt{C}}(C,B)\),
+    \(h' \in \Hom_{\texttt{C}}(D,C)\), and these are such that
+    \((f'g')h' = f'(g'h')\). But then \((hg)f = h(gf)\).
+
+    \item Let
+    \(f \in \Hom_{\texttt{C}^{op}}(A,B)\). Then there is
+    \(f' \in \Hom_{\texttt{C}}(B,A)\) and identity morphisms \(1_A, 1_B\)
+    such that \(f'1_B = 1_Af'\). But then \(f1_A = 1_Bf\).
+  \end{enumerate}
+\end{solution}
+
+\begin{solution}
+  \(|A^{A}|\)
+\end{solution}
 
 \end{document}
