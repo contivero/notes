@@ -14,3 +14,6 @@ Ver paper:
   based on symbolic execution
 Habla sobre una forma de usar OBDDs para checkear equivalencias de DFAs (en vez
 de minimizarlos)
+
+In Turing Machines, 𝛿 is the "program" of the machine. A TM can "remember"
+finite information in its state (see example 2.3 of Papadimitriou)
